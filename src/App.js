@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from './Header.jsx'
+import { useState } from 'react';
+import { getLanguage } from './trad.js'
+import Options from './Options.jsx';
+import Body from './Body.jsx';
 
 function App() {
+
+  const [language, setLanguage] = useState(getLanguage('fr'))
+
+  const props = {language, setLanguage}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Options props={props} />
+      <Header props={props} />
+      <Body props={props} />
+    </>
+  )
 }
 
 export default App;
