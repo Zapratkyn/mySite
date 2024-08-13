@@ -14,7 +14,7 @@ function App() {
     <>
       <Options props={props} />
       <Header props={props} />
-      <hr />
+      <hr style={{position : 'sticky', top : '150px'}} />
       <Body props={props} />
     </>
   )

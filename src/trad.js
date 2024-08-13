@@ -15,7 +15,8 @@ function French() {
         dev : 'Développeur',
         login : 'Connexion',
         logout : 'Déconnexion',
-        signIn : 'Inscription'
+        signIn : 'Inscription',
+        contact : 'Informations de contact'
     }
 }
 
@@ -30,6 +31,7 @@ function English() {
         dev : 'Developer',
         login : 'Log in',
         logout : 'Log out',
-        signIn : 'Sign in'
+        signIn : 'Sign in',
+        contact : 'Contact informations'
     }
 }

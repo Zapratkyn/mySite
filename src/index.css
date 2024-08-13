@@ -16,3 +16,11 @@ code {
 .navLink:hover {
   text-decoration: underline;
 }
+
+.widget {
+  background-color: #C0CCFC;
+}
+
+main {
+  background-color: #F0F0F0;
+}

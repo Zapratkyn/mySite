@@ -1,8 +1,8 @@
 function Home({props}) {
     return (
-        <div className="text-black">
+        <section className="text-black">
             Home
-        </div>
+        </section>
     )
 }
 

@@ -2,7 +2,9 @@ import { Route, Routes } from "react-router-dom"
 import Home from "./Home.jsx"
 import Bio from "./Bio.jsx"
 import Projects from "./Projects.jsx"
-import CurrentProject from "./CurrentProject.jsx"
+import { ProjectPage } from "./Projects.jsx"
+import CurrentProject from "./Widgets.jsx"
+import { Contact } from "./Widgets.jsx"
 import NoPage from "./NoPage.jsx"
 
 function Body({props}) {
@@ -37,14 +39,15 @@ function Links() {
 
 function MainFrame({props}) {
     return (
-        <div className="w-75 border border-black rounded border-3 p-2">
+        <main className="w-75 rounded p-2">
             <Routes>
                 <Route path='/' element={<Home props={props} />} />
                 <Route path='/bio' element={<Bio props={props} />} />
-                <Route path='/projects/:name' element={<Projects props={props} />} />
+                <Route path='/projects' element={<Projects props={props} />} />
+                <Route path='/projects/:name' element={<ProjectPage props={props} />} />
 				<Route path="*" element={<NoPage props={props} />} />
             </Routes>
-        </div>
+        </main>
     )
 }
 
@@ -52,8 +55,7 @@ function Widgets({props}) {
     return (
         <div className="w-25 d-flex flex-column gap-2">
             <CurrentProject props={props} />
-            <div className="w-100" style={{height : '100px'}}>Bonjour</div>
-            <div className="w-100" style={{height : '100px'}}>Coucou</div>
+            <Contact props={props} />
         </div>
     )
 }
