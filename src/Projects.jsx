@@ -18,8 +18,8 @@ function Projects({props}) {
 
     return (
         <section>
-            <h2 className="d-flex justify-content-center fw-bold">{props.language.projects}</h2>
-            <hr className="w-75 mb-3" style={{margin : 'auto'}} />
+            <h2 className="d-flex justify-content-center fw-bold mb-3">{props.language.projects}</h2>
+            {/* <hr className="w-75 mb-3" style={{margin : 'auto'}} /> */}
             <ul className="d-flex flex-column gap-1" style={{listStyle : 'none'}}>{list.map(project => <Project key={project.name} props={props} project={project} index={index++} />)}</ul>
         </section>
     )
