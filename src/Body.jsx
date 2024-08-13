@@ -10,7 +10,7 @@ import NoPage from "./NoPage.jsx"
 function Body({props}) {
 
     return (
-        <div className="vw-100 d-flex align-items-center flex-column">
+        <div className="w-100 d-flex align-items-center flex-column">
             <Links />
             <div className="w-75 p-3 d-flex gap-3" style={{height : '2000px'}}>
                 <MainFrame props={props} />
