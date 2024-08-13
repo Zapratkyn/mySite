@@ -14,6 +14,7 @@ function App() {
     <>
       <Options props={props} />
       <Header props={props} />
+      <hr />
       <Body props={props} />
     </>
   )

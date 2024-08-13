@@ -1,6 +1,6 @@
 function Home({props}) {
     return (
-        <div>
+        <div className="text-black">
             Home
         </div>
     )
