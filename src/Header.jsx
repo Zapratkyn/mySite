@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 function Header({props}) {
@@ -29,6 +29,13 @@ function Menu({props}) {
         setCurrentPage(page)
         navigate(page)
     }
+
+    useEffect(() => {
+        if (window.location.pathname === '/bio')
+            setCurrentPage('/bio')
+        else if (window.location.pathname !== '/')
+            setCurrentPage('/projects')
+    }, [setCurrentPage])
 
     return (
         <nav className="fw-bold fs-5 d-flex gap-3" style={{listStyle : 'none'}}>
