@@ -44,7 +44,7 @@ function MainFrame({props}) {
                 <Route path='/' element={<Home props={props} />} />
                 <Route path='/bio' element={<Bio props={props} />} />
                 <Route path='/projects' element={<Projects props={props} />} />
-                <Route path='/projects/:name' element={<ProjectPage props={props} />} />
+                <Route path='/projects/:id' element={<ProjectPage props={props} />} />
 				<Route path="*" element={<NoPage props={props} />} />
             </Routes>
         </main>
