@@ -24,3 +24,19 @@ code {
 main {
   background-color: #F0F0F0;
 }
+
+.project_link_even:hover {
+  background-color: #b1afaf;
+}
+
+.project_link_even {
+  background-color: #D5D5D5;
+}
+
+.project_link_odd:hover {
+  background-color: #68b6f7;
+}
+
+.project_link_odd {
+  background-color: #96b9f8;
+}
