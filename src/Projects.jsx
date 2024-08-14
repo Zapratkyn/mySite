@@ -17,8 +17,8 @@ function Projects({props}) {
     let index = 0
 
     return (
-        <section>
-            <h2 className="d-flex justify-content-center fw-bold mb-3">{props.language.projects}</h2>
+        <section className="pe-2">
+            <h2 className="fw-bold ms-4 mb-3">{props.language.projects}</h2>
             {/* <hr className="w-75 mb-3" style={{margin : 'auto'}} /> */}
             <ul className="d-flex flex-column gap-1" style={{listStyle : 'none'}}>{list.reverse().map(project => <Project key={project.name} props={props} project={project} index={index++} />)}</ul>
         </section>
@@ -39,11 +39,39 @@ function Project({props, project, index}) {
     }
 
     return (
-        <li type='button'onClick={() => navigate('/projects/' + project.id)} className={`rounded d-flex align-items-center gap-2 ${evenOrOdd()}`} style={{height : '50px'}}>
-            <img className="h-100 p-2" src={"images/projects/" + project.image} alt="" />
-            <h5>{project.name}</h5>
-            <p>{project.description}</p>
+        <li type='button' onClick={() => navigate('/projects/' + project.id)} className={`rounded ps-3 pt-2 ${evenOrOdd()}`}>
+            <h5 className="text-primary mb-0">{project.name}</h5>
+            <p>({props.language.created} {project.date})</p>
+            <p className="mb-0">{project.description}</p>
+            <p className="d-flex gap-2">
+                {project.languages.map(language => <Language language={language} />)}
+            </p>
         </li>
+    )
+
+}
+
+function Language({language}) {
+
+    const getColor = () => {
+        if (language === 'C++')
+            return 'bg-danger'
+        else if (language === 'C')
+            return 'bg-danger-subtle'
+        else if (language === 'HTML')
+            return 'bg-warning'
+        else if (language === 'Python')
+            return 'bg-success'
+        else if (language === 'Javascript')
+            return 'bg-secondary'
+        return 'bg-primary'
+    }
+
+    return (
+        <span className="d-flex align-items-center gap-1">
+            <img className={`rounded-circle ${getColor()}`} src="images/circle.svg" alt="" />
+            {language}
+        </span>
     )
 
 }

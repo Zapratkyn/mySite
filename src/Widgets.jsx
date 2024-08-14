@@ -7,11 +7,16 @@ function CurrentProject({props}) {
 
     const navigate = useNavigate()
 
+    const browse = () => {
+        props.setCurrentPage('/projects')
+        navigate('/projects/' + project.id)
+    }
+
     useEffect(() => {
         if (!project)
-            setProject({name : 'My Project', completion : 95, link : 'myProject'})
+            setProject({name : 'Sample Project', completion : 95, id : 1})
         const interval = setInterval(() => {
-            setProject({name : 'My Project', completion : project.completion < 100 ? project.completion + 1 : 100, link : 'myProject'})
+            setProject({name : 'Sample Project', completion : project.completion < 100 ? project.completion + 1 : 100, id : 1})
         }, 1000)
         return () => clearInterval(interval)
     }, [project])
@@ -20,10 +25,10 @@ function CurrentProject({props}) {
         return undefined
 
     return (
-        <section className="rounded p-2 text-dark widget">
-            <h3 className="text-decoration-underline">{props.language.currentProject}</h3>
-            <button type='button' className="btn btn-secondary" title={props.language.clickToSee} onClick={() => navigate('/projects/' + project.link)}>{project.name}</button>
-            <hr />
+        <section className="widget">
+            <h3 className="text-decoration-underline mb-3">{props.language.currentProject}</h3>
+            {/* <hr /> */}
+            <button type='button' className="btn btn-secondary mb-1" title={props.language.clickToSee} onClick={browse}>{project.name}</button>
             <Completion completion={project.completion} props={props} />
         </section>
     )
@@ -31,19 +36,19 @@ function CurrentProject({props}) {
 
 function Completion({completion, props}) {
     return (
-        <>
+        <div className="ps-1">
             <div>{props.language.progress} : {completion}%</div>
             <progress className="w-75" value={completion / 100} />
-        </>
+        </div>
     )
 }
 
 export function Contact({props}) {
 
     return (
-        <address className="rounded p-2 text-dark widget">
-            <h3 className="text-decoration-underline">{props.language.contact}</h3>
-            <hr />
+        <address className="widget mb-0">
+            <h3 className="text-decoration-underline mb-3">{props.language.contact}</h3>
+            {/* <hr /> */}
             <ul className="ps-1" style={{listStyle : 'none'}}>
                 <li className="d-flex gap-2">
                     <img src="images/phone.svg" alt="" />
@@ -56,6 +61,18 @@ export function Contact({props}) {
             </ul>
         </address>
     )
+}
+
+export function Poll({props}) {
+
+    return (
+        <section className="widget">
+            <h3 className="text-decoration-underline mb-3">{props.language.poll}</h3>
+            {/* <hr /> */}
+            {props.language.pollAsk}
+        </section>
+    )
+
 }
 
 export default CurrentProject

@@ -4,15 +4,15 @@ import Bio from "./Bio.jsx"
 import Projects from "./Projects.jsx"
 import { ProjectPage } from "./Projects.jsx"
 import CurrentProject from "./Widgets.jsx"
-import { Contact } from "./Widgets.jsx"
+import { Contact, Poll } from "./Widgets.jsx"
 import NoPage from "./NoPage.jsx"
 
 function Body({props}) {
 
     return (
-        <div className="w-100 d-flex align-items-center flex-column">
+        <div className="w-100 d-flex align-items-center flex-column" style={{height : '2000px'}}>
             <Links />
-            <div className="w-75 p-3 d-flex gap-3" style={{height : '2000px'}}>
+            <div className="w-75 p-3 d-flex gap-3">
                 <MainFrame props={props} />
                 <Widgets props={props} />
             </div>
@@ -22,7 +22,7 @@ function Body({props}) {
 
 function Links() {
     return (
-        <nav className="w-75 d-flex gap-2 justify-content-end my-2 pe-3" style={{listStyle : 'none'}}>
+        <nav className="w-75 d-flex gap-2 justify-content-end mt-3 pe-3" style={{listStyle : 'none'}}>
                 <li>
                     <a href="https://www.linkedin.com/in/gilles-poncelet-b8a984a3" target='_blank' rel='noreferrer'>
                         <img src="images/linkedin.png" alt="" style={{height : '30px'}} />
@@ -53,9 +53,10 @@ function MainFrame({props}) {
 
 function Widgets({props}) {
     return (
-        <div className="w-25 d-flex flex-column gap-2">
+        <div className="w-25 d-flex flex-column gap-2 mt-3">
             <CurrentProject props={props} />
             <Contact props={props} />
+            <Poll props={props} />
         </div>
     )
 }

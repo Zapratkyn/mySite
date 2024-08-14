@@ -16,7 +16,10 @@ function French() {
         login : 'Connexion',
         logout : 'Déconnexion',
         signIn : 'Inscription',
-        contact : 'Informations de contact'
+        contact : 'Informations de contact',
+        created : 'Créé le ',
+        poll : 'Sondage',
+        pollAsk : 'Que devrais-je faire ensuite ?'
     }
 }
 
@@ -32,6 +35,9 @@ function English() {
         login : 'Log in',
         logout : 'Log out',
         signIn : 'Sign in',
-        contact : 'Contact informations'
+        contact : 'Contact informations',
+        created : 'Created : ',
+        poll : 'Poll',
+        pollAsk : 'What should I do next ?'
     }
 }

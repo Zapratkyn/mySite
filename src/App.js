@@ -6,15 +6,16 @@ import Body from './Body.jsx';
 
 function App() {
 
-  const [language, setLanguage] = useState(getLanguage('fr'))
+  const [language, setLanguage] = useState(getLanguage('en'))
+  const [currentPage, setCurrentPage] = useState('/')
 
-  const props = {language, setLanguage}
+  const props = {language, setLanguage, currentPage, setCurrentPage}
 
   return (
     <>
       <Options props={props} />
       <Header props={props} />
-      <hr style={{position : 'sticky', top : '150px'}} />
+      {/* <hr style={{position : 'sticky', top : '150px'}} /> */}
       <Body props={props} />
     </>
   )

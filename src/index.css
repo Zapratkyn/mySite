@@ -18,10 +18,13 @@ code {
 }
 
 .widget {
-  background-color: #C0CCFC;
+  background-color: #F0F0F0;
+  border-radius: 10px;
+  padding: 10px;
+  color: #505052;
 }
 
-main {
+header {
   background-color: #F0F0F0;
 }
 
@@ -38,5 +41,5 @@ main {
 }
 
 .project_link_odd {
-  background-color: #96b9f8;
+  background-color: #b9caeb;
 }

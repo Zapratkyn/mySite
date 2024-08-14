@@ -3,30 +3,55 @@
         "id" : 1,
         "name" : "Sample 1",
         "description" : "Sample description",
-        "image" : "sample_1.svg"
+        "languages" : [
+            "C++",
+            "Javascript",
+            "Python"
+        ],
+        "date" : "1 Jan 2024"
     },
     {
         "id" : 2,
         "name" : "Sample 2",
         "description" : "Sample description",
-        "image" : "sample_2.svg"
+        "languages" : [
+            "C++",
+            "Javascript",
+            "Python"
+        ],
+        "date" : "1 Jan 2024"
     },
     {
         "id" : 3,
         "name" : "Sample 3",
         "description" : "Sample description",
-        "image" : "sample_3.svg"
+        "languages" : [
+            "C++",
+            "Javascript",
+            "Python"
+        ],
+        "date" : "1 Jan 2024"
     },
     {
         "id" : 4,
         "name" : "Sample 4",
         "description" : "Sample description",
-        "image" : "sample_4.svg"
+        "languages" : [
+            "C++",
+            "Javascript",
+            "Python"
+        ],
+        "date" : "1 Jan 2024"
     },
     {
         "id" : 5,
         "name" : "Sample 5",
         "description" : "Sample description",
-        "image" : "sample_5.svg"
+        "languages" : [
+            "C++",
+            "Javascript",
+            "Python"
+        ],
+        "date" : "1 Jan 2024"
     }
 ]
