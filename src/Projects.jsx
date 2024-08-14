@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 // import { useParams } from "react-router-dom"
 
 function Projects({props}) {
@@ -27,9 +28,20 @@ function Projects({props}) {
 
 function Project({props, project, index}) {
 
+    const navigate = useNavigate()
+
+    const evenOrOdd = () => {
+        let hover_class = 'project_link_'
+        if (index % 2 === 0)
+            hover_class += 'even'
+        else
+            hover_class += 'odd'
+        return hover_class
+    }
+
     return (
-        <li type='button' className={`rounded p-2 d-flex gap-2 ${index % 2 === 1 ? 'bg-primary-subtle' : 'bg-secondary-subtle'}`} style={{height : '50px'}}>
-            <img className="h-100" src={"images/projects/" + project.name.split(' ').join('_') + '.svg'} alt="" />
+        <li type='button'onClick={() => navigate('/projects/' + project.id)} className={`rounded d-flex align-items-center gap-2 ${evenOrOdd()}`} style={{height : '50px'}}>
+            <img className="h-100 p-2" src={"images/projects/" + project.image} alt="" />
             <h5>{project.name}</h5>
             <p>{project.description}</p>
         </li>

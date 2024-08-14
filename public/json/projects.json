@@ -1,22 +1,27 @@
 [
     {
         "name" : "Sample 1",
-        "description" : "Sample description"
+        "description" : "Sample description",
+        "image" : "sample_1.svg"
     },
     {
         "name" : "Sample 2",
-        "description" : "Sample description"
+        "description" : "Sample description",
+        "image" : "sample_2.svg"
     },
     {
         "name" : "Sample 3",
-        "description" : "Sample description"
+        "description" : "Sample description",
+        "image" : "sample_3.svg"
     },
     {
         "name" : "Sample 4",
-        "description" : "Sample description"
+        "description" : "Sample description",
+        "image" : "sample_4.svg"
     },
     {
         "name" : "Sample 5",
-        "description" : "Sample description"
+        "description" : "Sample description",
+        "image" : "sample_5.svg"
     }
 ]
