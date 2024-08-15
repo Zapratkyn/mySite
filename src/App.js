@@ -8,14 +8,14 @@ function App() {
 
   const [language, setLanguage] = useState(getLanguage('en'))
   const [currentPage, setCurrentPage] = useState('/')
+  const [myProfile, setMyProfile] = useState(undefined)
 
-  const props = {language, setLanguage, currentPage, setCurrentPage}
+  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile}
 
   return (
     <>
       <Options props={props} />
       <Header props={props} />
-      {/* <hr style={{position : 'sticky', top : '150px'}} /> */}
       <Body props={props} />
     </>
   )

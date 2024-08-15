@@ -27,8 +27,7 @@ function CurrentProject({props}) {
     return (
         <section className="widget">
             <h3 className="text-decoration-underline mb-3">{props.language.currentProject}</h3>
-            {/* <hr /> */}
-            <button type='button' className="btn btn-secondary mb-1" title={props.language.clickToSee} onClick={browse}>{project.name}</button>
+            <button type='button' className="btn btn-secondary mb-1" onClick={browse}>{project.name}</button>
             <Completion completion={project.completion} props={props} />
         </section>
     )
@@ -45,10 +44,17 @@ function Completion({completion, props}) {
 
 export function Contact({props}) {
 
+    const navigate = useNavigate()
+
+    const browse = page => {
+        document.documentElement.scrollTop = 0
+        props.setCurrentPage(page)
+        navigate(page)
+    }
+
     return (
         <address className="widget mb-0">
             <h3 className="text-decoration-underline mb-3">{props.language.contact}</h3>
-            {/* <hr /> */}
             <ul className="ps-1" style={{listStyle : 'none'}}>
                 <li className="d-flex gap-2">
                     <img src="images/phone.svg" alt="" />
@@ -57,6 +63,10 @@ export function Contact({props}) {
                 <li className="d-flex gap-2">
                     <img src="images/mail.svg" alt="" />
                     gilles.poncelet.pro@gmail.com
+                </li>
+                <li className="d-flex gap-2">
+                    <img src="images/lightbulb.svg" alt="" />
+                    <span type='button' onClick={() => browse('/projects')} className="text-primary text-decoration-underline">Suggestions</span>
                 </li>
             </ul>
         </address>
@@ -68,7 +78,6 @@ export function Poll({props}) {
     return (
         <section className="widget">
             <h3 className="text-decoration-underline mb-3">{props.language.poll}</h3>
-            {/* <hr /> */}
             {props.language.pollAsk}
         </section>
     )

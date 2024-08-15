@@ -10,7 +10,7 @@ import NoPage from "./NoPage.jsx"
 function Body({props}) {
 
     return (
-        <div className="w-100 d-flex align-items-center flex-column" style={{height : '2000px'}}>
+        <div className="w-100 d-flex align-items-center flex-column">
             <Links />
             <div className="w-75 p-3 d-flex gap-3">
                 <MainFrame props={props} />
@@ -39,7 +39,7 @@ function Links() {
 
 function MainFrame({props}) {
     return (
-        <main className="w-75 rounded p-2">
+        <main className="w-75 p-2">
             <Routes>
                 <Route path='/' element={<Home props={props} />} />
                 <Route path='/bio' element={<Bio props={props} />} />

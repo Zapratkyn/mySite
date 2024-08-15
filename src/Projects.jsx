@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import Title from "./Helpers"
 
 function Projects({props}) {
 
@@ -18,8 +19,7 @@ function Projects({props}) {
 
     return (
         <section className="pe-2">
-            <h2 className="fw-bold ms-4 mb-3">{props.language.projects}</h2>
-            {/* <hr className="w-75 mb-3" style={{margin : 'auto'}} /> */}
+            <Title title={props.language.projects} />
             <ul className="d-flex flex-column gap-1" style={{listStyle : 'none'}}>{list.reverse().map(project => <Project key={project.name} props={props} project={project} index={index++} />)}</ul>
         </section>
     )

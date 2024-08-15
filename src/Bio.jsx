@@ -1,7 +1,9 @@
+import Title from "./Helpers"
+
 function Bio({props}) {
     return (
         <div>
-            Bio
+            <Title title='Bio' />
         </div>
     )
 }
