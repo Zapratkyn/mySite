@@ -6,6 +6,7 @@ import { ProjectPage } from "./Projects.jsx"
 import CurrentProject from "./Widgets.jsx"
 import { Contact, Poll } from "./Widgets.jsx"
 import NoPage from "./NoPage.jsx"
+import { Suggest } from "./Forms.jsx"
 
 function Body({props}) {
 
@@ -39,12 +40,13 @@ function Links() {
 
 function MainFrame({props}) {
     return (
-        <main className="w-75 p-2">
+        <main className="w-75 p-2 border-end">
             <Routes>
                 <Route path='/' element={<Home props={props} />} />
                 <Route path='/bio' element={<Bio props={props} />} />
                 <Route path='/projects' element={<Projects props={props} />} />
                 <Route path='/projects/:id' element={<ProjectPage props={props} />} />
+                <Route path='/suggest' element={<Suggest props={props} />} />
 				<Route path="*" element={<NoPage props={props} />} />
             </Routes>
         </main>

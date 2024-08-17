@@ -1,10 +1,10 @@
 function Title({title}) {
 
     return (
-        <p className="d-flex">
+        <div className="d-flex align-items-center mb-2">
             <img className="h2" src="images/caret-right.svg" alt="" />
-            <h2 className="fw-bold mb-3">{title}</h2>
-        </p>
+            <h2 className="fw-bold">{title}</h2>
+        </div>
     )
     
 }

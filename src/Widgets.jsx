@@ -66,7 +66,7 @@ export function Contact({props}) {
                 </li>
                 <li className="d-flex gap-2">
                     <img src="images/lightbulb.svg" alt="" />
-                    <span type='button' onClick={() => browse('/projects')} className="text-primary text-decoration-underline">Suggestions</span>
+                    <span type='button' onClick={() => browse('/suggest')} className="text-primary text-decoration-underline">Suggestions</span>
                 </li>
             </ul>
         </address>

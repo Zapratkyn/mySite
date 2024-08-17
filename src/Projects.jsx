@@ -5,6 +5,11 @@ import Title from "./Helpers"
 function Projects({props}) {
 
     const [list, setList] = useState(undefined)
+    
+    /*
+    Dans le back, renvoyer la liste déjà reversed
+    Sinon, le reverse ne fonctionne pas quand props.language === 'fr'
+    */
 
     useEffect(() => {
         if (!list) {
@@ -20,7 +25,9 @@ function Projects({props}) {
     return (
         <section className="pe-2">
             <Title title={props.language.projects} />
-            <ul className="d-flex flex-column gap-1" style={{listStyle : 'none'}}>{list.reverse().map(project => <Project key={project.name} props={props} project={project} index={index++} />)}</ul>
+            <ul className="d-flex flex-column gap-1" style={{listStyle : 'none'}}>
+                {list.reverse().map(project => <Project key={project.name} props={props} project={project} index={index++} />)}
+            </ul>
         </section>
     )
 }
@@ -44,7 +51,7 @@ function Project({props, project, index}) {
             <p>({props.language.created} {project.date})</p>
             <p className="mb-0">{project.description}</p>
             <p className="d-flex gap-2">
-                {project.languages.map(language => <Language language={language} />)}
+                {project.languages.map(language => <Language key={language} language={language} />)}
             </p>
         </li>
     )

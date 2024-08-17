@@ -17,6 +17,7 @@ function App() {
       <Options props={props} />
       <Header props={props} />
       <Body props={props} />
+      <img src="images/circle-copy.svg" alt="" style={{position : 'fixed', bottom : '20px', right : '20px'}} />
     </>
   )
 }
