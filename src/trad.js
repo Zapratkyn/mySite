@@ -25,7 +25,9 @@ function French() {
         suggestDetails : 'Décrivez votre concept génial',
         suggestSend : 'Proposer',
         suggestLoggedOut : 'Vous devez vous connecter pour soumettre une idée',
-        alreadySuggested : 'Vous avez déjà proposé quelque chose aujourd\'hui'
+        alreadySuggested : 'Vous avez déjà proposé quelque chose aujourd\'hui',
+        chatOn : 'Dites un truc sympa',
+        chatOff : 'Connectez-vous pour utiliser le chat'
     }
 }
 
@@ -50,6 +52,8 @@ function English() {
         suggestDetails : 'Describe your brilliant concept',
         suggestSend : 'Suggest',
         suggestLoggedOut : 'You need to be looged in to submit an idea',
-        alreadySuggested : 'You already suggested something today'
+        alreadySuggested : 'You already suggested something today',
+        chatOn : 'Say something nice',
+        chatOff : 'Log in to use the chat'
     }
 }
