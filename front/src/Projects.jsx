@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Title from "./Helpers"
 
 function Projects({props}) {
@@ -13,7 +13,7 @@ function Projects({props}) {
 
     useEffect(() => {
         if (!list) {
-            fetch('../json/projects.json').then(response => response.json().then(data => setList(data)))
+            fetch('json/projects.json').then(response => response.json().then(data => setList(data)))
         }
     })
 
@@ -76,7 +76,7 @@ function Language({language}) {
 
     return (
         <span className="d-flex align-items-center gap-1">
-            <span className={`rounded-circle border border-black ${getColor()}`} style={{height : '10px', width : '10px'}}></span>
+            <img className={`rounded-circle ${getColor()}`} src="circle.svg" alt="" />
             {language}
         </span>
     )
@@ -85,39 +85,11 @@ function Language({language}) {
 
 export function ProjectPage({props}) {
 
-    const [project, setProject] = useState(undefined)
-    const id = useParams().id
-
-    useEffect(() => {
-        if (!project) {
-            fetch('../json/sampleProject.json').then(result => {
-                if (result.status === 404)
-                    setProject(<h1>{props.language.noProject}</h1>)
-                else
-                    result.json().then(data => setProject(data))
-            })
-        }
-    })
-
-    const getLanguage = () => {
-        if (props.language.home === 'Home')
-            return 'en'
-        return 'fr'
-    }
-
-    if (!project)
-        return undefined
-
     return (
-        <section>
-            <Title title={project.name} />
-            <img className="w-100 px-5" src="sampleProject.jpg" alt="" />
-            <p className="fw-bold mt-3 ms-3">{project['description_' + getLanguage()]}</p>
-            <p className="d-flex align-items-center">
-                <a className="ms-3 text-black" href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
-                <img src="caret-right-small.svg" alt="" />
-            </p>
-        </section>
+        <div>
+            Sample project page
+            <img src="pic.png" alt="" />
+        </div>
     )
 
 }

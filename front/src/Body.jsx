@@ -26,12 +26,12 @@ function Links() {
         <nav className="w-75 d-flex gap-2 justify-content-end mt-3 pe-3" style={{listStyle : 'none'}}>
                 <li>
                     <a href="https://www.linkedin.com/in/gilles-poncelet-b8a984a3" target='_blank' rel='noreferrer'>
-                        <img src="linkedin.png" alt="LinkedIn" style={{height : '30px'}} />
+                        <img src="linkedin.png" alt="" style={{height : '30px'}} />
                     </a>
                 </li>
                 <li>
                     <a href="https://github.com/Zapratkyn" target='_blank' rel='noreferrer'>
-                        <img src="github.png" alt="GitHub" style={{height : '30px'}} />
+                        <img src="github.png" alt="" style={{height : '30px'}} />
                     </a>
                 </li>
             </nav>
@@ -45,7 +45,7 @@ function MainFrame({props}) {
                 <Route path='/' element={<Home props={props} />} />
                 <Route path='/bio' element={<Bio props={props} />} />
                 <Route path='/projects' element={<Projects props={props} />} />
-                <Route path="/projects/:id" element={<ProjectPage props={props} />} />
+                <Route path='/projects/:id' element={<ProjectPage props={props} />} />
                 <Route path='/suggest' element={<Suggest props={props} />} />
 				<Route path="*" element={<NoPage props={props} />} />
             </Routes>

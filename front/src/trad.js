@@ -27,13 +27,7 @@ function French() {
         suggestLoggedOut : 'Vous devez vous connecter pour soumettre une idée',
         alreadySuggested : 'Vous avez déjà proposé quelque chose aujourd\'hui',
         chatOn : 'Dites un truc sympa',
-        chatOff : 'Connectez-vous pour utiliser le chat',
-        bio1 : 'Mon nom est Gilles Poncelet. Et ceci est mon site Web.',
-        bio2 : 'Je suis né le 13 janvier 1989 à Etterbeek, en Belgique.',
-        bio3 : 'Enfant de parents artistes, je me suis moi-même intéressé très tôt à la musique et au théâtre.',
-        bio4 : '',
-        noProject : 'Ce projet n\'existe pas. Vérifiez l\'url et réessayez.',
-        seeOnGH : 'Voir sur GitHub'
+        chatOff : 'Connectez-vous pour utiliser le chat'
     }
 }
 
@@ -43,7 +37,7 @@ function English() {
         projects : 'Projects',
         currentProject : 'Current project',
         progress : 'Completion',
-        noPage : 'This page does not exist. Please check url and try again.',
+        noPage : 'This page does not exist. Please check url et try again.',
         dev : 'Developer',
         login : 'Log in',
         logout : 'Log out',
@@ -57,12 +51,9 @@ function English() {
         suggestTitle : 'Give it a catchy title',
         suggestDetails : 'Describe your brilliant concept',
         suggestSend : 'Suggest',
-        suggestLoggedOut : 'You need to be logged in to submit an idea',
+        suggestLoggedOut : 'You need to be looged in to submit an idea',
         alreadySuggested : 'You already suggested something today',
         chatOn : 'Say something nice',
-        chatOff : 'Log in to use the chat',
-        bio1 : 'My name is Gilles Poncelet. And this is my website.',
-        noProject : 'This project does not exist. Check url and try again.',
-        seeOnGH : 'See on GitHub'
+        chatOff : 'Log in to use the chat'
     }
 }

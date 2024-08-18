@@ -6,34 +6,14 @@ function Header({props}) {
     return (
         <header className="border-bottom d-flex justify-content-center" style={{height : '150px', position : 'sticky', top : '0px'}}>
             <div className="w-75 h-100 d-flex justify-content-between align-items-center">
-                <Initials />
-                <SiteName props={props} />
+                <img className="rounded-circle h-75" src="pic.png" alt="" />
+                <div className="d-flex flex-column align-items-center">
+                    <h1 className="fw-bold">Gilles Poncelet</h1>
+                    <h3 className="fw-bold">{props.language.dev}</h3>
+                </div>
                 <Menu props={props} />
             </div>
         </header>
-    )
-
-}
-
-function Initials() {
-
-    return (
-        <p 
-            className="h1 rounded-circle border border-3 border-black p-3 fw-bold d-flex align-items-center justify-content-center" 
-            style={{height : '100px', width : '100px'}}>
-                GP
-        </p>
-    )
-
-}
-
-function SiteName({props}) {
-
-    return (
-        <div className="d-flex flex-column align-items-center">
-            <h1 className="fw-bold">Gilles Poncelet</h1>
-            <h3 className="fw-bold">{props.language.dev}</h3>
-        </div>
     )
 
 }

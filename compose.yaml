@@ -1,0 +1,54 @@
+version: '3'
+name: 'gp.com'
+
+services:
+
+  nginx:
+    container_name: nginx
+    build:
+      context: ./builds/
+      dockerfile: Dockerfile_nginx
+    ports:
+      - "443:443"
+    restart: unless-stopped
+    networks:
+      - gp.com
+
+  node:
+    container_name: node
+    build:
+      context: ./builds/
+      dockerfile: Dockerfile_node
+    expose:
+      - "3000"
+    volumes:
+      - ./front:/usr/src/gp.com
+    restart: on-failure
+    networks:
+      - gp.com
+
+  # db:
+  #   container_name : db
+  #   build:
+  #     context: ./builds/
+  #     dockerfile: Dockerfile_postgres
+  #   expose:
+  #     - "3001"
+  #   restart: on-failure
+  #   networks:
+  #     - gp.com
+
+  django:
+    container_name: django
+    build:
+      context: ./builds/
+      dockerfile: Dockerfile_django
+    expose:
+      - "3002"
+    restart: on-failure
+    networks:
+      - gp.com
+
+networks:
+  gp.com:
+    driver: bridge
