@@ -1,8 +1,0 @@
-{
-    "name" : "Sample project",
-    "image" : "sampleProject.jpg",
-    "description_en" : "Sample description",
-    "description_fr" : "Exemple de description",
-    "link" : "https://github.com/Zapratkyn",
-    "intégration" : false
-}
