@@ -1,28 +1,27 @@
-version: '3'
 name: 'gp.com'
 
 services:
 
   nginx:
     container_name: nginx
-    build:
-      context: ./builds/
-      dockerfile: Dockerfile_nginx
+    build: ./nginx
     ports:
       - "443:443"
     restart: unless-stopped
     networks:
       - gp.com
+    depends_on:
+      - django
+      - node
 
   node:
     container_name: node
-    build:
-      context: ./builds/
-      dockerfile: Dockerfile_node
+    build: ./node
     expose:
       - "3000"
     volumes:
-      - ./front:/usr/src/gp.com
+      - ./node/src:/app/src
+      - ./node/public:/app/public
     restart: on-failure
     networks:
       - gp.com
@@ -40,11 +39,11 @@ services:
 
   django:
     container_name: django
-    build:
-      context: ./builds/
-      dockerfile: Dockerfile_django
+    build: ./backend
     expose:
-      - "3002"
+      - "8000"
+    volumes:
+      - ./backend:/app
     restart: on-failure
     networks:
       - gp.com
