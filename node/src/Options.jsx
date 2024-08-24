@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import { getLanguage } from "./trad"
 
 function Options({props}) {
@@ -14,12 +15,28 @@ function Options({props}) {
 }
 
 function Menu({props}) {
+    
+    const navigate = useNavigate()
+
+    const log = () => {
+        if (props.profile) {
+            props.setMyProfile(undefined)
+            if (props.currentPage !== '/') {
+                navigate('/')
+                props.setCurrentPage('/')
+            }
+        }
+        else {
+            navigate('/signin')
+            props.setCurrentPage('/signin')
+        }
+    }
 
     return (
         <ul className="text-white fw-bold d-flex gap-2" style={{listStyle : 'none'}}>
             {/* {props.myProfile.id === 1 && <li type='button'><a href="/admin" target="_blank" ref='noreferrer'></a></li>} */}
-            <li type='button'>{props.myProfile ? props.language.logout : props.language.login}</li>
-            <li type='button'>{props.language.signIn}</li>
+            <li type='button' onClick={log}>{props.myProfile ? props.language.logout : props.language.signIn}</li>
+            {!props.myProfile && <li type='button'>{props.language.signUp}</li>}
         </ul>
     )
 

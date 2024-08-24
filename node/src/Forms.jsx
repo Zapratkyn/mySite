@@ -1,17 +1,77 @@
+import { useNavigate } from "react-router-dom"
 import Title from "./Helpers"
 
-function SignIn({props}) {
+export function SignIn({props}) {
+
+    const navigate = useNavigate()
+
+    const isWrong = () => {
+        let issue = false
+        let forms = ['username', 'password']
+        for (let form of forms) {
+            let input = document.getElementById(form)
+            if (input.value === '') {
+                input.setAttribute('class', 'form-control border border-3 border-danger w-50')
+                issue = false
+            }
+        }
+        return issue
+    }
+
+    const signIn = () => {
+        if (!isWrong()) {
+            fetch('/profiles/signIn', {
+                method : 'POST', 
+                body : JSON.stringify({
+                    username : document.getElementById('username').value,
+                    password : document.getElementById('password').value
+                })
+            }).then(response => {
+                if (response.status === 404)
+                    document.getElementById('signInError').innerHTML = props.language.signInError
+                else {
+                    response.json().then(data => {
+                        props.setMyProfile(data)
+                        navigate('/profiles/' + data.id)
+                    })
+                }
+            })
+        }
+    }
+
+    const typing = e => {
+        document.getElementById(e.target.id).setAttribute('class', 'form-control w-50')
+        document.getElementById('signInError').innerHTML = ''
+        if (e.keyCode === 13) {
+            e.preventDefault()
+            signIn()
+        }
+    }
 
     return (
-        <form action="/signIn">Sign In</form>
+        <section>
+            <Title title={props.language.signIn} />
+            <form className="rounded border border-3 mt-5 w-50 d-flex flex-column align-items-center p-3 fw-bold gap-2" style={{margin : 'auto'}}>
+                <label htmlFor="username">{props.language.username}</label>
+                <input className="form-control w-50" onKeyDown={typing} type="text" name="username" id="username" />
+                <label htmlFor="password">{props.language.password}</label>
+                <input className="form-control w-50" onKeyDown={typing} type="text" name="password" id="password" />
+                <button onClick={signIn} type='button' className="btn btn-secondary mt-3">{props.language.connexion}</button>
+                <span id='signInError'></span>
+                <span onClick={() => navigate('/signup')} type='button' className="mt-3 text-primary text-decoration-underline">{props.language.createAccount}</span>
+            </form>
+        </section>
     )
 
 }
 
-export function Login({props}) {
+export function SignUp({props}) {
 
     return (
-        <form action="/login">Login</form>
+        <form className="bg-danger" action="/login">
+            <label htmlFor="username">{props.language.username}</label>
+            <input type="text" name="username" id="username" />
+        </form>
     )
 
 }
@@ -35,5 +95,3 @@ export function Suggest({props}) {
     )
 
 }
-
-export default SignIn

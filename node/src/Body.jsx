@@ -1,12 +1,10 @@
 import { Route, Routes } from "react-router-dom"
 import Home from "./Home.jsx"
 import Bio from "./Bio.jsx"
-import Projects from "./Projects.jsx"
-import { ProjectPage } from "./Projects.jsx"
-import CurrentProject from "./Widgets.jsx"
-import { Contact, Poll } from "./Widgets.jsx"
+import { Projects, ProjectPage } from "./Projects.jsx"
+import { CurrentProject, Contact, Poll } from "./Widgets.jsx"
 import NoPage from "./NoPage.jsx"
-import { Suggest } from "./Forms.jsx"
+import { SignUp, SignIn, Suggest } from "./Forms.jsx"
 
 function Body({props}) {
 
@@ -47,6 +45,8 @@ function MainFrame({props}) {
                 <Route path='/projects' element={<Projects props={props} />} />
                 <Route path="/projects/:id" element={<ProjectPage props={props} />} />
                 <Route path='/suggest' element={<Suggest props={props} />} />
+                <Route path='/signup' element={<SignUp props={props} />} />
+                <Route path='/signin' element={<SignIn props={props} />} />
 				<Route path="*" element={<NoPage props={props} />} />
             </Routes>
         </main>

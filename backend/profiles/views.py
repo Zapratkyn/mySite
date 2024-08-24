@@ -6,5 +6,5 @@ from django.http import JsonResponse
 
 class Test(View):
     def get(self, request):
-        try : return JsonResponse({"message" : "Hey !"}, status=200)
+        try : return JsonResponse({"message" : "Bazinga !"}, status=200)
         except Exception as e : return JsonResponse(f"{e}", status=404, safe=False)

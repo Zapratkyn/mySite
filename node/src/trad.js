@@ -12,9 +12,9 @@ function French() {
         progress : 'Etat d\'avancement',
         noPage : 'Cette page n\'existe pas. Veuillez vérifier l\'url et réessayer.',
         dev : 'Développeur',
-        login : 'Connexion',
+        signIn : 'Connexion',
         logout : 'Déconnexion',
-        signIn : 'Inscription',
+        signUp : 'Inscription',
         contact : 'Informations de contact',
         created : 'Créé le ',
         poll : 'Sondage',
@@ -33,7 +33,12 @@ function French() {
         bio3 : 'Enfant de parents artistes, je me suis moi-même intéressé très tôt à la musique et au théâtre.',
         bio4 : '',
         noProject : 'Ce projet n\'existe pas. Vérifiez l\'url et réessayez.',
-        seeOnGH : 'Voir sur GitHub'
+        seeOnGH : 'Voir sur GitHub',
+        username : 'Nom d\'utilisateur',
+        password : 'Mot de passe',
+        connexion : 'Se connecter',
+        signInError : 'Nom d\'utilisateur ou mot de passe incorrect',
+        createAccount : 'Créer un compte'
     }
 }
 
@@ -45,9 +50,9 @@ function English() {
         progress : 'Completion',
         noPage : 'This page does not exist. Please check url and try again.',
         dev : 'Developer',
-        login : 'Log in',
-        logout : 'Log out',
         signIn : 'Sign in',
+        logout : 'Log out',
+        signUp : 'Sign up',
         contact : 'Contact informations',
         created : 'Created : ',
         poll : 'Poll',
@@ -63,6 +68,11 @@ function English() {
         chatOff : 'Log in to use the chat',
         bio1 : 'My name is Gilles Poncelet. And this is my website.',
         noProject : 'This project does not exist. Check url and try again.',
-        seeOnGH : 'See on GitHub'
+        seeOnGH : 'See on GitHub',
+        username : 'Username',
+        password : 'Password',
+        connexion : 'Log in',
+        signInError : 'Wrong username or password',
+        createAccount : 'Create an account'
     }
 }

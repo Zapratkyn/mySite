@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Title from "./Helpers"
 
-function Projects({props}) {
+export function Projects({props}) {
 
     const [list, setList] = useState(undefined)
     
@@ -121,5 +121,3 @@ export function ProjectPage({props}) {
     )
 
 }
-
-export default Projects

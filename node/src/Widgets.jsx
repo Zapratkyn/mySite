@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-function CurrentProject({props}) {
+export function CurrentProject({props}) {
 
     const [project, setProject] = useState(undefined)
 
@@ -83,5 +83,3 @@ export function Poll({props}) {
     )
 
 }
-
-export default CurrentProject
