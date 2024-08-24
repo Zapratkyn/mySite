@@ -10,9 +10,6 @@ services:
     restart: unless-stopped
     networks:
       - gp.com
-    depends_on:
-      - django
-      - node
 
   node:
     container_name: node
@@ -26,25 +23,31 @@ services:
     networks:
       - gp.com
 
-  # db:
-  #   container_name : db
-  #   build:
-  #     context: ./builds/
-  #     dockerfile: Dockerfile_postgres
-  #   expose:
-  #     - "3001"
-  #   restart: on-failure
-  #   networks:
-  #     - gp.com
+  db:
+    image: postgres:14-alpine
+    container_name : db
+    env_file:
+      - .env
+    expose:
+      - "5432"
+    restart: unless-stopped
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    networks:
+      - gp.com
 
   django:
     container_name: django
     build: ./backend
+    env_file:
+      - .env
     expose:
       - "8000"
     volumes:
       - ./backend:/app
-    restart: on-failure
+    restart: unless-stopped
+    depends_on:
+      - db
     networks:
       - gp.com
 

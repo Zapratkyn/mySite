@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Title from "./Helpers"
 
 function Projects({props}) {
@@ -86,7 +86,7 @@ function Language({language}) {
 export function ProjectPage({props}) {
 
     const [project, setProject] = useState(undefined)
-    const id = useParams().id
+    // const id = useParams().id
 
     useEffect(() => {
         if (!project) {

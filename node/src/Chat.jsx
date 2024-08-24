@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 function Chat({props}) {
 
     const [messages, setMessages] = useState([])
-    const [socket, setSocket] = useState(undefined)
+    // const [socket, setSocket] = useState(undefined)
 
     useEffect(() => {
         // if (!socket)
@@ -23,7 +23,7 @@ function Chat({props}) {
             </div>
             <div className="d-flex justify-content-center mt-4"><img type='button' src="arrow.svg" alt="" /></div>
             <hr />
-            <Prompt props={props} socket={socket} />
+            {/* <Prompt props={props} socket={socket} /> */}
         </div>
     )
 
@@ -41,19 +41,19 @@ function Message({message}) {
 
 }
 
-function Prompt({props, socket}) {
+// function Prompt({props, socket}) {
 
-    const captureKey = e => {
-		if (e.keyCode === 13) {
-			e.preventDefault()
-			// socket.send(JSON.stringify({name : props.myProfile.name, message : document.getElementById('prompt').value}))
-		}
-	}
+//     const captureKey = e => {
+// 		if (e.keyCode === 13) {
+// 			e.preventDefault()
+// 			// socket.send(JSON.stringify({name : props.myProfile.name, message : document.getElementById('prompt').value}))
+// 		}
+// 	}
 
-    return (
-        <input id='prompt' onKeyDown={captureKey} className="rounded w-100" type="text" placeholder={props.myProfile ? props.language.chatOn : props.language.chatOff} disabled={props.myProfile} />
-    )
+//     return (
+//         <input id='prompt' onKeyDown={captureKey} className="rounded w-100" type="text" placeholder={props.myProfile ? props.language.chatOn : props.language.chatOff} disabled={props.myProfile} />
+//     )
 
-}
+// }
 
 export default Chat
