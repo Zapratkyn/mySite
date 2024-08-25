@@ -8,8 +8,8 @@ export function CurrentProject({props}) {
     const navigate = useNavigate()
 
     const browse = () => {
-        props.setCurrentPage('/projects')
-        navigate('/projects/' + project.id)
+        props.setCurrentPage('/project')
+        navigate('/project/' + project.id)
     }
 
     useEffect(() => {

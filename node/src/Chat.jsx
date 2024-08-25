@@ -46,7 +46,7 @@ function Message({message}) {
 //     const captureKey = e => {
 // 		if (e.keyCode === 13) {
 // 			e.preventDefault()
-// 			// socket.send(JSON.stringify({name : props.myProfile.name, message : document.getElementById('prompt').value}))
+//          socket.send(JSON.stringify({name : props.myProfile.name, message : document.getElementById('prompt').value}))
 // 		}
 // 	}
 

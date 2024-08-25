@@ -4,6 +4,7 @@ import Bio from "./Bio.jsx"
 import { Projects, ProjectPage } from "./Projects.jsx"
 import { CurrentProject, Contact, Poll } from "./Widgets.jsx"
 import NoPage from "./NoPage.jsx"
+import Error from "./Error.jsx"
 import { SignUp, SignIn, Suggest } from "./Forms.jsx"
 
 function Body({props}) {
@@ -24,12 +25,12 @@ function Links() {
         <nav className="w-75 d-flex gap-2 justify-content-end mt-3 pe-3" style={{listStyle : 'none'}}>
                 <li>
                     <a href="https://www.linkedin.com/in/gilles-poncelet-b8a984a3" target='_blank' rel='noreferrer'>
-                        <img src="linkedin.png" alt="LinkedIn" style={{height : '30px'}} />
+                        <img src="images/linkedin.png" alt="LinkedIn" style={{height : '30px'}} />
                     </a>
                 </li>
                 <li>
                     <a href="https://github.com/Zapratkyn" target='_blank' rel='noreferrer'>
-                        <img src="github.png" alt="GitHub" style={{height : '30px'}} />
+                        <img src="images/github.png" alt="GitHub" style={{height : '30px'}} />
                     </a>
                 </li>
             </nav>
@@ -42,11 +43,12 @@ function MainFrame({props}) {
             <Routes>
                 <Route path='/' element={<Home props={props} />} />
                 <Route path='/bio' element={<Bio props={props} />} />
-                <Route path='/projects' element={<Projects props={props} />} />
-                <Route path="/projects/:id" element={<ProjectPage props={props} />} />
+                <Route path='/project' element={<Projects props={props} />} />
+                <Route path="/project/:id" element={<ProjectPage props={props} />} />
                 <Route path='/suggest' element={<Suggest props={props} />} />
                 <Route path='/signup' element={<SignUp props={props} />} />
                 <Route path='/signin' element={<SignIn props={props} />} />
+                <Route path='/error' element={<Error props={props} />} />
 				<Route path="*" element={<NoPage props={props} />} />
             </Routes>
         </main>

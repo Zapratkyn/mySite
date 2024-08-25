@@ -12,7 +12,7 @@ export function SignIn({props}) {
             let input = document.getElementById(form)
             if (input.value === '') {
                 input.setAttribute('class', 'form-control border border-3 border-danger w-50')
-                issue = false
+                issue = true
             }
         }
         return issue
@@ -20,7 +20,7 @@ export function SignIn({props}) {
 
     const signIn = () => {
         if (!isWrong()) {
-            fetch('/profiles/signIn', {
+            fetch('/profiles/signin', {
                 method : 'POST', 
                 body : JSON.stringify({
                     username : document.getElementById('username').value,
@@ -29,14 +29,18 @@ export function SignIn({props}) {
             }).then(response => {
                 if (response.status === 200) {
                     response.json().then(data => {
+                        console.log(data)
                         props.setMyProfile(data)
-                        navigate('/profiles/' + data.id)
+                        // navigate('/profiles/' + data.id)
+                        navigate('/')
                     })
                 }
-                else {
+                else if(response.status !== 404) {
                     response.json().then(data => 
-                        document.getElementById('signInError').innerHTML = data.details)
+                        document.getElementById('signInError').innerHTML = props.language['signInError_' + data.error])
                 }
+                else
+                    document.getElementById('signInError').innerHTML = props.language.signUpError_8
             })
         }
     }
@@ -51,13 +55,13 @@ export function SignIn({props}) {
     }
 
     return (
-        <section>
+        <section className="me-2">
             <Title title={props.language.signIn} />
             <form className="rounded border border-3 mt-5 w-50 d-flex flex-column align-items-center p-3 fw-bold gap-2" style={{margin : 'auto'}}>
                 <label htmlFor="username">{props.language.username}</label>
                 <input className="form-control w-50" onKeyDown={typing} type="text" name="username" id="username" />
                 <label htmlFor="password">{props.language.password}</label>
-                <input className="form-control w-50" onKeyDown={typing} type="text" name="password" id="password" />
+                <input className="form-control w-50" onKeyDown={typing} type="password" name="password" id="password" />
                 <span className="h6">({props.language.allFieldsMandatory})</span>
                 <button onClick={signIn} type='button' className="btn btn-secondary mt-3">{props.language.connexion}</button>
                 <span id='signInError'></span>
@@ -78,7 +82,7 @@ export function SignUp({props}) {
 
     const isWrong = () => {
         let issue = false
-        let forms = ['username', 'password', 'passwordConfirm']
+        let forms = ['username', 'password', 'passwordConfirm', 'email']
         for (let form of forms) {
             let input = document.getElementById(form)
             if (input.value === '') {
@@ -91,7 +95,7 @@ export function SignUp({props}) {
         if (password.value !== passwordConfirm.value) {
             password.setAttribute('class', 'form-control border border-3 border-danger w-50')
             passwordConfirm.setAttribute('class', 'form-control border border-3 border-warning w-50')
-            document.getElementById('signUpError').innerHTML = props.language.passwordConfirmError
+            document.getElementById('signUpError').innerHTML = props.language.signUpError_2
         }
         return issue
     }
@@ -103,7 +107,8 @@ export function SignUp({props}) {
                 body : JSON.stringify({
                     username : document.getElementById('username').value,
                     password : document.getElementById('password').value,
-                    passwordConfirm : document.getElementById('passwordConfirm').value
+                    passwordConfirm : document.getElementById('passwordConfirm').value,
+                    email : document.getElementById('passwordConfirm').value
                 })
             }).then(response => {
                 if (response.status === 201) {
@@ -114,7 +119,7 @@ export function SignUp({props}) {
                 }
                 else {
                     response.json().then(data => 
-                        document.getElementById('signInError').innerHTML = data.details)
+                        document.getElementById('signUpError').innerHTML = props.language['signUpError_' + data.error])
                 }
             })
         }
@@ -130,15 +135,17 @@ export function SignUp({props}) {
     }
 
     return (
-        <section>
+        <section className="me-2">
             <Title title={props.language.signUp} />
             <form className="rounded border border-3 mt-5 w-50 d-flex flex-column align-items-center p-3 fw-bold gap-2" style={{margin : 'auto'}}>
                 <label htmlFor="username">{props.language.username}</label>
                 <input className="form-control w-50" onKeyDown={typing} type="text" name="username" id="username" />
+                <label htmlFor="email">E-mail</label>
+                <input className="form-control w-50" onKeyDown={typing} type="email" name="email" id="email" />
                 <label htmlFor="password">{props.language.password}</label>
-                <input className="form-control w-50" onKeyDown={typing} type="text" name="password" id="password" />
+                <input className="form-control w-50" onKeyDown={typing} type="password" name="password" id="password" />
                 <label htmlFor="passwordConfirm">{props.language.passwordConfirm}</label>
-                <input className="form-control w-50" onKeyDown={typing} type="text" name="passwordConfirm" id="passwordConfirm" />
+                <input className="form-control w-50" onKeyDown={typing} type="password" name="passwordConfirm" id="passwordConfirm" />
                 <span className="h6">({props.language.allFieldsMandatory})</span>
                 <button onClick={signUp} type='button' className="btn btn-secondary mt-3">{props.language.createAccount}</button>
                 <span id='signUpError'></span>

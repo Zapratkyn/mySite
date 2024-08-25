@@ -20,11 +20,17 @@ function Menu({props}) {
 
     const log = () => {
         if (props.profile) {
-            props.setMyProfile(undefined)
-            if (props.currentPage !== '/') {
-                navigate('/')
-                props.setCurrentPage('/')
-            }
+            fetch('profiles/signout').then(response => {
+                if (response.status === 200) {
+                    props.setMyProfile(undefined)
+                    if (props.currentPage !== '/') {
+                        navigate('/')
+                        props.setCurrentPage('/')
+                    }
+                }
+                else
+                    navigate("/error")
+            })
         }
         else {
             navigate('/signin')
@@ -32,11 +38,19 @@ function Menu({props}) {
         }
     }
 
+    const logout = () => {
+        fetch('profiles/signout', {method : 'POST'}).then(response => {
+            if (response.status === 200)
+                navigate('/')
+        })
+    }
+
     return (
         <ul className="text-white fw-bold d-flex gap-2" style={{listStyle : 'none'}}>
             {/* {props.myProfile.id === 1 && <li type='button'><a href="/admin" target="_blank" ref='noreferrer'></a></li>} */}
             <li type='button' onClick={log}>{props.myProfile ? props.language.logout : props.language.signIn}</li>
             {!props.myProfile && <li onClick={() => navigate('/signup')} type='button'>{props.language.signUp}</li>}
+            <li type='button' onClick={logout}>Log out</li>
         </ul>
     )
 

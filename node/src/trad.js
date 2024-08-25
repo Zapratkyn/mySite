@@ -40,9 +40,19 @@ function French() {
         connexion : 'Se connecter',
         signInError : 'Nom d\'utilisateur ou mot de passe incorrect',
         createAccount : 'Créer un compte',
-        passwordConfirmError : 'Les mots de passe ne correspondent pas',
         allFieldsMandatory : 'Tous les champs sont obligatoires',
-        noAccount : 'Pas de compte'
+        noAccount : 'Pas de compte',
+        signUpError_1 : 'Le format de l\'adresse e-mail est incorrect',
+        signUpError_2 : 'Les mots de passe ne correspondent pas',
+        signUpError_3 : 'Un compte associé à cette adresse e-mail existe déjà',
+        signUpError_4 : 'Ce nom d\'utilisateur n\'est pas disponible',
+        signUpError_5 : 'Tous les champs sont obligatoires',
+        signUpError_6 : 'Une erreur s\'est produite lors de la création du compte',
+        signUpError_7 : 'Une erreur s\'est produite lors de l\'authentification',
+        signUpError_8 : 'Une erreur s\'est produite',
+        signInError_1 : 'Vous êtes déjà connecté',
+        signInError_2 : 'Nom d\'utilisateur ou mot de passe incorrect',
+        signInError_3 : 'Une erreur s\'est produite'
     }
 }
 
@@ -79,8 +89,18 @@ function English() {
         connexion : 'Log in',
         signInError : 'Wrong username or password',
         createAccount : 'Create an account',
-        passwordConfirmError : 'Passwords do not match',
         allFieldsMandatory : 'All fields are mandatory',
-        noAccount : 'No account'
+        noAccount : 'No account',
+        signUpError_1 : 'The email address format is incorrect',
+        signUpError_2 : 'Passwords do not match',
+        signUpError_3 : 'An account associated to this email address already exists',
+        signUpError_4 : 'This username is not available',
+        signUpError_5 : 'All fields are mandatory',
+        signUpError_6 : 'An error occured while creating the account',
+        signUpError_7 : 'An error occured during the authentification process',
+        signUpError_8 : 'An error occured',
+        signInError_1 : 'You are already logged in',
+        signInError_2 : 'Incorrect username or password',
+        signInError_3 : 'An error occured'
     }
 }

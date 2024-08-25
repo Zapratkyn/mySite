@@ -13,7 +13,7 @@ export function Projects({props}) {
 
     useEffect(() => {
         if (!list) {
-            fetch('../json/projects.json').then(response => response.json().then(data => setList(data)))
+            fetch('/json/projects.json').then(response => response.json().then(data => setList(data)))
         }
     })
 
@@ -46,7 +46,7 @@ function Project({props, project, index}) {
     }
 
     return (
-        <li type='button' onClick={() => navigate('/projects/' + project.id)} className={`rounded ps-3 pt-2 ${evenOrOdd()}`}>
+        <li type='button' onClick={() => navigate('/project/' + project.id)} className={`rounded ps-3 pt-2 ${evenOrOdd()}`}>
             <h5 className="text-primary mb-0">{project.name}</h5>
             <p>({props.language.created} {project.date})</p>
             <p className="mb-0">{project.description}</p>
@@ -90,11 +90,11 @@ export function ProjectPage({props}) {
 
     useEffect(() => {
         if (!project) {
-            fetch('../json/sampleProject.json').then(result => {
-                if (result.status === 404)
+            fetch('/json/sampleProject.json').then(response => {
+                if (response.status === 404)
                     setProject(<h1>{props.language.noProject}</h1>)
                 else
-                    result.json().then(data => setProject(data))
+                    response.json().then(data => setProject(data))
             })
         }
     })
@@ -111,11 +111,11 @@ export function ProjectPage({props}) {
     return (
         <section>
             <Title title={project.name} />
-            <img className="w-100 px-5" src="sampleProject.jpg" alt="" />
+            <img className="w-100 px-5" src="/images/sampleProject.jpg" alt="" />
             <p className="fw-bold mt-3 ms-3">{project['description_' + getLanguage()]}</p>
             <p className="d-flex align-items-center">
                 <a className="ms-3 text-black" href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
-                <img src="caret-right-small.svg" alt="" />
+                <img src="/images/caret-right-small.svg" alt="" />
             </p>
         </section>
     )

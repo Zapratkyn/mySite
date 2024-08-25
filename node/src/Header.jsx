@@ -47,26 +47,16 @@ function Menu({props}) {
         navigate(page)
     }
 
-    // useEffect(() => {
-    //     if (window.location.pathname === '/bio')
-    //         props.setCurrentPage('/bio')
-    //     else if (window.location.pathname !== '/')
-    //         props.setCurrentPage('/projects')
-    // }, [props])
-
     return (
         <nav className="fw-bold fs-5 d-flex gap-3" style={{listStyle : 'none'}}>
             <li type='button' className={`navLink ${props.currentPage === '/' && 'text-decoration-underline'}`} onClick={() => browse('/')}>
-                <img src="./home.svg" alt="" />
-                <span type='button' className="text-decoration-none">{props.language.home}</span>
+                {props.language.home}
             </li>
             <li type='button' className={`navLink ${props.currentPage === '/bio' && 'text-decoration-underline'}`} onClick={() => browse('/bio')}>
-                <img src="./bio.svg" alt="" />
-                <span type='button' className="text-decoration-none">Bio</span>
+                Bio
             </li>
-            <li type='button' className={`navLink ${props.currentPage === '/projects' && 'text-decoration-underline'}`} onClick={() => browse('/projects')}>
-                <img src="./projects.svg" alt="" />
-                <span type='button' className="text-decoration-none">{props.language.projects}</span>
+            <li type='button' className={`navLink ${props.currentPage === '/project' && 'text-decoration-underline'}`} onClick={() => browse('/project')}>
+                {props.language.projects}
             </li>
         </nav>
     )
