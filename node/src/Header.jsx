@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 function Header({props}) {
@@ -48,12 +47,12 @@ function Menu({props}) {
         navigate(page)
     }
 
-    useEffect(() => {
-        if (window.location.pathname === '/bio')
-            props.setCurrentPage('/bio')
-        else if (window.location.pathname !== '/')
-            props.setCurrentPage('/projects')
-    }, [props])
+    // useEffect(() => {
+    //     if (window.location.pathname === '/bio')
+    //         props.setCurrentPage('/bio')
+    //     else if (window.location.pathname !== '/')
+    //         props.setCurrentPage('/projects')
+    // }, [props])
 
     return (
         <nav className="fw-bold fs-5 d-flex gap-3" style={{listStyle : 'none'}}>

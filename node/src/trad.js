@@ -36,9 +36,13 @@ function French() {
         seeOnGH : 'Voir sur GitHub',
         username : 'Nom d\'utilisateur',
         password : 'Mot de passe',
+        passwordConfirm : 'Confirmation du mot de passe',
         connexion : 'Se connecter',
         signInError : 'Nom d\'utilisateur ou mot de passe incorrect',
-        createAccount : 'Créer un compte'
+        createAccount : 'Créer un compte',
+        passwordConfirmError : 'Les mots de passe ne correspondent pas',
+        allFieldsMandatory : 'Tous les champs sont obligatoires',
+        noAccount : 'Pas de compte'
     }
 }
 
@@ -71,8 +75,12 @@ function English() {
         seeOnGH : 'See on GitHub',
         username : 'Username',
         password : 'Password',
+        passwordConfirm : 'Password confirmation',
         connexion : 'Log in',
         signInError : 'Wrong username or password',
-        createAccount : 'Create an account'
+        createAccount : 'Create an account',
+        passwordConfirmError : 'Passwords do not match',
+        allFieldsMandatory : 'All fields are mandatory',
+        noAccount : 'No account'
     }
 }

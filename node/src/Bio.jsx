@@ -1,4 +1,4 @@
-import Title from "./Helpers"
+import {Title} from "./Helpers"
 
 function Bio({props}) {
     return (

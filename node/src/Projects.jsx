@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Title from "./Helpers"
+import {Title} from "./Helpers"
 
 export function Projects({props}) {
 

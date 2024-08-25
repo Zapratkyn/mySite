@@ -1,4 +1,4 @@
-function Title({title}) {
+export function Title({title}) {
 
     return (
         <div className="d-flex align-items-center mb-2">
@@ -9,4 +9,14 @@ function Title({title}) {
     
 }
 
-export default Title
+export function getCurrentPage() {
+
+    let url = window.location.pathname
+  
+    if (url === '/' || url === '/bio')
+      return url
+    else if (url.includes('projects'))
+      return ('/projects')
+    return ''
+  
+  }

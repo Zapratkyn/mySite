@@ -4,12 +4,13 @@ import { getLanguage } from './trad.js'
 import Options from './Options.jsx';
 import Body from './Body.jsx';
 import Chat from './Chat.jsx';
+import { getCurrentPage } from './Helpers.jsx';
 
 function App() {
 
   const [language, setLanguage] = useState(getLanguage('en'))
   const [displayChat, setDisplayChat] = useState(false)
-  const [currentPage, setCurrentPage] = useState('/')
+  const [currentPage, setCurrentPage] = useState(getCurrentPage())
   const [myProfile, setMyProfile] = useState(undefined)
 
   const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat}

@@ -36,7 +36,7 @@ function Menu({props}) {
         <ul className="text-white fw-bold d-flex gap-2" style={{listStyle : 'none'}}>
             {/* {props.myProfile.id === 1 && <li type='button'><a href="/admin" target="_blank" ref='noreferrer'></a></li>} */}
             <li type='button' onClick={log}>{props.myProfile ? props.language.logout : props.language.signIn}</li>
-            {!props.myProfile && <li type='button'>{props.language.signUp}</li>}
+            {!props.myProfile && <li onClick={() => navigate('/signup')} type='button'>{props.language.signUp}</li>}
         </ul>
     )
 
