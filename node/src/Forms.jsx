@@ -29,8 +29,8 @@ export function SignIn({props}) {
             }).then(response => {
                 if (response.status === 200) {
                     response.json().then(data => {
-                        console.log(data)
                         props.setMyProfile(data)
+                        props.Socket.send(JSON.stringify({action : 'signin'}))
                         // navigate('/profiles/' + data.id)
                         navigate('/')
                     })
@@ -102,19 +102,21 @@ export function SignUp({props}) {
 
     const signUp = () => {
         if (!isWrong()) {
-            fetch('/profiles/signUp', {
+            fetch('/profiles/signup', {
                 method : 'POST', 
                 body : JSON.stringify({
                     username : document.getElementById('username').value,
                     password : document.getElementById('password').value,
                     passwordConfirm : document.getElementById('passwordConfirm').value,
-                    email : document.getElementById('passwordConfirm').value
+                    email : document.getElementById('email').value
                 })
             }).then(response => {
                 if (response.status === 201) {
                     response.json().then(data => {
                         props.setMyProfile(data)
-                        navigate('/profiles/' + data.id)
+                        props.socket.send(JSON.stringify({action : 'signup'}))
+                        navigate('/')
+                        // navigate('/profiles/' + data.id)
                     })
                 }
                 else {

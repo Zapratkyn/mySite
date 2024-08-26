@@ -6,7 +6,9 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=20, default='')
-    avatar = models.ImageField(default=None, blank=True)
+    chatChannelName = models.CharField(max_length=100, default='', null=True)
+    online = models.BooleanField(default=None)
+    # avatar = models.ImageField(default=None, blank=True)
     language = models.CharField(max_length=2, default='en')
     NbOfMessages = models.IntegerField(default=0)
     # messages = models.ManyToManyField('projects.Message', related_name='messages')

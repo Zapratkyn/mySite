@@ -20,3 +20,17 @@ export function getCurrentPage() {
     return ''
   
   }
+
+  export function handleMessage({e, setMyProfile, messages, setMessages}) {
+
+    console.log(e)
+
+    let data = JSON.parse(e.data)
+    if (data.keys().includes('language')) {
+      
+      setMyProfile(data)
+    }
+    else
+      setMessages([...messages, data])
+
+  }

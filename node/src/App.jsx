@@ -1,5 +1,5 @@
 import Header from './Header.jsx'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getLanguage } from './trad.js'
 import Options from './Options.jsx';
 import Body from './Body.jsx';
@@ -12,8 +12,17 @@ function App() {
   const [displayChat, setDisplayChat] = useState(false)
   const [currentPage, setCurrentPage] = useState(getCurrentPage())
   const [myProfile, setMyProfile] = useState(undefined)
+  const [socket, setSocket] = useState(undefined)
+  const [messages, setMessages] = useState([])
 
-  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat}
+  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages}
+
+  useEffect(() => {
+    if (!socket)
+      setSocket(new WebSocket('ws://' + window.location.host + '/ws/chat/'))
+    else
+      socket.onmessage = e => handleMessage(e, setMyProfile, messages, setMessages)
+  }, [socket])
 
   return (
     <>
