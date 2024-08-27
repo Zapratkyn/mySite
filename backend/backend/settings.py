@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'projects',
     'profiles',
     'channels',
+    'backAdmin'
 ]
 
 MIDDLEWARE = [
@@ -155,6 +156,10 @@ LOGGING = {
             'level' : 'DEBUG'
         },
         "chat.consumers": {
+            'handlers' : ['console'],
+            'level' : 'DEBUG'
+        },
+        "backAdmin.views": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },

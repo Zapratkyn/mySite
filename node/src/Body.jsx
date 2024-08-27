@@ -6,6 +6,7 @@ import { CurrentProject, Contact, Poll } from "./Widgets.jsx"
 import NoPage from "./NoPage.jsx"
 import Error from "./Error.jsx"
 import { SignUp, SignIn, Suggest } from "./Forms.jsx"
+import Admin from "./Admin.jsx"
 
 function Body({props}) {
 
@@ -49,6 +50,7 @@ function MainFrame({props}) {
                 <Route path='/signup' element={<SignUp props={props} />} />
                 <Route path='/signin' element={<SignIn props={props} />} />
                 <Route path='/error' element={<Error props={props} />} />
+                <Route path='/admin' element={<Admin props={props} />} />
 				<Route path="*" element={<NoPage props={props} />} />
             </Routes>
         </main>

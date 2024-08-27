@@ -3,8 +3,6 @@ import { getLanguage } from "./trad"
 
 function Options({props}) {
 
-    const navigate = useNavigate()
-
     return (
         <div className="bg-dark d-flex justify-content-center" style={{height : '25px'}}>
             <div className="w-75 d-flex justify-content-end fw-bold text-white">
