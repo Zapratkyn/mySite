@@ -52,7 +52,9 @@ function French() {
         signUpError_8 : 'Une erreur s\'est produite',
         signInError_1 : 'Vous êtes déjà connecté',
         signInError_2 : 'Nom d\'utilisateur ou mot de passe incorrect',
-        signInError_3 : 'Une erreur s\'est produite'
+        signInError_3 : 'Une erreur s\'est produite',
+        hello : 'Bonjour,',
+        profile : 'Profil'
     }
 }
 
@@ -101,6 +103,8 @@ function English() {
         signUpError_8 : 'An error occured',
         signInError_1 : 'You are already logged in',
         signInError_2 : 'Incorrect username or password',
-        signInError_3 : 'An error occured'
+        signInError_3 : 'An error occured',
+        hello : 'Hello,',
+        profile : 'Profile'
     }
 }

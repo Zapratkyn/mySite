@@ -1,9 +1,18 @@
 import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 import {Title} from "./Helpers"
+import { getLanguage } from "./trad"
 
 export function SignIn({props}) {
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (props.myProfile) {
+            props.setCurrentPage('/')
+            navigate('/')
+        }
+    }, [props, navigate])
 
     const isWrong = () => {
         let issue = false
@@ -30,7 +39,8 @@ export function SignIn({props}) {
                 if (response.status === 200) {
                     response.json().then(data => {
                         props.setMyProfile(data)
-                        props.Socket.send(JSON.stringify({action : 'signin'}))
+                        props.setLanguage(getLanguage(data.language))
+                        props.socket.send(JSON.stringify({action : 'login'}))
                         // navigate('/profiles/' + data.id)
                         navigate('/')
                     })
@@ -80,6 +90,13 @@ export function SignUp({props}) {
 
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if (props.myProfile) {
+            props.setCurrentPage('/')
+            navigate('/')
+        }
+    }, [props, navigate])
+
     const isWrong = () => {
         let issue = false
         let forms = ['username', 'password', 'passwordConfirm', 'email']
@@ -114,7 +131,7 @@ export function SignUp({props}) {
                 if (response.status === 201) {
                     response.json().then(data => {
                         props.setMyProfile(data)
-                        props.socket.send(JSON.stringify({action : 'signup'}))
+                        props.socket.send(JSON.stringify({action : 'login'}))
                         navigate('/')
                         // navigate('/profiles/' + data.id)
                     })

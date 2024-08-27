@@ -3,55 +3,90 @@ import { getLanguage } from "./trad"
 
 function Options({props}) {
 
+    const navigate = useNavigate()
+
     return (
         <div className="bg-dark d-flex justify-content-center" style={{height : '25px'}}>
-            <div className="w-75 d-flex justify-content-end">
-                <Menu props={props} />
-                <span className="text-white fw-bold ms-5">|</span>
+            <div className="w-75 d-flex justify-content-end fw-bold text-white">
+                {props.myProfile ?
+                    props.myProfile.id === 'admin' ?
+                        <MenuAdmin props={props} /> :
+                        <MenuIn props={props} /> :
+                    <MenuOut props={props} />}
+                <span className="text-white fw-bold ms-2">|</span>
                 <Languages props={props} />
             </div>
         </div>
     )
 }
 
-function Menu({props}) {
-    
+function Greetings({props}) {
+
+    return (
+        <span className="d-flex gap-1">
+            <span>{props.language.hello}</span>
+            <span>{props.myProfile.name}</span>
+        </span>
+    )
+
+}
+
+function MenuAdmin({props}) {
+
     const navigate = useNavigate()
 
-    const log = () => {
-        if (props.profile) {
-            fetch('profiles/signout').then(response => {
-                if (response.status === 200) {
-                    props.setMyProfile(undefined)
-                    if (props.currentPage !== '/') {
-                        navigate('/')
-                        props.setCurrentPage('/')
-                    }
-                }
-                else
-                    navigate("/error")
-            })
-        }
-        else {
-            navigate('/signin')
-            props.setCurrentPage('/signin')
-        }
-    }
-
     const logout = () => {
-        fetch('profiles/signout', {method : 'POST'}).then(response => {
-            if (response.status === 200)
+        fetch('/profiles/signout', {method : 'POST'}).then(response => {
+            if (response.status === 200) {
+                props.setMyProfile(undefined)
+                props.setCurrentPage('/')
                 navigate('/')
+            }
         })
     }
 
     return (
-        <ul className="text-white fw-bold d-flex gap-2" style={{listStyle : 'none'}}>
-            {props.myProfile && <li>{props.myProfile.name}</li>}
-            {/* {props.myProfile.id === 1 && <li type='button'><a href="/admin" target="_blank" ref='noreferrer'></a></li>} */}
-            <li type='button' onClick={log}>{props.myProfile ? props.language.logout : props.language.signIn}</li>
-            {!props.myProfile && <li onClick={() => navigate('/signup')} type='button'>{props.language.signUp}</li>}
-            {/* <li type='button' onClick={logout}>Log out</li> */}
+        <ul className="d-flex gap-2" style={{listStyle : 'none'}}>
+            <li type='button' className="optionButton" onClick={() => navigate('/admin')}>Admin</li>
+            <li type='button' className="optionButton" onClick={logout}>{props.language.logout}</li>
+        </ul>
+    )
+
+}
+
+function MenuIn({props}) {
+    
+    const navigate = useNavigate()
+
+    const logout = () => {
+        fetch('/profiles/signout', {method : 'POST'}).then(response => {
+            if (response.status === 200) {
+                props.setMyProfile(undefined)
+                props.setCurrentPage('/')
+                navigate('/')
+            }
+        })
+    }
+
+    return (
+        <ul className="d-flex gap-2" style={{listStyle : 'none'}}>
+            <li><Greetings props={props} /></li>
+            <li>|</li>
+            <li type='button' className="optionButton" onClick={() => navigate('/profile/' + props.myProfile.id)}>{props.language.profile}</li>
+            <li type='button' className="optionButton" onClick={logout}>{props.language.logout}</li>
+        </ul>
+    )
+
+}
+
+function MenuOut({props}) {
+
+    const navigate = useNavigate()
+    
+    return (
+        <ul className="d-flex gap-2" style={{listStyle : 'none'}}>
+            <li type='button' className="optionButton" onClick={() => navigate('/signin')}>{props.language.signIn}</li>
+            <li type='button' className="optionButton" onClick={() => navigate('/signup')}>{props.language.signUp}</li>
         </ul>
     )
 

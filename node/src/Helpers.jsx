@@ -1,3 +1,5 @@
+import { getLanguage } from "./trad"
+
 export function Title({title}) {
 
     return (
@@ -21,13 +23,12 @@ export function getCurrentPage() {
   
   }
 
-  export function handleMessage({e, setMyProfile, messages, setMessages}) {
-
-    console.log(e)
+  export function handleMessage(e, setMyProfile, messages, setMessages, setLanguage) {
 
     let data = JSON.parse(e.data)
-    if (data.keys().includes('language')) {
-      
+    console.log(data)
+    if (Object.keys(data).includes('language')) {
+      setLanguage(getLanguage(data.language))
       setMyProfile(data)
     }
     else

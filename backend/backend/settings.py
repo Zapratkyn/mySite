@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     'chat',
     'projects',
     'profiles',
-    'channels'
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+
+ASGI_APPLICATION = "backend.asgi.application"
 
 CHANNEL_LAYERS = {
     'default': {
@@ -136,3 +139,24 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    "version": 1,  # the dictConfig format version
+    "disable_existing_loggers": False,  # retain the default loggers
+    'handlers': {
+        'console' : {
+            'level' : 'DEBUG',
+            'class' : 'logging.StreamHandler',
+        }
+    },
+    "loggers": {
+        "profiles.views": {
+            'handlers' : ['console'],
+            'level' : 'DEBUG'
+        },
+        "chat.consumers": {
+            'handlers' : ['console'],
+            'level' : 'DEBUG'
+        },
+    },
+}

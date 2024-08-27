@@ -9,15 +9,11 @@ from profiles.models import Profile
 from django.contrib.auth import authenticate, login, logout
 import json
 
-# Create your views here.
+import logging
 
-class Test(View):
-    def get(self, request):
-        try : 
-            response = HttpResponse("Salut")
-            # response.content("Salut")
-            return response
-        except Exception as e : return JsonResponse(f"{e}", status=404, safe=False)
+logger = logging.getLogger(__name__)
+
+# Create your views here.
 
 @csrf_exempt
 def SignIn(request):
@@ -33,7 +29,12 @@ def SignIn(request):
         if user is None:
             return JsonResponse({"error" : 2}, status=400)
         login(request, user)
-        profile = Profile.objects.get(user=request.user)
+        if user.username == 'shukk':
+            return JsonResponse({
+                "id" : "admin",
+                "language" : "fr"
+            }, status=200)
+        profile = Profile.objects.get(user=user)
         return JsonResponse({
             "id" : profile.id,
             "name" : profile.name,
@@ -44,10 +45,10 @@ def SignIn(request):
 def createUser(username, email, password):
     try:
         newUser = User.objects.create_user(username=username, password=password, email=email)
-        newProfile = Profile(user=newUser, name=username)
+        newProfile = Profile(user=newUser, name=username, online=True)
         newProfile.save()
         return newUser
-    except Exception as e : return None
+    except Exception as e: logger.debug(f"{e}")
 
 @csrf_exempt
 def SignUp(request):
@@ -75,7 +76,7 @@ def SignUp(request):
         if user is None:
             return JsonResponse({"error" : 7}, status=500)
         login(request=request, user=user)
-        profile = Profile.objects.get(user=newUser)
+        profile = Profile.objects.get(user=user)
         return JsonResponse({
             "id" : profile.id,
             "name" : profile.name,
@@ -92,6 +93,13 @@ def SignOut(request):
     try:
         if not request.user.is_authenticated:
             return JsonResponse({"code" : 1}, status=400)
+        if request.user.username == 'shukk':
+            logout(request)
+            return HttpResponse()
+        profile = Profile.objects.get(user=request.user)
+        profile.online = False
+        profile.chatChannelName = None
+        profile.save()
         logout(request)
         return HttpResponse()
     except: return JsonResponse({"code" : 2}, status=500)

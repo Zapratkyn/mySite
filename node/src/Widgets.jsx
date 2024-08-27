@@ -57,15 +57,15 @@ export function Contact({props}) {
             <h3 className="text-decoration-underline mb-3">{props.language.contact}</h3>
             <ul className="ps-1" style={{listStyle : 'none'}}>
                 <li className="d-flex gap-2">
-                    <img src="phone.svg" alt="" />
+                    <img src="images/phone.svg" alt="" />
                     +32 496 14 01 09
                 </li>
                 <li className="d-flex gap-2">
-                    <img src="mail.svg" alt="" />
+                    <img src="images/mail.svg" alt="" />
                     gilles.poncelet.pro@gmail.com
                 </li>
                 <li className="d-flex gap-2">
-                    <img src="lightbulb.svg" alt="" />
+                    <img src="images/lightbulb.svg" alt="" />
                     <span type='button' onClick={() => browse('/suggest')} className="text-primary text-decoration-underline">Suggestions</span>
                 </li>
             </ul>
