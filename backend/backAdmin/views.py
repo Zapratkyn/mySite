@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import logging
 
 logger = logging.getLogger(__name__)
@@ -9,5 +9,11 @@ logger = logging.getLogger(__name__)
 
 class Test(View):
     def get(self, request):
-        logger.debug('Salut')
-        return JsonResponse({"message" : request.user.username}, status=205)
+        try:
+            if not request.user.username == 'pouet':
+                response = HttpResponse()
+                response.status_code = 400
+                return response
+            else:
+                return HttpResponse()
+        except: return JsonResponse({"error" : 1}, status=400)

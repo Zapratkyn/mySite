@@ -1,15 +1,22 @@
+import { useEffect, useState } from "react"
 import { Title } from "./Helpers"
 
 function Admin({props}) {
+    
+    const [page, setPage] = useState(undefined)
 
-    fetch('/backAdmin/').then(response => {
-        console.log(response)
-        response.json().then(data => console.log(data.message))
+    useEffect(() => {
+        if (!page) {
+            fetch('/backAdmin').then(response => {
+                if (response.status === 200)
+                    setPage(page)
+                else
+                    setPage(<h3 className="fw-bold">You shouldn't be here</h3>)
+            })
+        }
     })
 
-    return (
-        <Title title='Admin' />
-    )
+    return page
 
 }
 

@@ -54,7 +54,8 @@ function French() {
         signInError_2 : 'Nom d\'utilisateur ou mot de passe incorrect',
         signInError_3 : 'Une erreur s\'est produite',
         hello : 'Bonjour,',
-        profile : 'Profil'
+        profile : 'Profil',
+        noAccess : 'Tu n\'as rien à faire là.'
     }
 }
 
@@ -105,6 +106,7 @@ function English() {
         signInError_2 : 'Incorrect username or password',
         signInError_3 : 'An error occured',
         hello : 'Hello,',
-        profile : 'Profile'
+        profile : 'Profile',
+        noAccess : 'You shouldn\'t be here'
     }
 }
