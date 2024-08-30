@@ -44,3 +44,13 @@ export function Loading() {
   )
 
 }
+
+export function CustomForm({props}) {
+
+  return (
+    <div>
+      <textarea name="customForm" id="customForm" placeholder="Insert text here"></textarea>
+    </div>
+  )
+
+}

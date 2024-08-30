@@ -7,7 +7,7 @@ import NoPage from "./NoPage.jsx"
 import Error from "./Error.jsx"
 import { SignUp, SignIn, Suggest } from "./Forms.jsx"
 import Admin from "./Admin.jsx"
-import { NewProject } from "./Admin.jsx"
+import { NewProject, EditProject } from "./Admin.jsx"
 
 function Body({props}) {
 
@@ -52,7 +52,8 @@ function MainFrame({props}) {
                 <Route path='/signin' element={<SignIn props={props} />} />
                 <Route path='/error' element={<Error props={props} />} />
                 <Route path='/admin' element={<Admin props={props} />} />
-                <Route path='/admin/newProject' element={<NewProject props={props} />} />
+                <Route path='/admin/newProject' element={<EditProject type='new' />} />
+                <Route path='/admin/editProject/:id' element={<EditProject type='edit' />} />
 				<Route path="*" element={<NoPage props={props} />} />
             </Routes>
         </main>

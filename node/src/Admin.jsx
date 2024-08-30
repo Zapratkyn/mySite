@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { Loading, Title } from "./Helpers"
+import { useNavigate, useParams } from "react-router-dom"
+import { Loading, Title, CustomForm } from "./Helpers"
 import Cookies from 'js-cookie'
 
 function Admin({props}) {
@@ -58,7 +58,7 @@ function Project({navigate, project}) {
         <div className="bg-secondary-subtle rounded p-2 d-flex justify-content-between">
             <h4>{project.name}</h4>
             <div className="d-flex gap-2">
-                <button type='button' className="btn btn-secondary">Voir</button>
+                <button onClick={() => navigate('/admin/editProject/' + project.id)} type='button' className="btn btn-secondary">Editer</button>
                 <div className="position-relative">
                     {project.newMessage && <img className="newMessage" src="/images/circle-fill.svg" alt="" />}
                     <button type='button' className="btn btn-secondary">
@@ -84,10 +84,30 @@ function Suggestion({navigate, suggestion}) {
 
 }
 
-export function NewProject() {
+export function EditProject({type}) {
 
+    const [project, setProject] = useState(type)
     const navigate = useNavigate()
     const token = Cookies.get('csrftoken')
+    const id = type === 'edit' ? useParams().id : undefined
+
+    useEffect(() => {
+        if (project === 'edit') {
+            setProject('loading')
+            fetch('/backAdmin/editProject/' + id).then(response => {
+                if (response.status === 200)
+                    response.json().then(data => setProject(data))
+                else
+                    setProject(-1)
+            })
+        }
+    })
+
+    if (project === 'edit' || project === 'loading')
+        return <Loading />
+
+    else if (project < 0)
+        return <h1>{props.language.goAway}</h1>
 
     const completeForm = () => {
         let formOk = true
@@ -136,8 +156,7 @@ export function NewProject() {
                     let input = document.getElementById('image')
                     if (input.files.length > 0)
                         sendImage(data.id, input)
-                    // navigate('/projects/' + data.id)
-                    window.confirm('GG !')
+                    navigate('/projects/' + data.id)
                 })
             }
             else
@@ -152,17 +171,19 @@ export function NewProject() {
             <Title title="Nouveau projet" />
             <div className="w-100 d-flex justify-content-center">
                 <form action="" className="w-50 d-flex flex-column ps-3 gap-2">
-                        <label className="h3 fw-bold" htmlFor="title">Titre</label>
-                        <input onKeyDown={typing} className="form-control border-2" type="text" name='title' id='title' />
-                        <label className="h3 fw-bold" htmlFor="image">Image</label>
-                        <input type="file" id='image' accept="image/*" />
-                        <label className="h3 fw-bold mt-2" htmlFor="GHLink">Lien GitHub</label>
-                        <input onKeyDown={typing} className="form-control border-2" type="text" name="GHLink" id="GHLink" />
-                        <label className="h3 fw-bold" htmlFor="description_fr">Description (FR)</label>
-                        <textarea onKeyDown={typing} className="form-control border-2" name="description_fr" id="description_fr"></textarea>
-                        <label className="h3 fw-bold" htmlFor="description">Description (EN)</label>
-                        <textarea onKeyDown={typing} className="form-control border-2" name="description_en" id="description_en"></textarea>
-                        <button onClick={send} type="button" className="w-25 mt-2 align-self-center btn btn-secondary">Sauver</button>
+                    <label className="h3 fw-bold" htmlFor="title">Titre</label>
+                    <input onKeyDown={typing} className="form-control border-2" type="text" name='title' id='title' value={type === 'edit' ? project.name : ''} />
+                    <label className="h3 fw-bold" htmlFor="image">Image</label>
+                    <input type="file" id='image' accept="image/*" />
+                    <label className="h3 fw-bold mt-2" htmlFor="GHLink">Lien GitHub</label>
+                    <input onKeyDown={typing} className="form-control border-2" type="text" name="GHLink" id="GHLink" />
+                    <label className="h3 fw-bold" htmlFor="description_fr">Description (FR)</label>
+                    {/* <CustomForm /> */}
+                    <textarea onKeyDown={typing} className="form-control border-2" name="description_fr" id="description_fr" value={type === 'edit' ? project.desc_fr : ''}></textarea>
+                    <label className="h3 fw-bold" htmlFor="description">Description (EN)</label>
+                    {/* <CustomForm /> */}
+                    <textarea onKeyDown={typing} className="form-control border-2" name="description_en" id="description_en" value={type === 'edit' ? project.desc_en : ''}></textarea>
+                    <button onClick={send} type="button" className="w-25 mt-2 align-self-center btn btn-secondary">Sauver</button>
                 </form>
             </div>
         </section>

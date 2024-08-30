@@ -2,7 +2,7 @@ from django.views import View
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from projects.models import Project, Suggestion
-from backAdmin.serializers import ProjectAdminListSerializer, SuggestionAdminListSerializer
+from backAdmin.serializers import ProjectAdminListSerializer, SuggestionAdminListSerializer, ProjectEditionSerializer
 import json
 import logging
 
@@ -15,7 +15,7 @@ class Dashboard(View):
         try:
             if not request.user.is_authenticated or not request.user.is_superuser:
                 response = HttpResponse()
-                response.status_code = 400
+                response.status_code = 403
                 return response
             else:
                 projects = Project.objects.all()
@@ -44,6 +44,20 @@ class NewProject(View):
             project = Project(name=name, link=link, description_fr=desc_fr, description_en=desc_en)
             project.save()
             return JsonResponse({"id" : project.id}, status=201)
+        except:
+            response = HttpResponse()
+            response.status_code = 400
+            return response
+        
+class EditProject(View):
+    def get(self, request, id):
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response = HttpResponse()
+                response.status_code = 403
+                return response
+            project = Project.objects.get(id=id)
+            return JsonResponse(ProjectEditionSerializer(project).data(), status=200)
         except:
             response = HttpResponse()
             response.status_code = 400
