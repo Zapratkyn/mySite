@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 function Header({props}) {
 
     return (
-        <header className="border-bottom d-flex justify-content-center" style={{height : '150px', position : 'sticky', top : '0px'}}>
+        <header className="border-bottom d-flex justify-content-center" style={{height : '150px', position : 'sticky', top : '0px', zIndex : '2'}}>
             <div className="w-75 h-100 d-flex justify-content-between align-items-center">
                 <Initials />
                 <SiteName props={props} />

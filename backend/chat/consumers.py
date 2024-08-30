@@ -1,6 +1,7 @@
 from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from profiles.models import Profile
+from projects.models import Project
 from django.contrib.auth.models import User
 
 import logging

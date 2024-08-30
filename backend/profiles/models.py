@@ -14,3 +14,5 @@ class Profile(models.Model):
     # messages = models.ManyToManyField('projects.Message', related_name='messages')
     # contributions = models.ManyToManyField('projects.Project', related_name='contrib')
     # suggestions = models.ManyToManyField('projects.Suggestion', related_name='suggestions')
+
+# class Message(models.Model)

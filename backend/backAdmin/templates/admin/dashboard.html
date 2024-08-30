@@ -1,0 +1,24 @@
+<div class="d-flex align-items-center mb-2">
+    <img class="h2" src="/images/caret-right.svg" alt="" />
+    <h2 class="fw-bold">Admin</h2>
+</div>
+<div id="projects" class="d-flex flex-column border border-3 border-black rounded mb-2 p-3">
+    <h3 class="fw-bold">Projects :</h3>
+    <div class="w-100" id="dashboard">
+        {% if projects %}
+            <p>Projects</p>
+        {% else %}
+            <p>No Project</p>
+        {% endif %}
+    </div>
+</div>
+<div id="suggestions" class="d-flex flex-column border border-3 border-black rounded mb-2 p-3">
+    <h3 class="fw-bold">Suggestions :</h3>
+    <div class="w-100" id="dashboard">
+        {% if suggestions %}
+            <p>Projects</p>
+        {% else %}
+            <p>No Project</p>
+        {% endif %}
+    </div>
+</div>

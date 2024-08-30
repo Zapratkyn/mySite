@@ -1,0 +1,85 @@
+{
+    "projects" : [
+        {
+            "id" : 1,
+            "name" : "Sample 1",
+            "newMessage" : true
+
+        },
+        {
+            "id" : 2,
+            "name" : "Sample 2",
+            "newMessage" : false
+
+        },
+        {
+            "id" : 3,
+            "name" : "Sample 3",
+            "newMessage" : false
+
+        },
+        {
+            "id" : 4,
+            "name" : "Sample 4",
+            "newMessage" : true
+
+        },
+        {
+            "id" : 5,
+            "name" : "Sample 5",
+            "newMessage" : false
+
+        },{
+            "id" : 6,
+            "name" : "Sample 6",
+            "newMessage" : false
+
+        },
+        {
+            "id" : 7,
+            "name" : "Sample 7",
+            "newMessage" : false
+
+        },
+        {
+            "id" : 8,
+            "name" : "Sample 8",
+            "newMessage" : true
+
+        },
+        {
+            "id" : 9,
+            "name" : "Sample 9",
+            "newMessage" : true
+
+        },
+        {
+            "id" : 10,
+            "name" : "Sample 10",
+            "newMessage" : false
+
+        }
+    ],
+    "suggestions" : [
+        {
+            "author" : "Machin",
+            "authorId" : 2,
+            "title" : "Une nouvelle idée"
+        },
+        {
+            "author" : "Chose",
+            "authorId" : 3,
+            "title" : "Une nouvelle idée"
+        },
+        {
+            "author" : "Truc",
+            "authorId" : 4,
+            "title" : "Une nouvelle idée"
+        },
+        {
+            "author" : "Bidule",
+            "authorId" : 5,
+            "title" : "Une nouvelle idée"
+        }
+    ]
+}

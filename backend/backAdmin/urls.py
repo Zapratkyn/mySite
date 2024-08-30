@@ -1,6 +1,6 @@
 from django.urls import path
-from backAdmin.views import Test
+from backAdmin.views import Dashboard
 
 urlpatterns = [
-    path('', Test.as_view())
+    path('', Dashboard.as_view())
 ]

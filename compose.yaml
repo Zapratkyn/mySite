@@ -8,6 +8,10 @@ services:
     ports:
       - "443:443"
     restart: unless-stopped
+    depends_on:
+      - db
+      - django
+      - node
     networks:
       - gp.com
 

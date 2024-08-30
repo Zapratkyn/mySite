@@ -4,7 +4,7 @@ import { getLanguage } from './trad.js'
 import Options from './Options.jsx';
 import Body from './Body.jsx';
 import Chat from './Chat.jsx';
-import { getCurrentPage, handleMessage } from './Helpers.jsx';
+import { getCurrentPage } from './Helpers.jsx';
 
 function App() {
 
@@ -36,15 +36,13 @@ function App() {
     }
   }, [socket, messages])
 
-  // console.log(myProfile)
-
 
   return (
     <>
       <Options props={props} />
       <Header props={props} />
       <Body props={props} />
-      <Chat props={props} socket={socket} />
+      <Chat props={props} />
       <img className='rounded-circle border border-black border-3 p-2' onClick={() => setDisplayChat(!displayChat)} src="images/wechat.svg" alt="" style={{position : 'fixed', bottom : '20px', right : '30px'}} />
     </>
   )

@@ -4,5 +4,27 @@
     "description_en" : "Sample description",
     "description_fr" : "Exemple de description",
     "link" : "https://github.com/Zapratkyn",
-    "intégration" : false
+    "intégration" : false,
+    "messages" : [
+        {
+            "author" : "Machin",
+            "authorId" : 2,
+            "content" : "Exemple de message"
+        },
+        {
+            "author" : "Chose",
+            "authorId" : 3,
+            "content" : "Exemple de message"
+        },
+        {
+            "author" : "Truc",
+            "authorId" : 4,
+            "content" : "Exemple de message"
+        },
+        {
+            "author" : "Bidule",
+            "authorId" : 5,
+            "content" : "Exemple de message"
+        }
+    ]
 }

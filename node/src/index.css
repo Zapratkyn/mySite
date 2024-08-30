@@ -47,3 +47,21 @@ header {
 .project_link_odd {
   background-color: #b9caeb;
 }
+
+#projectsAdmin {
+  max-height: 500px;
+}
+
+.noScrollBar {
+	scrollbar-width: none;
+}
+
+.noScrollBar::-webkit-scrollbar {
+	display: none;
+}
+
+.newMessage {
+  position : absolute;
+  top : -2px;
+  right : -2px;
+}

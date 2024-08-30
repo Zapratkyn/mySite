@@ -55,7 +55,7 @@ function French() {
         signInError_3 : 'Une erreur s\'est produite',
         hello : 'Bonjour,',
         profile : 'Profil',
-        noAccess : 'Tu n\'as rien à faire là.'
+        goAway : 'Tu n\'as rien à faire là.'
     }
 }
 
@@ -107,6 +107,6 @@ function English() {
         signInError_3 : 'An error occured',
         hello : 'Hello,',
         profile : 'Profile',
-        noAccess : 'You shouldn\'t be here'
+        goAway : 'You shouldn\'t be here'
     }
 }
