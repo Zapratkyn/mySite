@@ -20,3 +20,27 @@ export function getCurrentPage() {
   return ''
   
 }
+
+export function Loading() {
+
+  return (
+    <div className="loading-container mt-5 pt-5">
+      <div className="spinner"></div>
+      <div className="loading-text">
+        <span>L</span>
+        <span>O</span>
+        <span>A</span>
+        <span>D</span>
+        <span>I</span>
+        <span>N</span>
+        <span>G</span>
+        <div className="dots">
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
+        </div>
+      </div>
+    </div>
+  )
+
+}

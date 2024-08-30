@@ -43,9 +43,14 @@ function MenuAdmin({props}) {
         })
     }
 
+    const browse = () => {
+        props.setCurrentPage('/admin')
+        navigate('/admin')
+    }
+
     return (
         <ul className="d-flex gap-2" style={{listStyle : 'none'}}>
-            <li type='button' className="optionButton" onClick={() => navigate('/admin')}>Admin</li>
+            <li type='button' className="optionButton" onClick={browse}>Admin</li>
             <li type='button' className="optionButton" onClick={logout}>{props.language.logout}</li>
         </ul>
     )

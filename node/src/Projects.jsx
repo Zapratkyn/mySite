@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import {Title} from "./Helpers"
+import {Loading, Title} from "./Helpers"
 
 export function Projects({props}) {
 
@@ -18,7 +18,7 @@ export function Projects({props}) {
     })
 
     if (!list)
-        return list
+        return <Loading />
 
     let index = 0
 
@@ -111,11 +111,11 @@ export function ProjectPage({props}) {
     return (
         <section>
             <Title title={project.name} />
-            <img className="w-100 px-5" src="/images/sampleProject.jpg" alt="" />
+            <img className="w-100 px-5" src="//images/sampleProject.jpg" alt="" />
             <p className="fw-bold mt-3 ms-3">{project['description_' + getLanguage()]}</p>
             <p className="d-flex align-items-center">
                 <a className="ms-3 text-black" href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
-                <img src="/images/caret-right-small.svg" alt="" />
+                <img src="//images/caret-right-small.svg" alt="" />
             </p>
         </section>
     )

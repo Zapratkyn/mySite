@@ -16,22 +16,19 @@ function App() {
   const [socket, setSocket] = useState(undefined)
 
   const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, socket}
-  
-  const handleMessage = e => {
-
-    let data = JSON.parse(e.data)
-    if (Object.keys(data).includes('language')) {
-      setLanguage(getLanguage(data.language))
-      setMyProfile(data)
-    }
-    else
-      setMessages([...messages, data])
-  }
 
   useEffect(() => {
     if (!socket) {
       const newSocket = new WebSocket('wss://' + window.location.host + '/ws/chat/')
-      newSocket.onmessage = e => handleMessage(e)
+      newSocket.onmessage = e => {
+        let data = JSON.parse(e.data)
+        if (Object.keys(data).includes('language')) {
+          setLanguage(getLanguage(data.language))
+          setMyProfile(data)
+        }
+        else
+          setMessages([...messages, data])
+      }
       setSocket(newSocket)
     }
   }, [socket, messages])
@@ -43,7 +40,7 @@ function App() {
       <Header props={props} />
       <Body props={props} />
       <Chat props={props} />
-      <img className='rounded-circle border border-black border-3 p-2' onClick={() => setDisplayChat(!displayChat)} src="images/wechat.svg" alt="" style={{position : 'fixed', bottom : '20px', right : '30px'}} />
+      <img className='rounded-circle border border-black border-3 p-2' onClick={() => setDisplayChat(!displayChat)} src="/images/wechat.svg" alt="" style={{position : 'fixed', bottom : '20px', right : '30px'}} />
     </>
   )
 }

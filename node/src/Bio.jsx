@@ -6,7 +6,7 @@ function Bio({props}) {
             <Title title='Bio' />
             <div className="mx-3">
                 <p>{props.language.bio1}</p>
-                <p className="d-flex justify-content-center my-4"><img className="rounded-circle" src="images/pic.png" alt="" style={{height : '200px'}} /></p>
+                <p className="d-flex justify-content-center my-4"><img className="rounded-circle" src="/images/pic.png" alt="" style={{height : '200px'}} /></p>
                 <p>{props.language.bio2}</p>
                 <p>{props.language.bio3}</p>
                 <p>{props.language.bio4}</p>
