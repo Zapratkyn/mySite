@@ -13,6 +13,10 @@ class ChatConsumer(JsonWebsocketConsumer):
     def connect(self):
         self.user = self.scope["user"]
         self.accept()
+        # profiles = list(Profile.objects.all())
+        # for profile in profiles:
+        #     profile.onGoingSuggestion = False
+        #     profile.save()
         if self.user.is_authenticated :
             if self.user.username == 'shukk':
                 self.send_json({
@@ -27,7 +31,8 @@ class ChatConsumer(JsonWebsocketConsumer):
                 data = {
                     "id" : self.user.id,
                     "name" : self.profile.name,
-                    "language" : self.profile.language
+                    "language" : self.profile.language,
+                    "onGoingSuggestion" : self.profile.onGoingSuggestion
                 }
                 self.send_json(data)
 

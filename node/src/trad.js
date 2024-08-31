@@ -20,7 +20,7 @@ function French() {
         poll : 'Sondage',
         pollAsk : 'Que devrais-je faire ensuite ?',
         suggest : 'Une idée à proposer ?',
-        suggestHead : 'Vous avez une idée de projet à me proposer ? Ou un défi à me lancer ? C\'est ici que ça se passe.',
+        suggestHead : 'Vous avez une idée de projet à me proposer ? Ou un défi à me lancer ? Ou un commentaire à faire sur ce site ? C\'est ici que ça se passe.',
         suggestTitle : 'Donnez-lui un titre accrocheur',
         suggestDetails : 'Décrivez votre concept génial',
         suggestSend : 'Proposer',
@@ -55,7 +55,10 @@ function French() {
         signInError_3 : 'Une erreur s\'est produite',
         hello : 'Bonjour,',
         profile : 'Profil',
-        goAway : 'Tu n\'as rien à faire là.'
+        goAway : 'Tu n\'as rien à faire là.',
+        suggestionSent : 'Suggestion envoyée',
+        suggestionNotSent_1 : 'Vous devez être connecté pour faire une suggestion',
+        suggestionNotSent_2 : 'Vous avez déjà une suggestion en cours'
     }
 }
 
@@ -75,7 +78,7 @@ function English() {
         poll : 'Poll',
         pollAsk : 'What should I do next ?',
         suggest : 'A new idea ?',
-        suggestHead : 'You have a project idea to submit ? Or a challenge for me ? Here is where you can describe it.',
+        suggestHead : 'You have a project idea to submit ? Or a challenge for me ? Or a comment about this website ? Here is where you can describe it.',
         suggestTitle : 'Give it a catchy title',
         suggestDetails : 'Describe your brilliant concept',
         suggestSend : 'Suggest',
@@ -107,6 +110,9 @@ function English() {
         signInError_3 : 'An error occured',
         hello : 'Hello,',
         profile : 'Profile',
-        goAway : 'You shouldn\'t be here'
+        goAway : 'You shouldn\'t be here',
+        suggestionSent : 'Suggestion sent',
+        suggestionNotSent_1 : 'You need to be logged in to make a suggestion',
+        suggestionNotSent_2 : 'You have an ongoing suggestion'
     }
 }

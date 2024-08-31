@@ -7,7 +7,7 @@ function Chat({props}) {
             <div className="overflow-auto" style={{height : '75%'}}>
                 {props.messages.map(message => <Message key={index++} message={message} />)}
             </div>
-            <div className="d-flex justify-content-center mt-4"><img type='button' src="arrow.svg" alt="" /></div>
+            <div className="d-flex justify-content-center mt-4"><img type='button' src="/images/arrow.svg" alt="" /></div>
             <hr />
             <Prompt props={props} />
         </div>

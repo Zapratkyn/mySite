@@ -1,6 +1,6 @@
 from django.urls import path
-from projects.views import Test
+from projects.views import NewSuggestion
 
 urlpatterns = [
-    path('', Test.as_view())
+    path('newSuggestion', NewSuggestion.as_view())
 ]

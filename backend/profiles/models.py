@@ -8,6 +8,7 @@ class Profile(models.Model):
     name = models.CharField(max_length=20, default='')
     chatChannelName = models.CharField(max_length=100, default='', null=True)
     online = models.BooleanField(default=False)
+    onGoingSuggestion = models.BooleanField(default=False)
     # avatar = models.ImageField(default=None, blank=True)
     language = models.CharField(max_length=2, default='en')
     NbOfMessages = models.IntegerField(default=0)

@@ -1,12 +1,19 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 class ProjectAdminListSerializer:
     def __init__(self, instance):
         self.instance = instance
 
     def data(self):
+        newMessage = False
+        if self.instance.messages.count() > self.instance.messages_read:
+            newMessage = True
         return {
             "id" : self.instance.id,
             "name" : self.instance.name,
-            "newMessage" : False
+            "newMessage" : newMessage
         }
     
 class SuggestionAdminListSerializer:
@@ -17,7 +24,8 @@ class SuggestionAdminListSerializer:
         return {
             "id" : self.instance.id,
             "name" : self.instance.name,
-            "author" : self.instance.author
+            "author" : self.instance.author.name,
+            "authorId" : self.instance.author.id
         }
     
 class ProjectEditionSerializer:

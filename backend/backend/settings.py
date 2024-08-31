@@ -157,7 +157,7 @@ LOGGING = {
         }
     },
     "loggers": {
-        "profiles.views": {
+        "projects.views": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },
@@ -166,6 +166,10 @@ LOGGING = {
             'level' : 'DEBUG'
         },
         "backAdmin.views": {
+            'handlers' : ['console'],
+            'level' : 'DEBUG'
+        },
+        "backAdmin.serializers": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },

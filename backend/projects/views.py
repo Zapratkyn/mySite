@@ -1,10 +1,33 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from profiles.models import Profile
+from backAdmin.models import Suggestion
+import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-class Test(View):
-    def get(self, request):
-        try : return JsonResponse({"message" : "Bazinga !"}, status=200)
-        except Exception as e : return JsonResponse(f"{e}", status=404, safe=False)
+class NewSuggestion(View):
+    def post(self, request):
+        response = HttpResponse()
+        try: 
+            if not request.user.is_authenticated:
+                return JsonResponse({"error" : 1}, status=403)
+            profile = Profile.objects.get(user=request.user)
+            if bool(profile.onGoingSuggestion):
+                return JsonResponse({"error" : 2}, status=403)
+            data = json.loads(request.body)
+            name = data.get('title')
+            desc = data.get('details')
+            suggestion = Suggestion(name=name, description=desc, author=profile)
+            suggestion.save()
+            profile.onGoingSuggestion = True
+            profile.save()
+            response.status_code = 201
+            return response
+        except :
+            response.status_code = 400
+            return response

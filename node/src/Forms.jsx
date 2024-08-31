@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import {Title} from "./Helpers"
+import Cookies from 'js-cookie'
 import { getLanguage } from "./trad"
 
 export function SignIn({props}) {
@@ -176,17 +177,67 @@ export function SignUp({props}) {
 
 export function Suggest({props}) {
 
+    const [done, setDone] = useState(0)
+    const token = Cookies.get('csrftoken')
+    const navigate = useNavigate()
+
+    const completeForm = () => {
+        let formOk = true
+        let inputs = ['title', 'details']
+        for (let input of inputs) {
+            let frame = document.getElementById(input)
+            if (frame.value === '') {
+                frame.setAttribute('class', 'form-control border-3 border-danger')
+                formOk = false
+            }
+        }
+        return formOk
+    }
+
+    const send = () => {
+        if (!completeForm())
+            return
+        let toSend = {
+            title : document.getElementById('title').value,
+            details : document.getElementById('details').value
+        }
+        fetch('/projects/newSuggestion', {
+            method : 'POST',
+            headers: {'X-CSRFToken': token},
+            mode : 'same-origin',
+            body : JSON.stringify(toSend)
+        }).then(response => {
+            if (response.status === 201)
+                setDone(-1)
+            else if (response.status === 403)
+                response.json().then(error => setDone(error.error))
+        })
+    }
+
+    const typing = e => document.getElementById(e.target.id).setAttribute('class', 'form-control')
+
+    if (done !== 0) {
+        return (
+            <section>
+                <h1>{done < 0 ? props.language.suggestionSent : props.language['suggestionNotSent_' + done]}</h1>
+                <button type='button' className="btn btn-secondary" onClick={() => navigate('/')}>OK</button>
+            </section>
+        )
+    }
+
     return (
         <section>
             <Title title={props.language.suggest} />
             <p className="fw-bold ps-3">{props.language.suggestHead}</p>
             <form action='/suggestSubmit'>
-                <fieldset className="d-flex flex-column align-items-center gap-3 mt-5">
-                    <input className="w-25" type="text" name="title" maxLength='25' placeholder={props.language.suggestTitle} />
-                    <textarea name="details" id="details" cols='80' rows='10' placeholder={props.language.suggestDetails}></textarea>
-                    <input disabled={!props.myProfile} type="submit" className="btn btn-secondary" value={props.language.suggestSend} />
+                <fieldset className="d-flex flex-column align-items-center gap-3 mt-5 me-2">
+                    <input onKeyDown={typing} className="form-control" type="text" name="title" id='title' maxLength='25' placeholder={props.language.suggestTitle} style={{width : '25%'}} />
+                    <textarea onKeyDown={typing} className="form-control" name="details" id="details" rows='10' placeholder={props.language.suggestDetails}></textarea>
+                    <button type='button' className="btn btn-secondary" onClick={send} disabled={!props.myProfile || props.myProfile.onGoingSuggestion}>
+                        {props.language.suggestSend}
+                    </button>
                     {!props.myProfile && <p>{props.language.suggestLoggedOut}</p>}
-                    {props.myProfile && !props.myProfile.canSuggest && <p>{props.language.alreadySuggested}</p>}
+                    {props.myProfile && props.myProfile.onGoingSuggestion && <p>{props.language.suggestionNotSent_2}</p>}
                 </fieldset>
             </form>
         </section>

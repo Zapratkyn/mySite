@@ -38,7 +38,8 @@ def SignIn(request):
         return JsonResponse({
             "id" : profile.id,
             "name" : profile.name,
-            "language" : profile.language
+            "language" : profile.language,
+            "onGoingSuggestion" : profile.onGoingSuggestion
         }, status=200)
     except: return JsonResponse({"error" : 3}, status=500)
 
