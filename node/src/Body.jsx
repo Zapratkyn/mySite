@@ -7,12 +7,12 @@ import NoPage from "./NoPage.jsx"
 import Error from "./Error.jsx"
 import { SignUp, SignIn, Suggest } from "./Forms.jsx"
 import Admin from "./Admin.jsx"
-import { EditProject, ReadSuggestion } from "./Admin.jsx"
+import { EditArticle, EditProject, ReadSuggestion } from "./Admin.jsx"
 
 function Body({props}) {
 
     return (
-        <div className="w-100 d-flex align-items-center flex-column">
+        <div className="w-100 d-flex align-items-center flex-column" style={{minHeight : 'calc(100vh - 265px)'}}>
             <Links />
             <div className="w-75 p-3 d-flex gap-3">
                 <MainFrame props={props} />
@@ -52,6 +52,8 @@ function MainFrame({props}) {
                 <Route path='/signin' element={<SignIn props={props} />} />
                 <Route path='/error' element={<Error props={props} />} />
                 <Route path='/admin' element={<Admin props={props} />} />
+                <Route path='/admin/newArticle' element={<EditArticle type='new' props={props} />} />
+                <Route path='/admin/editArticle/:id' element={<EditArticle type='edit' props={props} />} />
                 <Route path='/admin/newProject' element={<EditProject type='new' props={props} />} />
                 <Route path='/admin/editProject/:id' element={<EditProject type='edit' props={props} />} />
                 <Route path='/admin/suggestion/:id' element={<ReadSuggestion props={props} />} />

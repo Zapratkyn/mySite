@@ -2,6 +2,7 @@ from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from profiles.models import Profile
 from projects.models import Project
+from backAdmin.models import Suggestion
 from django.contrib.auth.models import User
 
 import logging
@@ -13,6 +14,10 @@ class ChatConsumer(JsonWebsocketConsumer):
     def connect(self):
         self.user = self.scope["user"]
         self.accept()
+        # profiles = Profile.objects.all()
+        # for profile in profiles:
+        #     profile.onGoingSuggestion = False
+        #     profile.save()
         if self.user.is_authenticated :
             if self.user.is_superuser:
                 self.send_json({

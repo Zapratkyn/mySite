@@ -1,7 +1,8 @@
 from django.urls import path
-from projects.views import NewSuggestion, ProjectList
+from projects.views import NewSuggestion, ProjectList, ProjectPage
 
 urlpatterns = [
     path('newSuggestion', NewSuggestion.as_view()),
-    path('<str:language>', ProjectList.as_view())
+    path('', ProjectList.as_view()),
+    path('<int:id>', ProjectPage.as_view())
 ]

@@ -2,8 +2,8 @@ from django.views import View
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from projects.models import Project
-from backAdmin.models import Suggestion
-from backAdmin.serializers import ProjectAdminListSerializer, SuggestionAdminListSerializer, ProjectEditionSerializer
+from backAdmin.models import Suggestion, Article
+from backAdmin.serializers import ProjectAdminListSerializer, SuggestionAdminListSerializer, ProjectEditionSerializer, ArticleAdminListSerializer, ArticleEditionSerializer, HomePageArticleSerializer
 import json
 import logging
 
@@ -19,19 +19,102 @@ class Dashboard(View):
                 response.status_code = 403
                 return response
             else:
+                articles = Article.objects.all().order_by('-id')
                 projects = Project.objects.all().order_by('-id')
-                suggestions = Suggestion.objects.all()
+                suggestions = Suggestion.objects.all().order_by('-id')
+                articleList = []
+                for item in articles:
+                    articleList.append(ArticleAdminListSerializer(item).data())
                 projectList = []
                 for item in projects:
                     projectList.append(ProjectAdminListSerializer(item).data())
                 suggList = []
                 for item in suggestions:
                     suggList.append(SuggestionAdminListSerializer(item).data())
+                logger.debug('DEBUG2')
                 data = {
+                    "articles" : articleList,
                     "projects" : projectList,
                     "suggestions" : suggList
                 }
                 return JsonResponse(data, status=200)
+        except:
+            response.status_code = 400
+            return response
+        
+class NewArticle(View):
+    def post(self, request):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response.status_code = 403
+                return response
+            data = json.loads(request.body)
+            title = data.get('title')
+            content_fr = data.get('content_fr')
+            content_en = data.get('content_en')
+            article = Article(title=title, content_fr=content_fr, content_en=content_en)
+            article.save()
+            return JsonResponse({"id" : article.id}, status=201)
+        except:
+            response.status_code = 400
+            return response
+        
+class EditArticle(View):
+    def get(self, request, id):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response.status_code = 403
+                return response
+            article = Article.objects.get(id=id)
+            return JsonResponse(ArticleEditionSerializer(article).data(), status=200)
+        except:
+            response.status_code = 400
+            return response
+        
+    def post(self, request, id):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response.status_code = 403
+                return response
+            data = json.loads(request.body)
+            title = data.get('title')
+            content_fr = data.get('content_fr')
+            content_en = data.get('content_en')
+            article = Article.objects.get(id=id)
+            article.title = title
+            article.content_fr = content_fr
+            article.content_en = content_en
+            article.save()
+            return JsonResponse({"id" : article.id}, status=200)
+        except:
+            response.status_code = 400
+            return response
+    
+    def delete(self, request, id):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response.status_code = 403
+                return response
+            article = Article.objects.get(id=id)
+            article.delete()
+            return response
+        except:
+            response.status_code = 400
+            return response
+        
+class GetArticles(View):
+    def get(self, request):
+        response = HttpResponse()
+        try:
+            articles = Article.objects.all().order_by('-id')
+            list = []
+            for item in articles:
+                list.append(HomePageArticleSerializer(item).data())
+            return JsonResponse({"list" : list}, status=200)
         except:
             response.status_code = 400
             return response
@@ -130,8 +213,44 @@ class MarkAsRead(View):
                 response.status_code = 403
                 return response
             suggestion = Suggestion.objects.get(id=id)
-            suggestion.delete()
+            suggestion.author.onGoingSuggestion = False
+            suggestion.author.save()
+            suggestion.archived = True
+            suggestion.save()
             return response
         except:
             response.status_code = 400
             return response
+
+class MakeCurrent(View):
+    def post(self, request, id):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response.status_code = 403
+                return response
+            project = Project.objects.get(isCurrent=True)
+            if bool(project):
+                project.isCurrent = False
+                project.save()
+            project = Project.objects.get(id=id)
+            if bool(project):
+                project.isCurrent = True
+                project.save()
+            return response
+        except:
+            response.status_code = 400
+            return response
+
+class GetCurrent(View):
+    def get(self, request):
+        response = HttpResponse()
+        try:
+            project = Project.objects.get(isCurrent=True)
+            return JsonResponse({
+                "id" : project.id,
+                "name" : project.name
+            })
+        except:
+            response.status_code = 400
+            return response        

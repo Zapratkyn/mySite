@@ -21,7 +21,7 @@ def SignIn(request):
         return JsonResponse({"error": 4}, status=405)
     try :
         if request.user.is_authenticated:
-            return JsonResponse({"error" : 1}, status=400)
+            logout(request)
         data = json.loads(request.body)
         username = data.get('username')
         password = data.get('password')
@@ -29,7 +29,7 @@ def SignIn(request):
         if user is None:
             return JsonResponse({"error" : 2}, status=400)
         login(request, user)
-        if user.username == 'shukk':
+        if user.is_superuser:
             return JsonResponse({
                 "id" : "admin",
                 "language" : "fr"
@@ -94,7 +94,7 @@ def SignOut(request):
     try:
         if not request.user.is_authenticated:
             return JsonResponse({"code" : 1}, status=400)
-        if request.user.username == 'shukk':
+        if request.user.is_superuser:
             logout(request)
             return HttpResponse()
         profile = Profile.objects.get(user=request.user)

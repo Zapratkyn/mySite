@@ -3,7 +3,7 @@ function Chat({props}) {
     let index = 0
 
     return (
-        <div hidden={!props.displayChat} className="rounded bg-secondary-subtle border border-3 border-black h-75 p-2" style={{width : '300px', position : 'fixed', bottom : '80px', right : '35px'}}>
+        <div hidden={!props.displayChat} className="rounded bg-secondary-subtle border border-3 border-black h-75 p-2" style={{width : '300px', position : 'fixed', bottom : '80px', right : '35px', zIndex : '3'}}>
             <div className="overflow-auto" style={{height : '75%'}}>
                 {props.messages.map(message => <Message key={index++} message={message} />)}
             </div>

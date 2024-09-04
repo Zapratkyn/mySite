@@ -1,5 +1,6 @@
 import {Loading, Title} from "./Helpers"
 import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
 
 export function Projects({props}) {
 
@@ -8,7 +9,7 @@ export function Projects({props}) {
     useEffect(() => {
         if (!list) {
             setList('loading')
-            fetch('/projects/'.concat(props.language.home === 'Home' ? 'en' : 'fr')).then(response => {
+            fetch('/projects').then(response => {
                 if (response.status === 200)
                     response.json().then(data => setList(data.data.sort((a, b) => b.id - a.id)))
             })
@@ -41,18 +42,19 @@ function Project({props, project, index}) {
         return hover_class
     }
 
-    // function formatDate(isoString, options = { dateStyle: 'short', timeStyle: 'medium' }, locale = 'fr-FR') {
-    //     const date = new Date(isoString);
-    //     return date.toLocaleString(locale, options);
-    //   }
-
-    console.log(project)
+    const startOnly = str => {
+        if (str.length > 25) {
+            str = str.substring(0, 22)
+            str = str.concat('...')
+        }
+        return str
+    }
 
     return (
         <li type='button' onClick={() => props.navigate('/project/' + project.id)} className={`rounded ps-3 pt-2 ${evenOrOdd()}`}>
             <h5 className="text-primary mb-0">{project.name}</h5>
             <p>({props.language.created} {project.creation_date})</p>
-            <p className="mb-0">{project.desc}</p>
+            <p className="mb-0">{startOnly(project['desc_' + props.language.language])}</p>
             <p className="d-flex gap-2">
                 {project.languages.map(language => <Language key={language} language={language} />)}
             </p>
@@ -89,37 +91,30 @@ function Language({language}) {
 export function ProjectPage({props}) {
 
     const [project, setProject] = useState(undefined)
-    // const id = useParams().id
+    const id = useParams().id
 
     useEffect(() => {
         if (!project) {
-            fetch('/json/sampleProject.json').then(response => {
-                if (response.status === 404)
-                    setProject(<h1>{props.language.noProject}</h1>)
-                else
+            setProject('loading')
+            fetch('/projects/' + id).then(response => {
+                if (response.status === 200)
                     response.json().then(data => setProject(data))
             })
         }
     })
 
-    const getLanguage = () => {
-        if (props.language.home === 'Home')
-            return 'en'
-        return 'fr'
-    }
-
-    if (!project)
-        return undefined
+    if (!project || project === 'loading')
+        return <Loading />
 
     return (
         <section>
             <Title title={project.name} />
-            <img className="w-100 px-5" src="//images/sampleProject.jpg" alt="" />
-            <p className="fw-bold mt-3 ms-3">{project['description_' + getLanguage()]}</p>
-            <p className="d-flex align-items-center">
-                <a className="ms-3 text-black" href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
-                <img src="//images/caret-right-small.svg" alt="" />
-            </p>
+            {/* <img className="w-100 px-5" src="/images/sampleProject.jpg" alt="" /> */}
+            <div className="fw-bold mt-3 ms-3"><pre>{project['desc_' + props.language.language]}</pre></div>
+            {project.link !== '' && <p className="d-flex align-items-center">
+                <a className="ms-3 text-black" target='_blank' href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
+                <img src="/images/caret-right-small.svg" alt="" />
+            </p>}
         </section>
     )
 

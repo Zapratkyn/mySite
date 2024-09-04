@@ -1,43 +1,45 @@
 import { useState, useEffect } from "react"
+import { Loading } from "./Helpers"
 
 export function CurrentProject({props}) {
 
     const [project, setProject] = useState(undefined)
+
+    useEffect(() => {
+        if (!project) {
+            setProject('loading')
+            fetch('/backAdmin/getCurrent').then(response => {
+                if (response.status === 200)
+                    response.json().then(data => setProject(data))
+            })
+        }
+    })
 
     const browse = () => {
         props.setCurrentPage('/project')
         props.navigate('/project/' + project.id)
     }
 
-    useEffect(() => {
-        if (!project)
-            setProject({name : 'Sample Project', completion : 95, id : 1})
-        const interval = setInterval(() => {
-            setProject({name : 'Sample Project', completion : project.completion < 100 ? project.completion + 1 : 100, id : 1})
-        }, 1000)
-        return () => clearInterval(interval)
-    }, [project])
-
-    if (!project)
-        return undefined
+    if (!project || project === 'loading')
+        return <Loading />
 
     return (
         <section className="widget">
             <h3 className="text-decoration-underline mb-3">{props.language.currentProject}</h3>
             <button type='button' className="btn btn-secondary mb-1" onClick={browse}>{project.name}</button>
-            <Completion completion={project.completion} props={props} />
+            {/* <Completion completion={project.completion} props={props} /> */}
         </section>
     )
 }
 
-function Completion({completion, props}) {
-    return (
-        <div className="ps-1">
-            <div>{props.language.progress} : {completion}%</div>
-            <progress className="w-75" value={completion / 100} />
-        </div>
-    )
-}
+// function Completion({completion, props}) {
+//     return (
+//         <div className="ps-1">
+//             <div>{props.language.progress} : {completion}%</div>
+//             <progress className="w-75" value={completion / 100} />
+//         </div>
+//     )
+// }
 
 export function Contact({props}) {
 

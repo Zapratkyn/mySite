@@ -6,6 +6,7 @@ export function getLanguage(language) {
 
 function French() {
     return {
+        language : 'fr',
         home : 'Accueil',
         projects : 'Projets',
         currentProject : 'Projet en cours',
@@ -31,7 +32,13 @@ function French() {
         bio1 : 'Mon nom est Gilles Poncelet. Et ceci est mon site Web.',
         bio2 : 'Je suis né le 13 janvier 1989 à Etterbeek, en Belgique.',
         bio3 : 'Enfant de parents artistes, je me suis moi-même intéressé très tôt à la musique et au théâtre.',
-        bio4 : '',
+        bio4 : 'Après mes études secondaires, je me suis naturellement dirigé vers le Conservatoire Royal de Bruxelles, où j\'ai obtenu un master en théatre et arts de la parole, que j\'ai complété avec une agrégation.',
+        bio5 : 'En 2017, je créais ma propre compagnie de théâtre, que j\'ai codirigée pendant 3 ans.',
+        bio6 : 'Pendant cette période, j\'ai notamment créé un site web pour la compagnie, à l\'aide des outils proposés par WordPress. Mais je sentais bien que je pourrais faire mieux si je comprenais les rouages de la création de sites web.',
+        bio7 : 'C\'est ainsi que, quelques temps après avoir quitté la compagnie, et alors que je cherchais ce que j\'allais pouvoir faire ensuite, l\'idée me fut glissée par un ami que je devrais peut-être me plonger vraiment dans le code.',
+        bio8 : 'En 2022, j\'intégrai donc l \'école 19, à Bruxelles. J\'y ai passé 2 ans à apprendre le code.',
+        bio9 : 'A la toute fin du programme de l\'école, j\'ai eu l\'occasion de me faire la main sur un projet web.',
+        bio10 : 'Et à la fin de l\'été suivant, le site que vous avez sous les yeux était né. Faisant usage des mêmes technologies que lors du fameux projet web de l\'école, j\'ai pu - et peux encore car on peut toujours faire mieux - laisser libre cours à ma créativité.',
         noProject : 'Ce projet n\'existe pas. Vérifiez l\'url et réessayez.',
         seeOnGH : 'Voir sur GitHub',
         username : 'Nom d\'utilisateur',
@@ -64,6 +71,7 @@ function French() {
 
 function English() {
     return {
+        language : 'en',
         home : 'Home',
         projects : 'Projects',
         currentProject : 'Current project',
@@ -86,7 +94,18 @@ function English() {
         alreadySuggested : 'You already suggested something today',
         chatOn : 'Say something nice',
         chatOff : 'Log in to use the chat',
+        trad : "And by the end of the next summer, this website came to be. Using the same stack we used on the famous last project of the school, I could - and still can, because one can always do better - let my creativité roam free.",
         bio1 : 'My name is Gilles Poncelet. And this is my website.',
+        bio2 : 'I am born on the 13th of January 1989, in Belgium.',
+        bio3 : 'Born in a family of artists, I soon got interested in music and theater.',
+        bio4 : 'After my graduation, I naturally headed towards the Royal Conservatory of Brussels, where I got a master\'s degree in theater, which I completed with a teacher certification.',
+        bio5 : 'In 2017, I created my own theater company, which I led for 3 years.',
+        bio6 : 'During that time, I created a website for the company, using WordPress tools. But I sensed I could do better if I understood the gears of website creation.',
+        bio7 : 'Then, shortly after I left the company, and while I was wondering what to do next, a friend told me I should give the code a serious try.',
+        bio8 : 'This is how, in 2022, I joined the School 19, in Brussels. There, I spent 2 years learning how to code.',
+        bio9 : 'At the very end of the school\'s program, I could try myself on a web project.',
+        bio10 : 'And by the end of the next summer, this website came to be. Using the same stack we used on the famous last project of the school, I could - and still can, because one can always do better - let my creativity roam free.',
+        noProject : 'Ce projet n\'existe pas. Vérifiez l\'url et réessayez.',
         noProject : 'This project does not exist. Check url and try again.',
         seeOnGH : 'See on GitHub',
         username : 'Username',

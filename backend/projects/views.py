@@ -35,13 +35,30 @@ class NewSuggestion(View):
             return response
         
 class ProjectList(View):
-    def get(self, request, language):
+    def get(self, request):
         try:
             list = Project.objects.all().order_by('-id')
             data = []
             for item in list:
-                data.append(ProjectListSerializer(item).data(language))
+                data.append(ProjectListSerializer(item).data())
             return JsonResponse({"data" : data}, status=200)
+        except:
+            response = HttpResponse()
+            response.status_code = 400
+            return response
+        
+class ProjectPage(View):
+    def get(self, request, id):
+        try:
+            logger.debug('DEBUG')
+            project = Project.objects.get(id=id)
+            logger.debug(project)
+            return JsonResponse({
+                "name" : project.name,
+                "desc_en" : project.description_en,
+                "desc_fr" : project.description_fr,
+                "link" : project.link
+            }, status=200)
         except:
             response = HttpResponse()
             response.status_code = 400
