@@ -3,6 +3,8 @@ from django.views import View
 from django.http import JsonResponse, HttpResponse
 from profiles.models import Profile
 from backAdmin.models import Suggestion
+from projects.models import Project
+from projects.serializers import ProjectListSerializer
 import json
 import logging
 
@@ -29,5 +31,18 @@ class NewSuggestion(View):
             response.status_code = 201
             return response
         except :
+            response.status_code = 400
+            return response
+        
+class ProjectList(View):
+    def get(self, request, language):
+        try:
+            list = Project.objects.all().order_by('-id')
+            data = []
+            for item in list:
+                data.append(ProjectListSerializer(item).data(language))
+            return JsonResponse({"data" : data}, status=200)
+        except:
+            response = HttpResponse()
             response.status_code = 400
             return response

@@ -5,6 +5,7 @@ import Options from './Options.jsx';
 import Body from './Body.jsx';
 import Chat from './Chat.jsx';
 import { getCurrentPage } from './Helpers.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
 
@@ -14,8 +15,9 @@ function App() {
   const [myProfile, setMyProfile] = useState(undefined)
   const [messages, setMessages] = useState([])
   const [socket, setSocket] = useState(undefined)
+  const navigate = useNavigate()
 
-  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, socket}
+  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, socket, navigate}
 
   useEffect(() => {
     if (!socket) {

@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import {Loading, Title} from "./Helpers"
+import { useState, useEffect } from "react"
 
 export function Projects({props}) {
 
     const [list, setList] = useState(undefined)
-    
-    /*
-    Dans le back, renvoyer la liste déjà reversed
-    Sinon, le reverse ne fonctionne pas quand props.language === 'fr'
-    */
 
     useEffect(() => {
         if (!list) {
-            fetch('/json/projects.json').then(response => response.json().then(data => setList(data)))
+            setList('loading')
+            fetch('/projects/'.concat(props.language.home === 'Home' ? 'en' : 'fr')).then(response => {
+                if (response.status === 200)
+                    response.json().then(data => setList(data.data.sort((a, b) => b.id - a.id)))
+            })
         }
     })
 
-    if (!list)
+    if (!list || list === 'loading')
         return <Loading />
 
     let index = 0
@@ -26,15 +24,13 @@ export function Projects({props}) {
         <section className="pe-2">
             <Title title={props.language.projects} />
             <ul className="d-flex flex-column gap-1" style={{listStyle : 'none'}}>
-                {list.reverse().map(project => <Project key={project.name} props={props} project={project} index={index++} />)}
+                {list.map(project => <Project key={project.name} props={props} project={project} index={index++} />)}
             </ul>
         </section>
     )
 }
 
 function Project({props, project, index}) {
-
-    const navigate = useNavigate()
 
     const evenOrOdd = () => {
         let hover_class = 'project_link_'
@@ -45,11 +41,18 @@ function Project({props, project, index}) {
         return hover_class
     }
 
+    // function formatDate(isoString, options = { dateStyle: 'short', timeStyle: 'medium' }, locale = 'fr-FR') {
+    //     const date = new Date(isoString);
+    //     return date.toLocaleString(locale, options);
+    //   }
+
+    console.log(project)
+
     return (
-        <li type='button' onClick={() => navigate('/project/' + project.id)} className={`rounded ps-3 pt-2 ${evenOrOdd()}`}>
+        <li type='button' onClick={() => props.navigate('/project/' + project.id)} className={`rounded ps-3 pt-2 ${evenOrOdd()}`}>
             <h5 className="text-primary mb-0">{project.name}</h5>
-            <p>({props.language.created} {project.date})</p>
-            <p className="mb-0">{project.description}</p>
+            <p>({props.language.created} {project.creation_date})</p>
+            <p className="mb-0">{project.desc}</p>
             <p className="d-flex gap-2">
                 {project.languages.map(language => <Language key={language} language={language} />)}
             </p>

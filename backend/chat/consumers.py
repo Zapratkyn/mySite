@@ -13,12 +13,8 @@ class ChatConsumer(JsonWebsocketConsumer):
     def connect(self):
         self.user = self.scope["user"]
         self.accept()
-        # profiles = list(Profile.objects.all())
-        # for profile in profiles:
-        #     profile.onGoingSuggestion = False
-        #     profile.save()
         if self.user.is_authenticated :
-            if self.user.username == 'shukk':
+            if self.user.is_superuser:
                 self.send_json({
                     "id" : "admin",
                     "language" : "fr"

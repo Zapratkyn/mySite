@@ -169,7 +169,7 @@ LOGGING = {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },
-        "backAdmin.serializers": {
+        "projects.serializers": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },

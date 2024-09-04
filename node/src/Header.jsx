@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom"
-
 function Header({props}) {
 
     return (
@@ -39,12 +37,10 @@ function SiteName({props}) {
 
 function Menu({props}) {
 
-    const navigate = useNavigate()
-
     const browse = page => {
         document.documentElement.scrollTop = 0
         props.setCurrentPage(page)
-        navigate(page)
+        props.navigate(page)
     }
 
     return (

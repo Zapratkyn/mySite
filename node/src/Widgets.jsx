@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 
 export function CurrentProject({props}) {
 
     const [project, setProject] = useState(undefined)
 
-    const navigate = useNavigate()
-
     const browse = () => {
         props.setCurrentPage('/project')
-        navigate('/project/' + project.id)
+        props.navigate('/project/' + project.id)
     }
 
     useEffect(() => {
@@ -44,12 +41,10 @@ function Completion({completion, props}) {
 
 export function Contact({props}) {
 
-    const navigate = useNavigate()
-
     const browse = page => {
         document.documentElement.scrollTop = 0
         props.setCurrentPage(page)
-        navigate(page)
+        props.navigate(page)
     }
 
     return (

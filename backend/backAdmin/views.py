@@ -104,3 +104,34 @@ class EditProject(View):
             response.status_code = 400
             return response
         
+class ReadSuggestion(View):
+    def get(self, request, id):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response.status_code = 403
+                return response
+            suggestion = Suggestion.objects.get(id=id)
+            return JsonResponse({
+                "title" : suggestion.name,
+                "content" : suggestion.description,
+                "author" : suggestion.author.name,
+                "authorId" : suggestion.author.id
+            })
+        except:
+            response.status_code = 400
+            return response
+
+class MarkAsRead(View):
+    def post(self, request, id):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response.status_code = 403
+                return response
+            suggestion = Suggestion.objects.get(id=id)
+            suggestion.delete()
+            return response
+        except:
+            response.status_code = 400
+            return response

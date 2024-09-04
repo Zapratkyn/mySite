@@ -7,7 +7,7 @@ import NoPage from "./NoPage.jsx"
 import Error from "./Error.jsx"
 import { SignUp, SignIn, Suggest } from "./Forms.jsx"
 import Admin from "./Admin.jsx"
-import { EditProject } from "./Admin.jsx"
+import { EditProject, ReadSuggestion } from "./Admin.jsx"
 
 function Body({props}) {
 
@@ -54,6 +54,7 @@ function MainFrame({props}) {
                 <Route path='/admin' element={<Admin props={props} />} />
                 <Route path='/admin/newProject' element={<EditProject type='new' props={props} />} />
                 <Route path='/admin/editProject/:id' element={<EditProject type='edit' props={props} />} />
+                <Route path='/admin/suggestion/:id' element={<ReadSuggestion props={props} />} />
 				<Route path="*" element={<NoPage props={props} />} />
             </Routes>
         </main>
@@ -63,9 +64,9 @@ function MainFrame({props}) {
 function Widgets({props}) {
     return (
         <div className="w-25 d-flex flex-column gap-2 mt-3">
-            {/* <CurrentProject props={props} /> */}
+            <CurrentProject props={props} />
             <Contact props={props} />
-            {/* <Poll props={props} /> */}
+            <Poll props={props} />
         </div>
     )
 }

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { Loading, Title } from "./Helpers"
 import Cookies from 'js-cookie'
 
 function Admin({props}) {
 
     const [data, setData] = useState(undefined)
-    const navigate = useNavigate()
 
     useEffect(() => {
         if (!data) {
@@ -19,7 +18,7 @@ function Admin({props}) {
                     setData(-1)
             })
         }
-    }, [data, navigate])
+    }, [data])
 
     if (!data || data === 'loading')
         return <Loading />
@@ -35,19 +34,19 @@ function Admin({props}) {
             <Title title='Admin' />
             <div className="d-flex gap-3 mb-2">
                 <h2 className="ps-3 text-decoration-underline fw-bold">Projets</h2>
-                <button onClick={() => navigate('/admin/newProject')} type="button" className="btn btn-success">Nouveau projet</button>
+                <button onClick={() => props.navigate('/admin/newProject')} type="button" className="btn btn-success">Nouveau projet</button>
             </div>
             <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
                 {data.projects.length === 0 ?
                     <h3>Aucun projet</h3> :
-                    data.projects.map(project => <Project key={project.id} navigate={navigate} project={project} index={projectIndex++} />)
+                    data.projects.map(project => <Project key={project.id} props={props} project={project} index={projectIndex++} />)
                 }
             </div>
             <h2 className="ps-3 mt-3 text-decoration-underline fw-bold">Suggestions</h2>
             <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
                 {data.suggestions.length === 0 ?
                     <h3>Aucune suggestion</h3> :
-                    data.suggestions.map(suggestion => <Suggestion key={suggestion.authorId} navigate={navigate} suggestion={suggestion} index={suggestIndex++} />)
+                    data.suggestions.map(suggestion => <Suggestion key={suggestion.authorId} props={props} suggestion={suggestion} index={suggestIndex++} />)
                 }
             </div>
         </section>
@@ -55,14 +54,14 @@ function Admin({props}) {
 
 }
 
-function Project({navigate, project, index}) {
+function Project({props, project, index}) {
 
     return (
         <div className={`rounded p-2 d-flex justify-content-between ${index % 2 === 0 ? 'bg-secondary-subtle' : 'bg-primary-subtle'}`}>
             <h4>{project.name}</h4>
             <div className="d-flex gap-2">
-                <button onClick={() => navigate('/project/' + project.id)} type='button' className="btn btn-secondary">Voir</button>
-                <button onClick={() => navigate('/admin/editProject/' + project.id)} type='button' className="btn btn-secondary">Editer</button>
+                <button onClick={() => props.navigate('/project/' + project.id)} type='button' className="btn btn-secondary">Voir</button>
+                <button onClick={() => props.navigate('/admin/editProject/' + project.id)} type='button' className="btn btn-secondary">Editer</button>
                 <div className="position-relative">
                     {project.newMessage && <img className="newMessage" src="/images/circle-fill.svg" alt="" />}
                     <button type='button' className="btn btn-secondary">
@@ -75,14 +74,14 @@ function Project({navigate, project, index}) {
 
 }
 
-function Suggestion({navigate, suggestion, index}) {
+function Suggestion({props, suggestion, index}) {
 
     return (
         <div className={`rounded p-2 d-flex justify-content-between ${index % 2 === 0 ? 'bg-primary-subtle' : 'bg-secondary-subtle'}`}>
             <div className="d-flex gap-2 fs-4">
-                {suggestion.name} || par <span onClick={() => navigate('/profile/' + suggestion.authorId)} type='button' className="text-primary text-decoration-underline">{suggestion.author}</span>
+                {suggestion.name} || par <span onClick={() => props.navigate('/profile/' + suggestion.authorId)} type='button' className="text-primary text-decoration-underline">{suggestion.author}</span>
             </div>
-            <div><button onClick={() => navigate('/admin/readSuggestion/' + suggestion.id)} type='button' className="btn btn-secondary">Lire</button></div>
+            <div><button onClick={() => props.navigate('/admin/suggestion/' + suggestion.id)} type='button' className="btn btn-secondary">Lire</button></div>
         </div>
     )
 
@@ -91,7 +90,6 @@ function Suggestion({navigate, suggestion, index}) {
 export function EditProject({type, props}) {
 
     const [project, setProject] = useState(type)
-    const navigate = useNavigate()
     const token = Cookies.get('csrftoken')
     const id = useParams().id
 
@@ -105,11 +103,11 @@ export function EditProject({type, props}) {
                     setProject(-1)
                 else {
                     if (window.alert('Un problème est survenu'))
-                        navigate('/')
+                        props.navigate('/')
                 }
             })
         }
-    }, [project, id, navigate])
+    }, [project, id, props])
 
     if (project === 'edit' || project === 'loading')
         return <Loading />
@@ -164,7 +162,7 @@ export function EditProject({type, props}) {
                     let input = document.getElementById('image')
                     if (input.files.length > 0)
                         sendImage(data.id, input)
-                    navigate('/project/' + data.id)
+                    props.navigate('/project/' + data.id)
                 })
             }
             else
@@ -180,7 +178,7 @@ export function EditProject({type, props}) {
                 mode : 'same-origin',
             }).then(response => {
                 if (response.status === 200)
-                    navigate('/admin')
+                    props.navigate('/admin')
                 else
                     window.alert('Y a eu un couac...')
             })
@@ -210,6 +208,55 @@ export function EditProject({type, props}) {
                     {type === 'edit' && <button onClick={del} type='button' className="w-25 align-self-center btn btn-danger">Supprimer le projet</button>}
                 </form>
             </div>
+        </section>
+    )
+
+}
+
+export function ReadSuggestion({props}) {
+
+    const [sugg, setSugg] = useState(undefined)
+    const token = Cookies.get('csrftoken')
+    const id = useParams().id
+
+    useEffect(() => {
+        if (!sugg) {
+            fetch('/backAdmin/readSuggestion/' + id).then(response => {
+                if (response.status === 200)
+                    response.json().then(data => setSugg(data))
+                else
+                    setSugg(-1)
+            })
+        }
+    })
+
+    const read = () => {
+        fetch('/backAdmin/markAsRead/' + id, {
+            method : 'POST',
+            headers: {'X-CSRFToken': token},
+            mode : 'same-origin'
+        }).then(response => {
+            if (response.status === 200)
+                props.navigate('/admin')
+            else
+                window.alert('Un problème est survenu')
+        })
+    }
+
+    if (!sugg)
+        return <Loading />
+
+    else if (sugg < 0)
+        return <h1>Une erreur est survenue</h1>
+
+    const author = <span type='button' className="text-primary text-decoration-underline fs-4" onClick={() => props.navigate('/profile/' + sugg.authorId)}>{sugg.author}</span>
+ 
+    return (
+        <section className="me-2">
+            <h2>{sugg.title}</h2>
+            <p className="border rounded p-2" style={{minHeight : '100px'}}>{sugg.content}</p>
+            <p className="ps-3">Par {author}</p>
+            <button onClick={read} type='button' className="btn btn-success">Marquer comme lu</button>
         </section>
     )
 

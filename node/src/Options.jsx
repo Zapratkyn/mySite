@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom"
 import { getLanguage } from "./trad"
 
 function Options({props}) {
@@ -10,7 +9,7 @@ function Options({props}) {
                     props.myProfile.id === 'admin' ?
                         <MenuAdmin props={props} /> :
                         <MenuIn props={props} /> :
-                    <MenuOut props={props} />}
+                        <MenuOut props={props} />}
                 <span className="text-white fw-bold ms-2">|</span>
                 <Languages props={props} />
             </div>
@@ -31,21 +30,19 @@ function Greetings({props}) {
 
 function MenuAdmin({props}) {
 
-    const navigate = useNavigate()
-
     const logout = () => {
         fetch('/profiles/signout', {method : 'POST'}).then(response => {
             if (response.status === 200) {
                 props.setMyProfile(undefined)
                 props.setCurrentPage('/')
-                navigate('/')
+                props.navigate('/')
             }
         })
     }
 
     const browse = () => {
         props.setCurrentPage('/admin')
-        navigate('/admin')
+        props.navigate('/admin')
     }
 
     return (
@@ -58,15 +55,13 @@ function MenuAdmin({props}) {
 }
 
 function MenuIn({props}) {
-    
-    const navigate = useNavigate()
 
     const logout = () => {
         fetch('/profiles/signout', {method : 'POST'}).then(response => {
             if (response.status === 200) {
                 props.setMyProfile(undefined)
                 props.setCurrentPage('/')
-                navigate('/')
+                props.navigate('/')
             }
         })
     }
@@ -75,7 +70,7 @@ function MenuIn({props}) {
         <ul className="d-flex gap-2" style={{listStyle : 'none'}}>
             <li><Greetings props={props} /></li>
             <li>|</li>
-            <li type='button' className="optionButton" onClick={() => navigate('/profile/' + props.myProfile.id)}>{props.language.profile}</li>
+            <li type='button' className="optionButton" onClick={() => props.navigate('/profile/' + props.myProfile.id)}>{props.language.profile}</li>
             <li type='button' className="optionButton" onClick={logout}>{props.language.logout}</li>
         </ul>
     )
@@ -83,13 +78,11 @@ function MenuIn({props}) {
 }
 
 function MenuOut({props}) {
-
-    const navigate = useNavigate()
     
     return (
         <ul className="d-flex gap-2" style={{listStyle : 'none'}}>
-            <li type='button' className="optionButton" onClick={() => navigate('/signin')}>{props.language.signIn}</li>
-            <li type='button' className="optionButton" onClick={() => navigate('/signup')}>{props.language.signUp}</li>
+            <li type='button' className="optionButton" onClick={() => props.navigate('/signin')}>{props.language.signIn}</li>
+            <li type='button' className="optionButton" onClick={() => props.navigate('/signup')}>{props.language.signUp}</li>
         </ul>
     )
 

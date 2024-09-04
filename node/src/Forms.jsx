@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import {Title} from "./Helpers"
 import Cookies from 'js-cookie'
@@ -6,14 +5,12 @@ import { getLanguage } from "./trad"
 
 export function SignIn({props}) {
 
-    const navigate = useNavigate()
-
     useEffect(() => {
         if (props.myProfile) {
             props.setCurrentPage('/')
-            navigate('/')
+            props.navigate('/')
         }
-    }, [props, navigate])
+    }, [props])
 
     const isWrong = () => {
         let issue = false
@@ -42,8 +39,8 @@ export function SignIn({props}) {
                         props.setMyProfile(data)
                         props.setLanguage(getLanguage(data.language))
                         props.socket.send(JSON.stringify({action : 'login'}))
-                        // navigate('/profiles/' + data.id)
-                        navigate('/')
+                        // props.navigate('/profiles/' + data.id)
+                        props.navigate('/')
                     })
                 }
                 else if(response.status !== 404) {
@@ -77,7 +74,7 @@ export function SignIn({props}) {
                 <button onClick={signIn} type='button' className="btn btn-secondary mt-3">{props.language.connexion}</button>
                 <span id='signInError'></span>
                 <span>{props.language.noAccount} ?
-                    <span onClick={() => navigate('/signup')} type='button' className="ms-1 mt-3 text-primary text-decoration-underline">
+                    <span onClick={() => props.navigate('/signup')} type='button' className="ms-1 mt-3 text-primary text-decoration-underline">
                         {props.language.createAccount}
                     </span>
                 </span>
@@ -89,14 +86,12 @@ export function SignIn({props}) {
 
 export function SignUp({props}) {
 
-    const navigate = useNavigate()
-
     useEffect(() => {
         if (props.myProfile) {
             props.setCurrentPage('/')
-            navigate('/')
+            props.navigate('/')
         }
-    }, [props, navigate])
+    }, [props])
 
     const isWrong = () => {
         let issue = false
@@ -133,8 +128,8 @@ export function SignUp({props}) {
                     response.json().then(data => {
                         props.setMyProfile(data)
                         props.socket.send(JSON.stringify({action : 'login'}))
-                        navigate('/')
-                        // navigate('/profiles/' + data.id)
+                        props.navigate('/')
+                        // props.navigate('/profiles/' + data.id)
                     })
                 }
                 else {
@@ -179,7 +174,6 @@ export function Suggest({props}) {
 
     const [done, setDone] = useState(0)
     const token = Cookies.get('csrftoken')
-    const navigate = useNavigate()
 
     const completeForm = () => {
         let formOk = true
@@ -220,7 +214,7 @@ export function Suggest({props}) {
         return (
             <section>
                 <h1>{done < 0 ? props.language.suggestionSent : props.language['suggestionNotSent_' + done]}</h1>
-                <button type='button' className="btn btn-secondary" onClick={() => navigate('/')}>OK</button>
+                <button type='button' className="btn btn-secondary" onClick={() => props.navigate('/')}>OK</button>
             </section>
         )
     }
