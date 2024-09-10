@@ -31,7 +31,6 @@ class Dashboard(View):
                 suggList = []
                 for item in suggestions:
                     suggList.append(SuggestionAdminListSerializer(item).data())
-                logger.debug('DEBUG2')
                 data = {
                     "articles" : articleList,
                     "projects" : projectList,
@@ -154,7 +153,6 @@ class EditProject(View):
     def post(self, request, id):
         response = HttpResponse()
         try:
-            logger.debug('HERE')
             if not request.user.is_authenticated or not request.user.is_superuser:
                 response.status_code = 403
                 return response
@@ -230,27 +228,15 @@ class MakeCurrent(View):
                 response.status_code = 403
                 return response
             project = Project.objects.get(isCurrent=True)
-            if bool(project):
+            if project:
                 project.isCurrent = False
                 project.save()
             project = Project.objects.get(id=id)
-            if bool(project):
+            if project:
                 project.isCurrent = True
                 project.save()
             return response
         except:
             response.status_code = 400
             return response
-
-class GetCurrent(View):
-    def get(self, request):
-        response = HttpResponse()
-        try:
-            project = Project.objects.get(isCurrent=True)
-            return JsonResponse({
-                "id" : project.id,
-                "name" : project.name
-            })
-        except:
-            response.status_code = 400
-            return response        
+      

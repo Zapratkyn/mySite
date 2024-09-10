@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-@csrf_exempt
 def SignIn(request):
     if not request.method == "POST":
         return JsonResponse({"error": 4}, status=405)
@@ -51,7 +50,6 @@ def createUser(username, email, password):
         return newUser
     except Exception as e: logger.debug(f"{e}")
 
-@csrf_exempt
 def SignUp(request):
     if not request.method == "POST":
         return JsonResponse({"error": 9}, status=405)
@@ -62,6 +60,7 @@ def SignUp(request):
         validate_email(email)
         password = data.get('password')
         passwordConfirm = data.get('passwordConfirm')
+        assert username != "admin"
         if username == '' or password == '':
             return JsonResponse({"error": 5}, status=400)
         if password != passwordConfirm:
@@ -87,7 +86,6 @@ def SignUp(request):
         return JsonResponse({"error" : 1}, status=400)
     except: return JsonResponse({"error" : 8}, status=500)
 
-@csrf_exempt
 def SignOut(request):
     if not request.method == "POST":
         return JsonResponse({"error": 3}, status=405)

@@ -22,8 +22,8 @@ function French() {
         pollAsk : 'Que devrais-je faire ensuite ?',
         suggest : 'Une idée à proposer ?',
         suggestHead : 'Vous avez une idée de projet à me proposer ? Ou un défi à me lancer ? Ou un commentaire à faire sur ce site ? C\'est ici que ça se passe.',
-        suggestTitle : 'Donnez-lui un titre accrocheur',
-        suggestDetails : 'Décrivez votre concept génial',
+        suggestTitle : 'Un titre accrocheur',
+        suggestDetails : 'Un concept génial',
         suggestSend : 'Proposer',
         suggestLoggedOut : 'Vous devez vous connecter pour soumettre une idée',
         alreadySuggested : 'Vous avez déjà proposé quelque chose aujourd\'hui',
@@ -65,7 +65,18 @@ function French() {
         goAway : 'Tu n\'as rien à faire là.',
         suggestionSent : 'Suggestion envoyée',
         suggestionNotSent_1 : 'Vous devez être connecté pour faire une suggestion',
-        suggestionNotSent_2 : 'Vous avez déjà une suggestion en cours'
+        suggestionNotSent_2 : 'Vous avez déjà une suggestion en cours',
+        mailMe : "M'envoyer un e-mail",
+        displayWidgets : 'Afficher les widgets',
+        invalidUsername : "Nom d'utilisateur invalide",
+        invalidPW : 'Mot de passe invalide',
+        nameRegex : "Caractères autorisés : Pas d'espace. Lettres et chiffres",
+        PWRegex : "Caractères autorisés : Pas d'espace. Lettres et chiffres, - _ # @ :",
+        chatWelcome : 'Bienvenue sur le chat.',
+        whisps : ' chuchote',
+        to : 'A',
+        chatError_1 : "Cet utilisateur n'existe pas",
+        chatError_2 : "Cet utilisateur n'est pas connecté"
     }
 }
 
@@ -87,8 +98,8 @@ function English() {
         pollAsk : 'What should I do next ?',
         suggest : 'A new idea ?',
         suggestHead : 'You have a project idea to submit ? Or a challenge for me ? Or a comment about this website ? Here is where you can describe it.',
-        suggestTitle : 'Give it a catchy title',
-        suggestDetails : 'Describe your brilliant concept',
+        suggestTitle : 'A catchy title',
+        suggestDetails : 'A brilliant concept',
         suggestSend : 'Suggest',
         suggestLoggedOut : 'You need to be logged in to submit an idea',
         alreadySuggested : 'You already suggested something today',
@@ -105,7 +116,6 @@ function English() {
         bio8 : 'This is how, in 2022, I joined the School 19, in Brussels. There, I spent 2 years learning how to code.',
         bio9 : 'At the very end of the school\'s program, I could try myself on a web project.',
         bio10 : 'And by the end of the next summer, this website came to be. Using the same stack we used on the famous last project of the school, I could - and still can, because one can always do better - let my creativity roam free.',
-        noProject : 'Ce projet n\'existe pas. Vérifiez l\'url et réessayez.',
         noProject : 'This project does not exist. Check url and try again.',
         seeOnGH : 'See on GitHub',
         username : 'Username',
@@ -132,6 +142,17 @@ function English() {
         goAway : 'You shouldn\'t be here',
         suggestionSent : 'Suggestion sent',
         suggestionNotSent_1 : 'You need to be logged in to make a suggestion',
-        suggestionNotSent_2 : 'You have an ongoing suggestion'
+        suggestionNotSent_2 : 'You have an ongoing suggestion',
+        mailMe : "Send me an e-mail",
+        displayWidgets : 'Display widgets',
+        invalidUsername : "Invalid username",
+        invalidPW : 'Invalid password',
+        nameRegex : "Accepted characters : No whitespace. Letters and digits",
+        PWRegex : "Accepted characters : No whitespace. Letters and digits, - _ # @ :",
+        chatWelcome : 'Welcome in the chat.',
+        whisps : ' whisps',
+        to : 'To',
+        chatError_1 : "That user does not exist",
+        chatError_2 : "That user is not connected"
     }
 }

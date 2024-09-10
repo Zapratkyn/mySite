@@ -21,10 +21,12 @@ function App() {
   const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, socket, navigate}
 
   useEffect(() => {
-    if (!socket) {
-      const newSocket = new WebSocket('wss://' + window.location.host + '/ws/chat/')
-      newSocket.onmessage = e => {
+    if (!socket)
+      setSocket(new WebSocket('wss://' + window.location.host + '/ws/chat/'))
+    else {
+      socket.onmessage = e =>  {
         let data = JSON.parse(e.data)
+        console.log(data)
         if (Object.keys(data).includes('language')) {
           setLanguage(getLanguage(data.language))
           setMyProfile(data)
@@ -32,10 +34,8 @@ function App() {
         else
           setMessages([...messages, data])
       }
-      setSocket(newSocket)
     }
   }, [socket, messages])
-
 
   return (
     <>

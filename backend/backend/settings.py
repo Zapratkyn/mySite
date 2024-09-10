@@ -27,11 +27,13 @@ SECRET_KEY = 'django-insecure-l^4wu!y4f*e0$y0_@4!xgjw#^9i$-6rd-8mpl&w1x=mpq9z+0(
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost'
+    'localhost',
+    'gponcelet.com'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://localhost'
+    'https://localhost',
+    'https://gillesponcelet.com'
 ]
 
 

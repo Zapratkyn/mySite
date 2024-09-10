@@ -28,7 +28,7 @@ code {
   color: #505052;
 }
 
-header {
+header, .dropdown-menu {
   background-color: #F0F0F0;
 }
 

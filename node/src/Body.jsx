@@ -8,23 +8,33 @@ import Error from "./Error.jsx"
 import { SignUp, SignIn, Suggest } from "./Forms.jsx"
 import Admin from "./Admin.jsx"
 import { EditArticle, EditProject, ReadSuggestion } from "./Admin.jsx"
+import { useMediaQuery } from 'react-responsive'
+import { useState } from "react"
 
 function Body({props}) {
 
+    const lg = useMediaQuery({query: '(min-width: 769px)'})
+    const md = useMediaQuery({query: '(max-width: 620px)'})
+    const [displayWidgets, setDisplayWidgets] = useState(!md)
+
     return (
         <div className="w-100 d-flex align-items-center flex-column" style={{minHeight : 'calc(100vh - 265px)'}}>
-            <Links />
-            <div className="w-75 p-3 d-flex gap-3">
-                <MainFrame props={props} />
-                <Widgets props={props} />
+            <Links lg={lg} />
+            {md && <p type='button' onClick={() => setDisplayWidgets(!displayWidgets)} className="d-flex gap-1 bg-secondary-subtle rounded w-75 ps-1 fw-bold mt-3">
+                    {props.language.displayWidgets}
+                    <img src="/images/caret-down-fill.svg" alt="" />
+                </p>}
+            <div className={`p-3 d-flex gap-3 ${lg ? 'w-75' : 'w-100'} ${md && 'flex-column flex-column-reverse'}`}>
+                <MainFrame props={props} md={md} />
+                {(!md || displayWidgets) && <Widgets props={props} md={md} setDisplayWidgets={setDisplayWidgets} />}
             </div>
         </div>
     )
 }
 
-function Links() {
+function Links({lg}) {
     return (
-        <nav className="w-75 d-flex gap-2 justify-content-end mt-3 pe-3" style={{listStyle : 'none'}}>
+        <nav className={`d-flex gap-2 justify-content-end mt-3 pe-3 ${lg ? 'w-75' : 'w-100'}`} style={{listStyle : 'none'}}>
                 <li>
                     <a href="https://www.linkedin.com/in/gilles-poncelet-b8a984a3" target='_blank' rel='noreferrer'>
                         <img src="/images/linkedin.png" alt="LinkedIn" style={{height : '30px'}} />
@@ -39,9 +49,9 @@ function Links() {
     )
 }
 
-function MainFrame({props}) {
+function MainFrame({props, md}) {
     return (
-        <main className="w-75 p-2 border-end">
+        <main className={`p-2 ${md ? 'w-100' : 'border-end w-75'}`}>
             <Routes>
                 <Route path='/' element={<Home props={props} />} />
                 <Route path='/bio' element={<Bio props={props} />} />
@@ -63,11 +73,11 @@ function MainFrame({props}) {
     )
 }
 
-function Widgets({props}) {
+function Widgets({props, md, setDisplayWidgets}) {
     return (
-        <div className="w-25 d-flex flex-column gap-2 mt-3">
-            <CurrentProject props={props} />
-            <Contact props={props} />
+        <div className={`d-flex flex-column gap-2 ${md ? 'w-100' : 'w-25 mt-3'}`}>
+            <CurrentProject props={props} setDisplayWidgets={setDisplayWidgets} />
+            <Contact props={props} setDisplayWidgets={setDisplayWidgets} />
             <Poll props={props} />
         </div>
     )

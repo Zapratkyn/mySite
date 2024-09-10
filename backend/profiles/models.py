@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=20, default='')
-    chatChannelName = models.CharField(max_length=100, default='', null=True)
+    # chatChannelName = models.CharField(max_length=100, default='', null=True)
     online = models.BooleanField(default=False)
     onGoingSuggestion = models.BooleanField(default=False)
     # avatar = models.ImageField(default=None, blank=True)

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import {Loading, Title} from "./Helpers"
+import { useMediaQuery } from 'react-responsive'
 
 function Home({props}) {
 
@@ -8,17 +9,15 @@ function Home({props}) {
     useEffect(() => {
         if (!articles) {
             setArticles('loading')
-            fetch('/backAdmin/articles').then(response => {
+            fetch('/projects/articles').then(response => {
                 if (response.status === 200)
                     response.json().then(data => setArticles(data.list))
             })
         }
-    })
+    }, [articles])
 
     if (!articles || articles === 'loading')
         return <Loading />
-
-    // console.log(articles)
 
     return (
         <section className="pe-2">
@@ -29,11 +28,11 @@ function Home({props}) {
 }
 
 function Article({article, props}) {
-
-    console.log(article)
+    
+    const lg = useMediaQuery({query: '(max-width: 1000px)'})
 
     return (
-        <article className="w-75 border rounded p-3 ms-5">
+        <article className={`border rounded p-3 ${lg ? 'w-100' : 'w-75'}`}>
             <div>
                 <h2>{article.title}</h2>
                 <span>{article.creation_date}</span>

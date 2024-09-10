@@ -24,7 +24,7 @@ export function getCurrentPage() {
 export function Loading() {
 
   return (
-    <div className="loading-container mt-5 pt-5">
+    <div className="loading-container">
       <div className="spinner"></div>
       <div className="loading-text">
         <span>L</span>
@@ -52,5 +52,51 @@ export function CustomForm({props}) {
       <textarea name="customForm" id="customForm" placeholder="Insert text here"></textarea>
     </div>
   )
+
+}
+
+export function validateSignup(inputs, {props}) {
+
+  let okay = true
+  const nameRegex = /^[a-zA-Z0-9]*$/
+  const passwordRegex = /^[a-zA-Z0-9-_#@:]*$/
+  if (!nameRegex.test(inputs[0].value)) {
+      inputs[0].setAttribute('class', 'form-control border border-3 border-danger w-50')
+      document.getElementById('wrongName').innerHTML = props.language.invalidUsername
+      okay = false
+  }
+  if (!passwordRegex.test(inputs[1].value)) {
+      inputs[1].setAttribute('class', 'form-control border border-3 border-danger w-50')
+      document.getElementById('wrongPW').innerHTML = props.language.invalidPW
+      okay = false
+  }
+  for (let input of inputs) {
+      if (input.value === '') {
+          input.setAttribute('class', 'form-control border border-3 border-danger w-50')
+          okay = false
+      }
+  }
+  if (inputs[1].value !== inputs[2].value) {
+      inputs[1].setAttribute('class', 'form-control border border-3 border-danger w-50')
+      inputs[2].setAttribute('class', 'form-control border border-3 border-warning w-50')
+      document.getElementById('noMatch').innerHTML = props.language.signUpError_2
+      okay = false
+  }
+  else
+      document.getElementById('noMatch').innerHTML = ''
+  return okay
+
+}
+
+export function validateForm(inputs, {props}) {
+
+  let okay = true
+  for (let input of inputs) {
+    if (input.value === '') {
+        input.setAttribute('class', 'form-control border border-3 border-danger w-50')
+        okay = false
+    }
+  return okay
+}
 
 }

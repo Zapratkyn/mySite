@@ -27,15 +27,6 @@ function Admin({props}) {
     else if (data < 0)
         return <h1>{props.language.goAway}</h1>
 
-    const allIsArchived = () => {
-        let ret = true
-        data.suggestions.map(suggestion => {
-            if (!suggestion.archived)
-                ret = false
-        })
-        return ret
-    }
-
     let articleIndex = 0
     let projectIndex = 0
     let suggestIndex = 0
@@ -66,7 +57,7 @@ function Admin({props}) {
             <h2 className="ps-3 mt-3 text-decoration-underline fw-bold">Suggestions</h2>
             <button onClick={() => setDisplayArchived(!displayArchived)} type='button' className="btn btn-secondary ms-3 mb-2">Afficher les archives</button>
             <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
-                {data.suggestions.length === 0 || allIsArchived() ?
+                {data.suggestions.length === 0 || data.suggestions.filter(sugg => !sugg.archived).length === 0 ?
                     <h3>Aucune suggestion</h3> :
                     data.suggestions.map(suggestion => {
                         if (!suggestion.archived || displayArchived)

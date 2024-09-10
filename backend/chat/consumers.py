@@ -1,9 +1,6 @@
 from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from profiles.models import Profile
-from projects.models import Project
-from backAdmin.models import Suggestion
-from django.contrib.auth.models import User
 
 import logging
 
@@ -11,36 +8,37 @@ logger = logging.getLogger(__name__)
 
 class ChatConsumer(JsonWebsocketConsumer):
 
+    connected_users = {}
+
     def connect(self):
         self.user = self.scope["user"]
         self.accept()
-        # profiles = Profile.objects.all()
-        # for profile in profiles:
-        #     profile.onGoingSuggestion = False
-        #     profile.save()
+        async_to_sync(self.channel_layer.group_add)("chat", self.channel_name)
         if self.user.is_authenticated :
             if self.user.is_superuser:
                 self.send_json({
                     "id" : "admin",
-                    "language" : "fr"
+                    "language" : "fr",
+                    "name" : "admin"
                 })
             else:
                 self.profile = Profile.objects.get(user=self.user)
+                ChatConsumer.connected_users[self.profile.name] = self.channel_name
                 self.profile.online = True
-                self.profile.chatChannelName = self.channel_name
                 self.profile.save()
-                data = {
-                    "id" : self.user.id,
+                self.send_json({
+                    "id" : self.profile.id,
                     "name" : self.profile.name,
                     "language" : self.profile.language,
-                    "onGoingSuggestion" : self.profile.onGoingSuggestion
-                }
-                self.send_json(data)
+                    "onGoingSuggestion" : self.profile.onGoingSuggestion,
+                    "online" : self.profile.online
+                })
 
     def disconnect(self, code):
-        if not bool(self.user.username == 'shukk'):
+        if bool(self.user.is_authenticated) and not bool(self.user.is_superuser):
+            if bool(self.profile.name in ChatConsumer.connected_users):
+                del ChatConsumer.connected_users[self.profile.name]
             self.profile.refresh_from_db()
-            self.profile.chatChannelName = None
             self.profile.online = False
             self.profile.save()
 
@@ -48,7 +46,47 @@ class ChatConsumer(JsonWebsocketConsumer):
         action = content["action"]
         if self.user.is_authenticated:
             if action == 'login':
-                self.profile.online = True
-                self.profile.chatChannelName = self.channel_name
-                self.profile.save()
+                ChatConsumer.connected_users[self.profile.name] = self.channel_name
+            elif action == 'chat':
+                self.handle_chat(content["item"])
+                    
+    def ws_send(self, event):
+        self.send_json(event["message"])
+                    
+    def handle_chat(self, item):
+        type = item.get("type")
+        data = {
+            "type" : "ws.send",
+            "message" : {
+                "type" : type,
+                "id" : self.user.id,
+                "name" : self.user.username,
+                "message" : item.get("message")
+            }
+        }
+        if type == "message":
+            async_to_sync(self.channel_layer.group_send)("chat", data)
+        elif type == "whisp":
+            target = item.get("target")
+            if not bool(Profile.objects.filter(name=target).exists()):
+                    self.send_json({
+                    "type" : "error",
+                    "target" : target,
+                    "code" : 1
+                })
+            else:
+                if bool(target in ChatConsumer.connected_users):
+                    async_to_sync(self.channel_layer.send)(ChatConsumer.connected_users[target], data)
+                    self.send_json({
+                        "type" : "iWhisp",
+                        "target" : target,
+                        "message" : item.get("message")
+                    })
+                else:
+                    self.send_json({
+                        "type" : "error",
+                        "target" : target,
+                        "code" : 2
+                    })
+
 

@@ -1,5 +1,5 @@
 from django.urls import path
-from backAdmin.views import Dashboard, NewArticle, EditArticle, GetArticles, NewProject, EditProject, ReadSuggestion, MarkAsRead, MakeCurrent, GetCurrent
+from backAdmin.views import Dashboard, NewArticle, EditArticle, GetArticles, NewProject, EditProject, ReadSuggestion, MarkAsRead, MakeCurrent
 
 urlpatterns = [
     path('', Dashboard.as_view()),
@@ -10,6 +10,5 @@ urlpatterns = [
     path('editProject/<int:id>', EditProject.as_view()),
     path('readSuggestion/<int:id>', ReadSuggestion.as_view()),
     path('markAsRead/<int:id>', MarkAsRead.as_view()),
-    path('makeCurrent/<int:id>', MakeCurrent.as_view()),
-    path('getCurrent', GetCurrent.as_view())
+    path('makeCurrent/<int:id>', MakeCurrent.as_view())
 ]

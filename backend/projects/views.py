@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse, HttpResponse
 from profiles.models import Profile
-from backAdmin.models import Suggestion
+from backAdmin.models import Suggestion, Article
 from projects.models import Project
-from projects.serializers import ProjectListSerializer
+from projects.serializers import ProjectListSerializer, HomePageArticleSerializer
 import json
 import logging
 
@@ -50,9 +50,7 @@ class ProjectList(View):
 class ProjectPage(View):
     def get(self, request, id):
         try:
-            logger.debug('DEBUG')
             project = Project.objects.get(id=id)
-            logger.debug(project)
             return JsonResponse({
                 "name" : project.name,
                 "desc_en" : project.description_en,
@@ -63,3 +61,33 @@ class ProjectPage(View):
             response = HttpResponse()
             response.status_code = 400
             return response
+
+class GetCurrent(View):
+    def get(self, request):
+        response = HttpResponse()
+        try:
+            project = Project.objects.get(isCurrent=True)
+            if project:
+                return JsonResponse({
+                    "id" : project.id,
+                    "name" : project.name
+                })
+            response.status_code = 404
+            return response
+        except:
+            response.status_code = 400
+            return response  
+        
+class GetArticles(View):
+    def get(self, request):
+        response = HttpResponse()
+        try:
+            articles = Article.objects.all().order_by('-id')
+            list = []
+            for item in articles:
+                list.append(HomePageArticleSerializer(item).data())
+            return JsonResponse({"list" : list}, status=200)
+        except:
+            response.status_code = 400
+            return response
+        

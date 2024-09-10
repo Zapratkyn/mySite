@@ -14,7 +14,7 @@ export function Projects({props}) {
                     response.json().then(data => setList(data.data.sort((a, b) => b.id - a.id)))
             })
         }
-    })
+    }, [list])
 
     if (!list || list === 'loading')
         return <Loading />
@@ -101,7 +101,7 @@ export function ProjectPage({props}) {
                     response.json().then(data => setProject(data))
             })
         }
-    })
+    }, [project, id])
 
     if (!project || project === 'loading')
         return <Loading />
@@ -112,7 +112,7 @@ export function ProjectPage({props}) {
             {/* <img className="w-100 px-5" src="/images/sampleProject.jpg" alt="" /> */}
             <div className="fw-bold mt-3 ms-3"><pre>{project['desc_' + props.language.language]}</pre></div>
             {project.link !== '' && <p className="d-flex align-items-center">
-                <a className="ms-3 text-black" target='_blank' href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
+                <a className="ms-3 text-black" target='_blank' rel='noreferrer' href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
                 <img src="/images/caret-right-small.svg" alt="" />
             </p>}
         </section>
