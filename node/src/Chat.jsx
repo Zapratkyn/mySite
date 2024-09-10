@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react"
+import { getMessage } from "./Helpers"
+import { useMediaQuery } from 'react-responsive'
 
 function Chat({props}) {
 
+    const lg = useMediaQuery({query: '(min-width: 400px)'})
     const [autoScroll, setAutoScroll] = useState(true)
 
     return (
-        <div hidden={!props.displayChat} className="rounded bg-secondary-subtle border border-3 border-black h-75 p-2" style={{width : '300px', position : 'fixed', bottom : '80px', right : '35px', zIndex : '3'}}>
+        <div hidden={!props.displayChat} className={`rounded bg-secondary-subtle border border-3 border-black h-75 p-2 ${props.displayChat && 'd-flex flex-column'}`} style={{width : lg ? '300px' : '250px', position : 'fixed', bottom : '80px', right : '35px', zIndex : '3'}}>
             <ChatWindow props={props} autoScroll={autoScroll} setAutoScroll={setAutoScroll} />
             <ToBottomButton setAutoScroll={setAutoScroll} />
             <hr />
@@ -39,7 +42,7 @@ function ChatWindow({props, autoScroll, setAutoScroll}) {
     let index = 0
 
     return (
-        <div onWheel={unScroll} id='chatDiv' className="overflow-auto" style={{height : '75%'}}>
+        <div onWheel={unScroll} id='chatDiv' className="overflow-auto flex-grow-1">
             {props.messages.map(message => <Message key={index++} message={message} props={props} />)}
         </div>
     )
@@ -63,7 +66,7 @@ function Message({message, props}) {
         return <div className="text-primary">{message.message}</div>
 
     else if (message.type === 'error')
-        return <div className="text-danger fw-bold">{message.target + ' : '} {props.language['chatError_' + message.code]}</div>
+        return <div className="text-danger fw-bold">{message.target && message.target + ' : '} {props.language['chatError_' + message.code]}</div>
 
     else if (message.type === 'iWhisp')
         return (
@@ -75,7 +78,14 @@ function Message({message, props}) {
 
     return (
         <div>
-            <span className={`${message.type === 'message' ? 'text-primary' : 'text-success'}`}>{message.name} {message.type === 'whisp' && props.language.whisps}</span>
+            {props.myProfile && message.name === props.myProfile.name ?
+                <span className='text-danger'>{props.language.me}</span> :
+                <span type='button' data-bs-toggle='dropdown' className={`${message.type === 'message' ? 'text-primary' : 'text-success'}`}>{message.name} {message.type === 'whisp' && props.language.whisps}</span>}
+            <ul className="dropdown-menu">
+                <li className="fw-bold ps-2">{message.name}</li>
+                <li type='button' className="dropdown-divider"></li>
+                <li type='button' className="menuLink fw-bold ps-2">{props.language.seeProfile}</li>
+            </ul>
             <span>{' : ' + message.message}</span>
         </div>
     )
@@ -87,20 +97,21 @@ function Prompt({props}) {
     const captureKey = e => {
 		if (e.keyCode === 13) {
 			e.preventDefault()
-            props.socket.send(JSON.stringify({
-                action : 'chat',
-                item : {
-                    type : 'whisp',
-                    target : 'Test2',
-                    message : document.getElementById('prompt').value
-                }
-		    }))
-            document.getElementById("prompt").value = ''
+            let message = getMessage(document.getElementById('prompt').value, props.myProfile.name)
+            if (message.type === 'error')
+                props.setMessages([...props.messages, message])
+            else {
+                props.socket.send(JSON.stringify({
+                        action : 'chat',
+                        item : message
+		            }))
+            }
+            document.getElementById("prompt").value = message.type === 'whisp' ? '/w ' + message.target + ' ' : ''
         }
 	}
 
     return (
-        <input id='prompt' onKeyDown={captureKey} className="rounded w-100" type="text" placeholder={props.myProfile ? props.language.chatOn : props.language.chatOff} disabled={!props.myProfile} />
+        <input id='prompt' onKeyDown={captureKey} className="w-100 form-control" type="text" placeholder={props.myProfile ? props.language.chatOn : props.language.chatOff} disabled={!props.myProfile} />
     )
 
 }

@@ -31,6 +31,8 @@ function Admin({props}) {
     let projectIndex = 0
     let suggestIndex = 0
 
+    console.log(data.suggestions)
+
     return (
         <section className="me-2">
             <Title title='Admin' />
@@ -57,7 +59,7 @@ function Admin({props}) {
             <h2 className="ps-3 mt-3 text-decoration-underline fw-bold">Suggestions</h2>
             <button onClick={() => setDisplayArchived(!displayArchived)} type='button' className="btn btn-secondary ms-3 mb-2">Afficher les archives</button>
             <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
-                {data.suggestions.length === 0 || data.suggestions.filter(sugg => !sugg.archived).length === 0 ?
+                {data.suggestions.length === 0 || (!displayArchived && !data.suggestions.filter(sugg => !sugg.archived).length) ?
                     <h3>Aucune suggestion</h3> :
                     data.suggestions.map(suggestion => {
                         if (!suggestion.archived || displayArchived)
@@ -108,7 +110,7 @@ function Suggestion({props, suggestion, index}) {
     return (
         <div className={`rounded p-2 d-flex justify-content-between ${!suggestion.archived ? index % 2 === 0 ? 'bg-primary-subtle' : 'bg-secondary-subtle' : 'bg-warning'}`}>
             <div className="d-flex gap-2 fs-4">
-                {suggestion.name.concat(suggestion.archived ? ' (archived)' : '')} || par <span onClick={() => props.navigate('/profile/' + suggestion.authorId)} type='button' className="text-primary text-decoration-underline">{suggestion.author}</span>
+                {suggestion.name.concat(suggestion.archived ? ' (archivée)' : '')} || par <span onClick={() => props.navigate('/profile/' + suggestion.authorId)} type='button' className="text-primary text-decoration-underline">{suggestion.author}</span>
             </div>
             <div><button onClick={() => props.navigate('/admin/suggestion/' + suggestion.id)} type='button' className="btn btn-secondary">Lire</button></div>
         </div>
@@ -172,7 +174,7 @@ export function EditArticle({type, props}) {
             body : JSON.stringify(toSend)
         }).then(response => {
             if (response.status === 200 || response.status === 201)
-                props.navigate('/')
+                props.navigate('/admin')
             else
                 window.alert('Une erreur est survenue lors de l\'envoi des informations')
         })
@@ -209,7 +211,7 @@ export function EditArticle({type, props}) {
                     {/* <CustomForm /> */}
                     <textarea onKeyDown={typing} rows='15' className="form-control border-2" name="content_en" id="content_en" defaultValue={type === 'edit' ? article.content_en : ''}></textarea>
                     <button onClick={send} type="button" className="w-25 mt-2 align-self-center btn btn-secondary">Sauver</button>
-                    {type === 'edit' && <button onClick={del} type='button' className="w-25 align-self-center btn btn-danger">Supprimer le projet</button>}
+                    {type === 'edit' && <button onClick={del} type='button' className="w-25 align-self-center btn btn-danger">Supprimer l'article</button>}
                 {/* </fieldset> */}
             </form>
         </section>
@@ -258,19 +260,19 @@ export function EditProject({type, props}) {
         return formOk
     }
 
-    const sendImage = (id, input) => {
-        const data = new FormData()
-        data.set('image', input.files[0])
-        fetch('/backAdmin/addImageToProject/' + id, {
-            method : 'POST',
-            headers: {'X-CSRFToken': token},
-            mode : 'same-origin',
-            body : data
-        }).then(response => {
-            if (response.status !== 200)
-                window.alert('Une erreur est survenue lors du chargement de l\'image')
-        })
-    }
+    // const sendImage = (id, input) => {
+    //     const data = new FormData()
+    //     data.set('image', input.files[0])
+    //     fetch('/backAdmin/addImageToProject/' + id, {
+    //         method : 'POST',
+    //         headers: {'X-CSRFToken': token},
+    //         mode : 'same-origin',
+    //         body : data
+    //     }).then(response => {
+    //         if (response.status !== 200)
+    //             window.alert('Une erreur est survenue lors du chargement de l\'image')
+    //     })
+    // }
 
     const send = () => {
         if (!completeForm())
@@ -288,12 +290,7 @@ export function EditProject({type, props}) {
             body : JSON.stringify(toSend)
         }).then(response => {
             if (response.status === 200 || response.status === 201) {
-                response.json().then(data => {
-                    let input = document.getElementById('image')
-                    if (input.files.length > 0)
-                        sendImage(data.id, input)
-                    props.navigate('/project/' + data.id)
-                })
+                response.json().then(data => props.navigate('/project/' + data.id))
             }
             else
                 window.alert('Une erreur est survenue lors de l\'envoi des informations')
@@ -337,10 +334,6 @@ export function EditProject({type, props}) {
                 {/* <fieldset> */}
                     <label className="h3 fw-bold" htmlFor="title">Titre</label>
                     <input onKeyDown={typing} className="form-control border-2 w-25" type="text" name='title' id='title' defaultValue={type === 'edit' ? project.name : ''} />
-                    <div className="d-flex flex-column">
-                        <label className="h3 fw-bold" htmlFor="image">Image</label>
-                        <input type="file" id='image' accept="image/*" />
-                    </div>
                     <label className="h3 fw-bold mt-2" htmlFor="GHLink">Lien GitHub</label>
                     <input className="form-control border-2 w-25" type="text" name="GHLink" id="GHLink" defaultValue={type === 'edit' ? project.link : ''} />
                     <label className="h3 fw-bold" htmlFor="description_fr">Description (FR)</label>

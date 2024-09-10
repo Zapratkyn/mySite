@@ -78,7 +78,7 @@ function Widgets({props, md, setDisplayWidgets}) {
         <div className={`d-flex flex-column gap-2 ${md ? 'w-100' : 'w-25 mt-3'}`}>
             <CurrentProject props={props} setDisplayWidgets={setDisplayWidgets} />
             <Contact props={props} setDisplayWidgets={setDisplayWidgets} />
-            <Poll props={props} />
+            {/* <Poll props={props} /> */}
         </div>
     )
 }

@@ -18,7 +18,7 @@ function App() {
   const [socket, setSocket] = useState(undefined)
   const navigate = useNavigate()
 
-  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, socket, navigate}
+  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, setMessages, socket, navigate}
 
   useEffect(() => {
     if (!socket)
@@ -26,7 +26,6 @@ function App() {
     else {
       socket.onmessage = e =>  {
         let data = JSON.parse(e.data)
-        console.log(data)
         if (Object.keys(data).includes('language')) {
           setLanguage(getLanguage(data.language))
           setMyProfile(data)

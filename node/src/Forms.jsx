@@ -19,7 +19,7 @@ export function SignIn({props}) {
             document.getElementById('username'),
             document.getElementById('password')
         ]
-        if (!validateForm(inputs, props))
+        if (!validateForm(inputs))
             return
         fetch('/profiles/signin', {
             method : 'POST',
@@ -97,7 +97,7 @@ export function SignUp({props}) {
             document.getElementById('passwordConfirm'),
             document.getElementById('email')
         ]
-        if (!validateSignup(inputs, props))
+        if (!validateSignup(inputs))
             return
         fetch('/profiles/signup', {
             method : 'POST',
@@ -172,7 +172,7 @@ export function Suggest({props}) {
             document.getElementById('title'),
             document.getElementById('details')
         ]
-        if (!validateForm())
+        if (!validateForm(inputs))
             return
         let toSend = {
             title : inputs[0].value,

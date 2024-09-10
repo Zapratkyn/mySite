@@ -76,7 +76,11 @@ function French() {
         whisps : ' chuchote',
         to : 'A',
         chatError_1 : "Cet utilisateur n'existe pas",
-        chatError_2 : "Cet utilisateur n'est pas connecté"
+        chatError_2 : "Cet utilisateur n'est pas connecté",
+        chatError_3 : "Commande incorrecte. Usage : /w [nom du destinataire] [message]",
+        chatError_4 : "Vous ne pouvez pas vous envoyer de message privé à vous-même",
+        me : 'Moi',
+        seeProfile : 'Voir le profil'
     }
 }
 
@@ -153,6 +157,10 @@ function English() {
         whisps : ' whisps',
         to : 'To',
         chatError_1 : "That user does not exist",
-        chatError_2 : "That user is not connected"
+        chatError_2 : "That user is not connected",
+        chatError_3 : "Incorrect command. Use : /w [target name] [message]",
+        chatError_4 : "You cannot send a private message to yourself",
+        me : 'Moi',
+        seeProfile : 'See profile'
     }
 }

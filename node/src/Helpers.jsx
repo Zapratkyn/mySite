@@ -88,15 +88,56 @@ export function validateSignup(inputs, {props}) {
 
 }
 
-export function validateForm(inputs, {props}) {
+export function validateForm(inputs) {
 
   let okay = true
+
   for (let input of inputs) {
-    if (input.value === '') {
-        input.setAttribute('class', 'form-control border border-3 border-danger w-50')
-        okay = false
-    }
+      if (input.value === '') {
+          input.setAttribute('class', 'form-control border border-3 border-danger w-50')
+          okay = false
+      }
+  }
+
   return okay
+
 }
+
+export function getMessage(prompt, myName) {
+
+  let message = {
+    type : 'message',
+    target : 'chat',
+    message : prompt
+  }
+
+  let error = {
+    type : 'error',
+    code : 3
+  }
+
+  if (prompt.substring(0, 2) === '/w') {
+      message.type = 'whisp'
+      prompt = prompt.substring(2)
+      if (!prompt.length)
+        return error
+      let targetStart = 2
+      while (prompt[targetStart] === ' ')
+        targetStart++
+      if (!prompt[targetStart])
+        return error
+      prompt = prompt.substring(targetStart - 1)
+      let targetEnd = prompt.indexOf(' ')
+      if (targetEnd < 0)
+        return error
+      message.target = prompt.substring(0, targetEnd)
+      if (message.target === myName)
+        return {...error, code : 4}
+      message.message = prompt.substring(targetEnd + 1).trim()
+      if (!message.message.length)
+        return error
+  }
+
+  return message
 
 }
