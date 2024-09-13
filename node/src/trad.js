@@ -81,7 +81,8 @@ function French() {
         chatError_4 : "Vous ne pouvez pas vous envoyer de message privé à vous-même",
         me : 'Moi',
         seeProfile : 'Voir le profil',
-        noProfile : 'Ce profil n\'existe pas'
+        noProfile : 'Ce profil n\'existe pas',
+        sendWhisp : 'Envoyer un message privé'
     }
 }
 
@@ -163,6 +164,7 @@ function English() {
         chatError_4 : "You cannot send a private message to yourself",
         me : 'Moi',
         seeProfile : 'See profile',
-        noProfile : 'This profile does not exist'
+        noProfile : 'This profile does not exist',
+        sendWhisp : 'Send a private message'
     }
 }

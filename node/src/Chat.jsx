@@ -78,6 +78,12 @@ function Message({message, props}) {
             </div>
         )
 
+    const sendWhisp = () => {
+        let prompt = document.getElementById('prompt')
+        prompt.value = '/w ' + message.name + ' '
+        prompt.focus()
+    }
+
     return (
         <div>
             {props.myProfile && message.id === props.myProfile.id ?
@@ -86,7 +92,8 @@ function Message({message, props}) {
             <ul className="dropdown-menu">
                 <li className="fw-bold ps-2">{message.name}</li>
                 <li type='button' className="dropdown-divider"></li>
-                <li type='button' className="menuLink fw-bold ps-2" onClick={() => props.navigate('/profile/' + message.id)}>{props.language.seeProfile}</li>
+                <li type='button' className="menuLink fw-bold px-2" onClick={() => props.navigate('/profile/' + message.id)}>{props.language.seeProfile}</li>
+                <li type='button' className="menuLink fw-bold px-2" onClick={sendWhisp}>{props.language.sendWhisp}</li>
             </ul>
             <span>{' : ' + message.message}</span>
         </div>
@@ -103,7 +110,7 @@ function Prompt({props}) {
             if (message.type === 'error')
                 props.setMessages([...props.messages, message])
             else {
-                props.socket.send(JSON.stringify({item : message}))
+                props.socket.send(JSON.stringify(message))
             }
             document.getElementById("prompt").value = message.type === 'whisp' ? '/w ' + message.target + ' ' : ''
         }

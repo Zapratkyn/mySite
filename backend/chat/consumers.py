@@ -47,30 +47,30 @@ class ChatConsumer(JsonWebsocketConsumer):
                 "type" : "ws.send",
                 "message" : {
                     "type" : "admin",
-                    "message" : content["item"].get("message")
+                    "message" : content["message"]
                 }
             })
             else:
-                self.handle_chat(content["item"])
+                self.handle_chat(content)
                     
     def ws_send(self, event):
         self.send_json(event["message"])
                     
-    def handle_chat(self, item):
-        type = item.get("type")
+    def handle_chat(self, content):
+        type = content["type"]
         data = {
             "type" : "ws.send",
             "message" : {
                 "type" : type,
                 "id" : self.profile.id,
                 "name" : self.profile.name,
-                "message" : item.get("message")
+                "message" : content["message"]
             }
         }
         if type == "message":
             async_to_sync(self.channel_layer.group_send)("chat", data)
         elif type == "whisp":
-            target = item.get("target")
+            target = content["target"]
             if not bool(Profile.objects.filter(name=target).exists()):
                     self.send_json({
                     "type" : "error",
@@ -83,7 +83,7 @@ class ChatConsumer(JsonWebsocketConsumer):
                     self.send_json({
                         "type" : "iWhisp",
                         "target" : target,
-                        "message" : item.get("message")
+                        "message" : content["message"]
                     })
                 else:
                     self.send_json({
