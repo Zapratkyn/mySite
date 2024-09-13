@@ -18,7 +18,7 @@ function App() {
   const [socket, setSocket] = useState(undefined)
   const navigate = useNavigate()
 
-  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, setMessages, socket, navigate}
+  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, setMessages, socket, setSocket, navigate}
 
   useEffect(() => {
     if (!socket) {
@@ -26,20 +26,20 @@ function App() {
       setSocket(new WebSocket('wss://' + window.location.host + '/ws/chat/'))
     }
     else {
+      socket.onclose = () => setSocket(new WebSocket('wss://' + window.location.host + '/ws/chat/'))
       socket.onmessage = e =>  {
         let data = JSON.parse(e.data)
         if (Object.keys(data).includes('language')) {
           setLanguage(getLanguage(data.language))
           setMyProfile(data)
         }
+        else if (Object.keys(data).includes('success'))
+          setLanguage(getLanguage(props.language.language))
         else
           setMessages([...messages, data])
       }
     }
   }, [socket, messages])
-
-  if (socket)
-    socket.onopen = () => socket.send(JSON.stringify({action : 'login'}))
 
   return (
     <>

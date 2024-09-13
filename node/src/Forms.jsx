@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import {Title, validateForm, validateSignup} from "./Helpers"
 import Cookies from 'js-cookie'
-import { getLanguage } from "./trad"
+// import { getLanguage } from "./trad"
 
 export function SignIn({props}) {
 
@@ -14,21 +14,6 @@ export function SignIn({props}) {
         }
     }, [props])
 
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
     const signIn = () => {
         let inputs = [
             document.getElementById('username'),
@@ -38,7 +23,7 @@ export function SignIn({props}) {
             return
         fetch('/profiles/signin', {
             method : 'POST',
-            headers: {'X-CSRFToken': getCookie("csrftoken")},
+            headers: {'X-CSRFToken': token},
             mode : 'same-origin',
             body : JSON.stringify({
                 username : inputs[0].value,
@@ -46,14 +31,13 @@ export function SignIn({props}) {
             })
         }).then(response => {
             if (response.status === 200) {
-                response.json().then(data => {
-                    console.log(data)
-                    props.setMyProfile(data)
-                    props.setLanguage(getLanguage(data.language))
-                    props.socket.send(JSON.stringify({action : 'login'}))
-                    // props.navigate('/profiles/' + data.id)
-                    props.navigate('/')
-                })
+                props.socket.close()
+                props.setCurrentPage('/')
+                props.navigate('/')
+                    // response.json().then(data => {
+                    // props.setMyProfile(data)
+                    // props.setLanguage(getLanguage(data.language))
+                    // props.socket.send(JSON.stringify({action : 'login'}))
             }
             else if(response.status !== 404) {
                 response.json().then(data => 
@@ -127,12 +111,9 @@ export function SignUp({props}) {
             })
         }).then(response => {
             if (response.status === 201) {
-                response.json().then(data => {
-                    props.setMyProfile(data)
-                    props.socket.send(JSON.stringify({action : 'login'}))
-                    props.navigate('/')
-                    // props.navigate('/profiles/' + data.id)
-                })
+                props.socket.close()
+                props.setCurrentPage('/')
+                props.navigate('/')
             }
             else {
                 response.json().then(data => 

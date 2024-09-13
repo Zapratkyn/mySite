@@ -18,21 +18,19 @@ class ChatConsumer(JsonWebsocketConsumer):
             if self.user.is_superuser:
                 self.send_json({
                     "id" : "admin",
-                    "language" : "fr",
-                    "name" : "admin"
+                    "language" : "fr"
                 })
             else:
                 self.profile = Profile.objects.get(user=self.user)
                 ChatConsumer.connected_users[self.profile.name] = self.channel_name
-                self.profile.online = True
                 self.profile.save()
                 self.send_json({
                     "id" : self.profile.id,
-                    "name" : self.profile.name,
                     "language" : self.profile.language,
-                    "onGoingSuggestion" : self.profile.onGoingSuggestion,
-                    "online" : self.profile.online
+                    "onGoingSuggestion" : self.profile.onGoingSuggestion
                 })
+        else:
+            self.send_json({"success" : "connection successful"})
 
     def disconnect(self, code):
         if bool(self.user.is_authenticated) and not bool(self.user.is_superuser):
@@ -43,26 +41,17 @@ class ChatConsumer(JsonWebsocketConsumer):
             self.profile.save()
 
     def receive_json(self, content):
-        action = content["action"]
         if self.user.is_authenticated:
-            if action == 'login' and not self.user.is_superuser:
-                self.profile = Profile.objects.get(user=self.user)
-                ChatConsumer.connected_users[self.profile.name] = self.channel_name
-            elif action == "logout":
-                if bool(self.profile.name in ChatConsumer.connected_users):
-                    del ChatConsumer.connected_users[self.profile.name]
-                self.profile = None
-            elif action == 'chat':
-                if self.user.is_superuser:
-                    async_to_sync(self.channel_layer.group_send)("chat", {
-                    "type" : "ws.send",
-                    "message" : {
-                        "type" : "admin",
-                        "message" : content["item"].get("message")
-                    }
-                })
-                else:
-                    self.handle_chat(content["item"])
+            if self.user.is_superuser:
+                async_to_sync(self.channel_layer.group_send)("chat", {
+                "type" : "ws.send",
+                "message" : {
+                    "type" : "admin",
+                    "message" : content["item"].get("message")
+                }
+            })
+            else:
+                self.handle_chat(content["item"])
                     
     def ws_send(self, event):
         self.send_json(event["message"])

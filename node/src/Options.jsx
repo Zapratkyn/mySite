@@ -42,6 +42,7 @@ function MenuAdmin({props}) {
         }).then(response => {
             if (response.status === 200) {
                 props.setMyProfile(undefined)
+                props.socket.close()
                 props.setCurrentPage('/')
                 props.navigate('/')
             }
@@ -75,17 +76,23 @@ function MenuIn({props}) {
             if (response.status === 200) {
                 props.setMyProfile(undefined)
                 props.setCurrentPage('/')
-                props.socket.send(JSON.stringify({action : 'logout'}))
+                props.socket.close()
+                props.setMessages(props.messages.filter(message => message.type !== 'whisp' && message.type !== 'iWhisp'))
                 props.navigate('/')
             }
         })
+    }
+
+    const browse = () => {
+        props.setCurrentPage('/profile')
+        props.navigate('/profile/' + props.myProfile.id)
     }
 
     return (
         <ul className="d-flex gap-2" style={{listStyle : 'none'}}>
             {/* <li><Greetings props={props} /></li> */}
             {/* <li>|</li> */}
-            <li type='button' className="optionButton" onClick={() => props.navigate('/profile/' + props.myProfile.id)}>{props.language.profile}</li>
+            <li type='button' className="optionButton" onClick={browse}>{props.language.profile}</li>
             <li type='button' className="optionButton" onClick={logout}>{props.language.logout}</li>
         </ul>
     )
@@ -93,11 +100,16 @@ function MenuIn({props}) {
 }
 
 function MenuOut({props}) {
+
+    const browse = page => {
+        props.setCurrentPage('/sign')
+        props.navigate(page)
+    }
     
     return (
         <ul className="d-flex gap-2" style={{listStyle : 'none'}}>
-            <li type='button' className="optionButton" onClick={() => props.navigate('/signin')}>{props.language.signIn}</li>
-            <li type='button' className="optionButton" onClick={() => props.navigate('/signup')}>{props.language.signUp}</li>
+            <li type='button' className="optionButton" onClick={() => browse('/signin')}>{props.language.signIn}</li>
+            <li type='button' className="optionButton" onClick={() => browse('/signup')}>{props.language.signUp}</li>
         </ul>
     )
 

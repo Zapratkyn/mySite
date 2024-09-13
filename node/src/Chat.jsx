@@ -80,7 +80,7 @@ function Message({message, props}) {
 
     return (
         <div>
-            {props.myProfile && message.name === props.myProfile.name ?
+            {props.myProfile && message.id === props.myProfile.id ?
                 <span className='text-danger'>{props.language.me}</span> :
                 <span type='button' data-bs-toggle='dropdown' className={`fw-bold ${message.type === 'message' ? 'text-primary' : 'text-success'}`}>{message.name} {message.type === 'whisp' && props.language.whisps}</span>}
             <ul className="dropdown-menu">
@@ -103,10 +103,7 @@ function Prompt({props}) {
             if (message.type === 'error')
                 props.setMessages([...props.messages, message])
             else {
-                props.socket.send(JSON.stringify({
-                        action : 'chat',
-                        item : message
-		            }))
+                props.socket.send(JSON.stringify({item : message}))
             }
             document.getElementById("prompt").value = message.type === 'whisp' ? '/w ' + message.target + ' ' : ''
         }

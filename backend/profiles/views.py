@@ -1,12 +1,11 @@
-from django.views.decorators.csrf import ensure_csrf_cookie
 from django.middleware.csrf import get_token
-from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse, HttpResponse
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from profiles.models import Profile
+from chat.consumers import ChatConsumer
 from django.contrib.auth import authenticate, login, logout
 import json
 
@@ -29,18 +28,20 @@ def SignIn(request):
         if user is None:
             return JsonResponse({"error" : 2}, status=400)
         login(request, user)
-        if user.is_superuser:
-            return JsonResponse({
-                "id" : "admin",
-                "language" : "fr"
-            }, status=200)
-        profile = Profile.objects.get(user=user)
-        return JsonResponse({
-            "id" : profile.id,
-            "name" : profile.name,
-            "language" : profile.language,
-            "onGoingSuggestion" : profile.onGoingSuggestion
-        }, status=200)
+        return HttpResponse()
+        # if user.is_superuser:
+        #     return JsonResponse({
+        #         "id" : "admin",
+        #         "language" : "fr",
+        #         "name" : "admin"
+        #     }, status=200)
+        # profile = Profile.objects.get(user=user)
+        # return JsonResponse({
+        #     "id" : profile.id,
+        #     "name" : profile.name,
+        #     "language" : profile.language,
+        #     "onGoingSuggestion" : profile.onGoingSuggestion
+        # }, status=200)
     except: return JsonResponse({"error" : 3}, status=500)
 
 def createUser(username, email, password):
@@ -77,12 +78,9 @@ def SignUp(request):
         if user is None:
             return JsonResponse({"error" : 7}, status=500)
         login(request=request, user=user)
-        profile = Profile.objects.get(user=user)
-        return JsonResponse({
-            "id" : profile.id,
-            "name" : profile.name,
-            "language" : profile.language
-        }, status=201)
+        response = HttpResponse()
+        response.status_code = 201
+        return response
     except ValidationError:
         return JsonResponse({"error" : 1}, status=400)
     except: return JsonResponse({"error" : 8}, status=500)
@@ -93,12 +91,9 @@ def SignOut(request):
     try:
         if not request.user.is_authenticated:
             return JsonResponse({"code" : 1}, status=400)
-        if request.user.is_superuser:
-            logout(request)
-            return HttpResponse()
-        profile = Profile.objects.get(user=request.user)
-        profile.online = False
-        profile.save()
+        if not request.user.is_superuser:
+            profile = Profile.objects.get(user=request.user)
+            del ChatConsumer.connected_users[profile.name]
         logout(request)
         return HttpResponse()
     except: return JsonResponse({"code" : 2}, status=500)
@@ -114,7 +109,7 @@ class GetProfile(View):
             return JsonResponse({
                 "id" : profile.id,
                 "name" : profile.name,
-                "online" : profile.online
+                "online" : profile.name in ChatConsumer.connected_users
             })
         except:
             response.status_code = 400
