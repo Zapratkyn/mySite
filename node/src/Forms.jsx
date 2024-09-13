@@ -7,8 +7,6 @@ export function SignIn({props}) {
 
     const token = Cookies.get('csrftoken')
 
-    console.log(token)
-
     useEffect(() => {
         if (props.myProfile) {
             props.setCurrentPage('/')
@@ -49,6 +47,7 @@ export function SignIn({props}) {
         }).then(response => {
             if (response.status === 200) {
                 response.json().then(data => {
+                    console.log(data)
                     props.setMyProfile(data)
                     props.setLanguage(getLanguage(data.language))
                     props.socket.send(JSON.stringify({action : 'login'}))

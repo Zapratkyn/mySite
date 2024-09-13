@@ -12,7 +12,7 @@ function Chat({props}) {
             {props.socket && props.socket.readyState !== 1 ?
             <div className="flex-grow-1 d-flex align-items-center justify-content-center"><Loading /></div> :
             <ChatWindow props={props} autoScroll={autoScroll} setAutoScroll={setAutoScroll} />}
-            <ToBottomButton setAutoScroll={setAutoScroll} />
+            {!autoScroll && <ToBottomButton setAutoScroll={setAutoScroll} />}
             <hr />
             <Prompt props={props} />
         </div>
