@@ -45,10 +45,24 @@ class ChatConsumer(JsonWebsocketConsumer):
     def receive_json(self, content):
         action = content["action"]
         if self.user.is_authenticated:
-            if action == 'login':
+            if action == 'login' and not self.user.is_superuser:
+                self.profile = Profile.objects.get(user=self.user)
                 ChatConsumer.connected_users[self.profile.name] = self.channel_name
+            elif action == "logout":
+                if bool(self.profile.name in ChatConsumer.connected_users):
+                    del ChatConsumer.connected_users[self.profile.name]
+                self.profile = None
             elif action == 'chat':
-                self.handle_chat(content["item"])
+                if self.user.is_superuser:
+                    async_to_sync(self.channel_layer.group_send)("chat", {
+                    "type" : "ws.send",
+                    "message" : {
+                        "type" : "admin",
+                        "message" : content["item"].get("message")
+                    }
+                })
+                else:
+                    self.handle_chat(content["item"])
                     
     def ws_send(self, event):
         self.send_json(event["message"])
@@ -59,8 +73,8 @@ class ChatConsumer(JsonWebsocketConsumer):
             "type" : "ws.send",
             "message" : {
                 "type" : type,
-                "id" : self.user.id,
-                "name" : self.user.username,
+                "id" : self.profile.id,
+                "name" : self.profile.name,
                 "message" : item.get("message")
             }
         }

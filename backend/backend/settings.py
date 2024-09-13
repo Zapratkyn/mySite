@@ -28,12 +28,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    'gponcelet.com'
+    'http://gillesponcelet.com'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://localhost',
-    'https://gillesponcelet.com'
+    'http://gillesponcelet.com'
 ]
 
 
@@ -167,7 +167,7 @@ LOGGING = {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },
-        "backAdmin.views": {
+        "profiles.views": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },

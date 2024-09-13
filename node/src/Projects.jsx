@@ -1,4 +1,4 @@
-import {Loading, Title} from "./Helpers"
+import {Loading, Title, format} from "./Helpers"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 
@@ -103,14 +103,18 @@ export function ProjectPage({props}) {
         }
     }, [project, id])
 
+    useEffect(() => {
+        if (project && project !== 'loading')
+            document.getElementById('projectDiv').innerHTML = format(project['desc_' + props.language.language])
+    }, [props.language, project])
+
     if (!project || project === 'loading')
         return <Loading />
 
     return (
         <section>
             <Title title={project.name} />
-            {/* <img className="w-100 px-5" src="/images/sampleProject.jpg" alt="" /> */}
-            <div className="fw-bold mt-3 ms-3"><pre>{project['desc_' + props.language.language]}</pre></div>
+            <div id='projectDiv' className="fw-bold mt-3 ms-3"></div>
             {project.link !== '' && <p className="d-flex align-items-center">
                 <a className="ms-3 text-black" target='_blank' rel='noreferrer' href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
                 <img src="/images/caret-right-small.svg" alt="" />

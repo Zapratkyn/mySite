@@ -31,8 +31,6 @@ function Admin({props}) {
     let projectIndex = 0
     let suggestIndex = 0
 
-    console.log(data.suggestions)
-
     return (
         <section className="me-2">
             <Title title='Admin' />

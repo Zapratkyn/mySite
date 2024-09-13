@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import {Loading, Title} from "./Helpers"
+import {Loading, Title, format} from "./Helpers"
 import { useMediaQuery } from 'react-responsive'
 
 function Home({props}) {
@@ -31,6 +31,10 @@ function Article({article, props}) {
     
     const lg = useMediaQuery({query: '(max-width: 1000px)'})
 
+    useEffect(() => {
+        document.getElementById('article_' + article.id).innerHTML = format(article['content_' + props.language.language])
+    }, [props.language, article])
+
     return (
         <article className={`border rounded p-3 ${lg ? 'w-100' : 'w-75'}`}>
             <div>
@@ -38,7 +42,7 @@ function Article({article, props}) {
                 <span>{article.creation_date}</span>
                 <hr />
             </div>
-            <div><pre>{props.language.language === 'fr' ? article.content_fr : article.content_en}</pre></div>
+            <div id={'article_' + article.id}></div>
         </article>
     )
 

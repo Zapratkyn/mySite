@@ -21,8 +21,10 @@ function App() {
   const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, setMessages, socket, navigate}
 
   useEffect(() => {
-    if (!socket)
+    if (!socket) {
+      fetch('/profiles/getCookie')
       setSocket(new WebSocket('wss://' + window.location.host + '/ws/chat/'))
+    }
     else {
       socket.onmessage = e =>  {
         let data = JSON.parse(e.data)
@@ -35,6 +37,9 @@ function App() {
       }
     }
   }, [socket, messages])
+
+  if (socket)
+    socket.onopen = () => socket.send(JSON.stringify({action : 'login'}))
 
   return (
     <>

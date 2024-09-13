@@ -80,7 +80,8 @@ function French() {
         chatError_3 : "Commande incorrecte. Usage : /w [nom du destinataire] [message]",
         chatError_4 : "Vous ne pouvez pas vous envoyer de message privé à vous-même",
         me : 'Moi',
-        seeProfile : 'Voir le profil'
+        seeProfile : 'Voir le profil',
+        noProfile : 'Ce profil n\'existe pas'
     }
 }
 
@@ -161,6 +162,7 @@ function English() {
         chatError_3 : "Incorrect command. Use : /w [target name] [message]",
         chatError_4 : "You cannot send a private message to yourself",
         me : 'Moi',
-        seeProfile : 'See profile'
+        seeProfile : 'See profile',
+        noProfile : 'This profile does not exist'
     }
 }

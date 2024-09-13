@@ -55,7 +55,7 @@ export function CustomForm({props}) {
 
 }
 
-export function validateSignup(inputs, {props}) {
+export function validateSignup(inputs, props) {
 
   let okay = true
   const nameRegex = /^[a-zA-Z0-9]*$/
@@ -139,5 +139,13 @@ export function getMessage(prompt, myName) {
   }
 
   return message
+
+}
+
+export function format(str) {
+
+  let regex = /\n/g
+  let result = str.replace(regex, '<br>')
+  return result
 
 }

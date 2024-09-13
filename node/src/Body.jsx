@@ -10,6 +10,7 @@ import Admin from "./Admin.jsx"
 import { EditArticle, EditProject, ReadSuggestion } from "./Admin.jsx"
 import { useMediaQuery } from 'react-responsive'
 import { useState } from "react"
+import Profile from "./Profile.jsx"
 
 function Body({props}) {
 
@@ -57,6 +58,7 @@ function MainFrame({props, md}) {
                 <Route path='/bio' element={<Bio props={props} />} />
                 <Route path='/project' element={<Projects props={props} />} />
                 <Route path="/project/:id" element={<ProjectPage props={props} />} />
+                <Route path="/profile/:id" element={<Profile props={props} />} />
                 <Route path='/suggest' element={<Suggest props={props} />} />
                 <Route path='/signup' element={<SignUp props={props} />} />
                 <Route path='/signin' element={<SignIn props={props} />} />

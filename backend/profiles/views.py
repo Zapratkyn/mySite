@@ -1,4 +1,5 @@
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.middleware.csrf import get_token
 from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse, HttpResponse
@@ -45,7 +46,7 @@ def SignIn(request):
 def createUser(username, email, password):
     try:
         newUser = User.objects.create_user(username=username, password=password, email=email)
-        newProfile = Profile(user=newUser, name=username, online=True)
+        newProfile = Profile(user=newUser, name=username)
         newProfile.save()
         return newUser
     except Exception as e: logger.debug(f"{e}")
@@ -97,9 +98,32 @@ def SignOut(request):
             return HttpResponse()
         profile = Profile.objects.get(user=request.user)
         profile.online = False
-        profile.chatChannelName = None
         profile.save()
         logout(request)
         return HttpResponse()
     except: return JsonResponse({"code" : 2}, status=500)
     
+class GetProfile(View):
+    def get(self, request, id):
+        response = HttpResponse()
+        try:
+            profile = Profile.objects.get(id=id)
+            if not profile:
+                response.status_code = 404
+                return response
+            return JsonResponse({
+                "id" : profile.id,
+                "name" : profile.name,
+                "online" : profile.online
+            })
+        except:
+            response.status_code = 400
+            return response
+        
+class GetCookie(View):
+    def get(self, request):
+        csrf_token = get_token(request)
+        response_data = {'message': 'Login successful'}
+        response = JsonResponse(response_data)
+        response.set_cookie('csrftoken', csrf_token)
+        return response

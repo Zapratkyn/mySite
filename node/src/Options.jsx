@@ -75,6 +75,7 @@ function MenuIn({props}) {
             if (response.status === 200) {
                 props.setMyProfile(undefined)
                 props.setCurrentPage('/')
+                props.socket.send(JSON.stringify({action : 'logout'}))
                 props.navigate('/')
             }
         })
