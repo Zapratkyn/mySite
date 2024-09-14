@@ -12,9 +12,8 @@ function Admin({props}) {
         if (!data) {
             setData('loading')
             fetch('/backAdmin').then(response => {
-                if (response.status === 200) {
+                if (response.status === 200)
                     response.json().then(newData => setData(newData))
-                }
                 else
                     setData(-1)
             })

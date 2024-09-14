@@ -19,7 +19,7 @@ function Body({props}) {
     const [displayWidgets, setDisplayWidgets] = useState(!md)
 
     return (
-        <div className="w-100 d-flex align-items-center flex-column" style={{minHeight : 'calc(100vh - 265px)'}}>
+        <div className="w-100 d-flex align-items-center flex-column flex-grow-1">
             <Links lg={lg} />
             {md && <p type='button' onClick={() => setDisplayWidgets(!displayWidgets)} className="d-flex gap-1 bg-secondary-subtle rounded w-75 ps-1 fw-bold mt-3">
                     {props.language.displayWidgets}

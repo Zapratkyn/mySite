@@ -55,60 +55,64 @@ function Project({props, project, index}) {
             <h5 className="text-primary mb-0">{project.name}</h5>
             <p>({props.language.created} {project.creation_date})</p>
             <p className="mb-0">{startOnly(project['desc_' + props.language.language])}</p>
-            <p className="d-flex gap-2">
-                {project.languages.map(language => <Language key={language} language={language} />)}
-            </p>
         </li>
     )
 
 }
 
-function Language({language}) {
+// function Language({language}) {
 
-    const getColor = () => {
-        if (language === 'C++')
-            return 'bg-danger'
-        else if (language === 'C')
-            return 'bg-danger-subtle'
-        else if (language === 'HTML')
-            return 'bg-warning'
-        else if (language === 'Python')
-            return 'bg-success'
-        else if (language === 'Javascript')
-            return 'bg-secondary'
-        return 'bg-primary'
-    }
+//     const getColor = () => {
+//         if (language === 'C++')
+//             return 'bg-danger'
+//         else if (language === 'C')
+//             return 'bg-danger-subtle'
+//         else if (language === 'HTML')
+//             return 'bg-warning'
+//         else if (language === 'Python')
+//             return 'bg-success'
+//         else if (language === 'Javascript')
+//             return 'bg-secondary'
+//         return 'bg-primary'
+//     }
 
-    return (
-        <span className="d-flex align-items-center gap-1">
-            <span className={`rounded-circle border border-black ${getColor()}`} style={{height : '10px', width : '10px'}}></span>
-            {language}
-        </span>
-    )
+//     return (
+//         <span className="d-flex align-items-center gap-1">
+//             <span className={`rounded-circle border border-black ${getColor()}`} style={{height : '10px', width : '10px'}}></span>
+//             {language}
+//         </span>
+//     )
 
-}
+// }
 
 export function ProjectPage({props}) {
 
     const [project, setProject] = useState(undefined)
     const id = useParams().id
 
+    let idInt = parseInt(id, 10)
+
     useEffect(() => {
-        if (!project) {
+        if (isNaN(idInt))
+            setProject(-1)
+        else if (!project) {
             setProject('loading')
-            fetch('/projects/' + id).then(response => {
+            fetch('/projects/' + idInt).then(response => {
                 if (response.status === 200)
                     response.json().then(data => setProject(data))
             })
         }
-    }, [project, id])
+    }, [project, idInt])
 
     useEffect(() => {
-        if (project && project !== 'loading')
+        if (project && !(project < 1) && project !== 'loading')
             document.getElementById('projectDiv').innerHTML = format(project['desc_' + props.language.language])
     }, [props.language, project])
 
-    if (!project || project === 'loading')
+    if (project < 0)
+        return <h1>{props.language.noProject}</h1>
+
+    else if (!project || project === 'loading')
         return <Loading />
 
     return (

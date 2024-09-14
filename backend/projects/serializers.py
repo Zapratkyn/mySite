@@ -1,4 +1,3 @@
-from django.utils.dateparse import parse_datetime
 from datetime import datetime
 import logging
 
@@ -14,8 +13,7 @@ class ProjectListSerializer:
             "name" : self.instance.name,
             "creation_date" : datetime.strftime(self.instance.creation_date, '%d/%m/%Y'),
             "desc_en" : self.instance.description_en,
-            "desc_fr" : self.instance.description_fr,
-            "languages" : self.instance.languages
+            "desc_fr" : self.instance.description_fr
         }
     
 class HomePageArticleSerializer:

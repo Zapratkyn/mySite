@@ -34,22 +34,22 @@ function App() {
           setMyProfile(data)
         }
         else if (Object.keys(data).includes('success'))
-          setLanguage(getLanguage(props.language.language))
+          setLanguage(getLanguage(language.language))
         else
           setMessages([...messages, data])
       }
     }
-  }, [socket, messages])
+  }, [socket, messages, language])
 
   return (
-    <>
+    <div className='d-flex flex-column vh-100'>
       <Options props={props} />
       <Header props={props} />
       <Body props={props} />
       <Chat props={props} />
       <Footer props={props} />
       <img className='rounded-circle border border-black border-3 p-2' onClick={() => setDisplayChat(!displayChat)} src="/images/wechat.svg" alt="" style={{position : 'fixed', bottom : '20px', right : '30px'}} />
-    </>
+    </div>
   )
 }
 
