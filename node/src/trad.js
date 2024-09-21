@@ -82,7 +82,10 @@ function French() {
         me : 'Moi',
         seeProfile : 'Voir le profil',
         noProfile : 'Ce profil n\'existe pas',
-        sendWhisp : 'Envoyer un message privé'
+        sendWhisp : 'Envoyer un message privé',
+        leaveAComment : 'Laisser un commentaire',
+        send : 'Envoyer',
+        somethingWentWrong : 'Une erreur est survenue'
     }
 }
 
@@ -165,6 +168,9 @@ function English() {
         me : 'Moi',
         seeProfile : 'See profile',
         noProfile : 'This profile does not exist',
-        sendWhisp : 'Send a private message'
+        sendWhisp : 'Send a private message',
+        leaveAComment : 'Leave a comment',
+        send : 'Send',
+        somethingWentWrong : 'Something went wrong'
     }
 }

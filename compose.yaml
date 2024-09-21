@@ -45,8 +45,8 @@ services:
     build: ./backend
     env_file:
       - .env
-    expose:
-      - "8000"
+    ports:
+      - "8000:800"
     volumes:
       - ./backend:/app
     restart: unless-stopped

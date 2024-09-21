@@ -283,7 +283,6 @@ export function EditProject({type, props}) {
         fetch('/backAdmin/'.concat(type === 'new' ? 'newProject' : 'editProject/' + id), {
             method : 'POST',
             headers: {'X-CSRFToken': token},
-            mode : 'same-origin',
             body : JSON.stringify(toSend)
         }).then(response => {
             if (response.status === 200 || response.status === 201) {
@@ -296,7 +295,7 @@ export function EditProject({type, props}) {
 
     const del = () => {
         if (window.confirm("T'es sûr ?")) {
-            fetch('/backAdmin/editProject' + id, {
+            fetch('/backAdmin/editProject/' + id, {
                 method : 'DELETE',
                 headers: {'X-CSRFToken': token},
                 mode : 'same-origin',

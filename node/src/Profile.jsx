@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import { useMediaQuery } from 'react-responsive'
 import { Loading } from "./Helpers"
 
 function Profile({props}) {
 
     const [profile, setProfile] = useState(undefined)
+    const sm = useMediaQuery({query: '(max-width: 769px)'})
+    const lg = useMediaQuery({query: '(min-width: 1350px)'})
+    const picSize = (sm || lg) ? '150px' : '75px'
     const id = useParams().id
 
     let idInt = parseInt(id, 10)
@@ -30,12 +34,12 @@ function Profile({props}) {
         return <Loading />
 
     return (
-        <section className="d-flex gap-2 pe-2">
-            <div className="rounded border border-2 w-25 p-2 d-flex flex-column align-items-center gap-2">
-                <img src="/images/default-avatar.jpg" className="rounded-circle" alt="" style={{height : '150px', width : '150px'}} />
+        <section className={`d-flex gap-2 pe-2 ${sm && 'flex-column'}`}>
+            <div className={`rounded border border-2 p-2 d-flex flex-column align-items-center gap-2 ${!sm && 'w-25'}`}>
+                <img src="/images/default-avatar.jpg" className="rounded-circle" alt="" style={{height : picSize, width : picSize}} />
                 <span className="h4 fw-bold">{profile.name}</span>
             </div>
-            <div className="rounded border border-success w-75" style={{height : '200px'}}></div>
+            <div className={`rounded border border-success ${!sm && 'w-75'}`} style={{height : '200px'}}></div>
         </section>
     )
     

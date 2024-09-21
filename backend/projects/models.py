@@ -1,8 +1,13 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
 from django.utils import timezone
 
 # Create your models here.
+
+class Message(models.Model):
+    author = models.ForeignKey('profiles.Profile', related_name='messageAuthor', null=True, on_delete=models.RESTRICT)
+    date = models.DateTimeField(default=timezone.now)
+    content = models.CharField(default='', max_length=1000)
+    read = models.BooleanField(default=False)
 
 class Project(models.Model):
     name = models.CharField(max_length=100, default='')
@@ -14,11 +19,7 @@ class Project(models.Model):
     # integration = models.BooleanField(default=False)
     contrib = models.ManyToManyField("profiles.Profile", related_name='contributors')
     # completion = models.IntegerField(default=0)
-    comments = models.ManyToManyField('Message', related_name='comments')
+    comments = models.ManyToManyField('projects.Message', related_name='comments')
     isCurrent = models.BooleanField(default=False)
 
-class Message(models.Model):
-    author = models.ForeignKey('profiles.Profile', related_name='messageAuthor', on_delete=models.CASCADE)
-    date = models.DateTimeField(default=timezone.now)
-    content = models.CharField(default='')
-    read = models.BooleanField(default=False)
+

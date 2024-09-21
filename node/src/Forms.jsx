@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import {Title, validateForm, validateSignup} from "./Helpers"
 import Cookies from 'js-cookie'
-// import { getLanguage } from "./trad"
 
 export function SignIn({props}) {
 
@@ -34,10 +33,6 @@ export function SignIn({props}) {
                 props.socket.close()
                 props.setCurrentPage('/')
                 props.navigate('/')
-                    // response.json().then(data => {
-                    // props.setMyProfile(data)
-                    // props.setLanguage(getLanguage(data.language))
-                    // props.socket.send(JSON.stringify({action : 'login'}))
             }
             else if(response.status !== 404) {
                 response.json().then(data => 
@@ -60,11 +55,11 @@ export function SignIn({props}) {
     return (
         <section className="me-2">
             <Title title={props.language.signIn} />
-            <form className="rounded border border-3 mt-5 w-50 d-flex flex-column align-items-center p-3 fw-bold gap-2" style={{margin : 'auto'}}>
+            <form className={`rounded border border-3 mt-5 d-flex flex-column align-items-center p-3 fw-bold gap-2 w-50`} style={{margin : 'auto', minWidth :'250px'}}>
                 <label htmlFor="username">{props.language.username}</label>
-                <input className="form-control w-50" onKeyDown={typing} type="text" name="username" id="username" />
+                <input className={`form-control w-50`} onKeyDown={typing} type="text" name="username" id="username" style={{minWidth : '210px'}} />
                 <label htmlFor="password">{props.language.password}</label>
-                <input className="form-control w-50" onKeyDown={typing} type="password" name="password" id="password" />
+                <input className={`form-control w-50`} onKeyDown={typing} type="password" name="password" id="password" style={{minWidth : '210px'}} />
                 <span className="h6">({props.language.allFieldsMandatory})</span>
                 <button onClick={signIn} type='button' className="btn btn-secondary mt-3">{props.language.connexion}</button>
                 <span id='signInError'></span>
@@ -138,17 +133,17 @@ export function SignUp({props}) {
     return (
         <section className="me-2">
             <Title title={props.language.signUp} />
-            <form className="rounded border border-3 mt-5 w-50 d-flex flex-column align-items-center p-3 fw-bold gap-2" style={{margin : 'auto'}}>
+            <form className="rounded border border-3 mt-5 w-50 d-flex flex-column align-items-center p-3 fw-bold gap-2" style={{margin : 'auto', minWidth : '250px'}}>
                 <label htmlFor="username">{props.language.username}</label>
-                <input className="form-control w-50" onKeyDown={typing} type="text" name="username" id="username" title={props.language.nameRegex} />
+                <input className="form-control w-50" onKeyDown={typing} type="text" name="username" id="username" style={{minWidth : '210px'}} />
                 <span id='wrongName' className="text-danger"></span>
                 <label htmlFor="email">E-mail</label>
-                <input className="form-control w-50" onKeyDown={typing} type="email" name="email" id="email" />
+                <input className="form-control w-50" onKeyDown={typing} type="email" name="email" id="email" style={{minWidth : '210px'}} />
                 <label htmlFor="password">{props.language.password}</label>
-                <input className="form-control w-50" onKeyDown={typing} type="password" name="password" id="password" title={props.language.PWRegex} />
+                <input className="form-control w-50" onKeyDown={typing} type="password" name="password" id="password" style={{minWidth : '210px'}} />
                 <span id='wrongPW' className="text-danger"></span>
                 <label htmlFor="passwordConfirm">{props.language.passwordConfirm}</label>
-                <input className="form-control w-50" onKeyDown={typing} type="password" name="passwordConfirm" id="passwordConfirm" />
+                <input className="form-control w-50" onKeyDown={typing} type="password" name="passwordConfirm" id="passwordConfirm" style={{minWidth : '210px'}} />
                 <span className="h6">({props.language.allFieldsMandatory})</span>
                 <span id='noMatch' className="text-danger"></span>
                 <button onClick={signUp} type='button' className="btn btn-secondary mt-3">{props.language.createAccount}</button>

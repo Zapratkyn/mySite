@@ -131,6 +131,8 @@ class NewProject(View):
             desc_fr = data.get('desc_fr')
             desc_en = data.get('desc_en')
             project = Project(name=name, link=link, description_fr=desc_fr, description_en=desc_en)
+            if list(Project.objects.all()).__len__() == 0:
+                project.isCurrent = True
             project.save()
             return JsonResponse({"id" : project.id}, status=201)
         except:

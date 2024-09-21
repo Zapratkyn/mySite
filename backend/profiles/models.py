@@ -9,9 +9,8 @@ class Profile(models.Model):
     onGoingSuggestion = models.BooleanField(default=False)
     # avatar = models.ImageField(default=None, blank=True)
     language = models.CharField(max_length=2, default='en')
-    NbOfMessages = models.IntegerField(default=0)
-    # messages = models.ManyToManyField('projects.Message', related_name='messages')
+    # NbOfMessages = models.IntegerField(default=0)
+    messages = models.ManyToManyField('projects.Message', related_name='messages')
     # contributions = models.ManyToManyField('projects.Project', related_name='contrib')
     # suggestions = models.ManyToManyField('projects.Suggestion', related_name='suggestions')
 
-# class Message(models.Model)

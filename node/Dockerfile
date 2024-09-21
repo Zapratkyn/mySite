@@ -14,4 +14,4 @@ RUN npm install
 VOLUME /app/src
 VOLUME /app/public
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "build"]

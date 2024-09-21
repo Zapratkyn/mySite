@@ -28,3 +28,20 @@ class HomePageArticleSerializer:
             "content_fr" : self.instance.content_fr,
             "content_en" : self.instance.content_en
         }
+    
+class CommentSerializer:
+    def __init__(self, instance):
+        self.instance = instance
+
+    def data(self, isMyComment):
+        return {
+            "author" : {
+                "id" : self.instance.author.id,
+                "name" : self.instance.author.name,
+                "avatar" : "/images/default-avatar.jpg"
+            },
+            "id" : self.instance.id,
+            "date" : datetime.strftime(self.instance.date, '%d/%m/%Y'),
+            "content" : self.instance.content,
+            "isMyComment" : isMyComment
+        }
