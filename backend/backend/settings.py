@@ -150,12 +150,17 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGGING = {
-    "version": 1,  # the dictConfig format version
-    "disable_existing_loggers": False,  # retain the default loggers
+    "version": 1,
+    "disable_existing_loggers": False,
     'handlers': {
         'console' : {
             'level' : 'DEBUG',
             'class' : 'logging.StreamHandler',
+        },
+        'logfile' : {
+            'level' : 'INFO',
+            'class' : 'logging.FileHandler',
+            'filename' : 'chat/chat.log'
         }
     },
     "loggers": {
@@ -166,6 +171,10 @@ LOGGING = {
         "chat.consumers": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
+        },
+        "chat.consumers" : {
+            'handlers' : ['logfile'],
+            'level' : 'INFO'
         },
         "profiles.views": {
             'handlers' : ['console'],

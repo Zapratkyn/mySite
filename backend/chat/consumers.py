@@ -1,7 +1,9 @@
 from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from profiles.models import Profile
-from projects.models import Project
+from django.utils import timezone
+from datetime import datetime
+import pytz
 
 import logging
 
@@ -10,6 +12,7 @@ logger = logging.getLogger(__name__)
 class ChatConsumer(JsonWebsocketConsumer):
 
     connected_users = {}
+    last_fifty_messages = []
 
     def connect(self):
         self.user = self.scope["user"]
@@ -69,6 +72,11 @@ class ChatConsumer(JsonWebsocketConsumer):
             }
         }
         if type == "message":
+            if ChatConsumer.last_fifty_messages.__len__() >= 50:
+                del ChatConsumer.last_fifty_messages[0]
+            ChatConsumer.last_fifty_messages.append(data["message"])
+            now = datetime.now(pytz.timezone('Europe/Amsterdam'))
+            logger.info('[' + datetime.strftime(now, '%d/%m/%Y, %H:%M:%S') + '] : ' + data["message"]["name"] + ' - ' + data["message"]["message"])
             async_to_sync(self.channel_layer.group_send)("chat", data)
         elif type == "whisp":
             target = content["target"]

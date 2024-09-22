@@ -22,8 +22,12 @@ function App() {
 
   useEffect(() => {
     if (!socket) {
-      fetch('/profiles/getCookie')
-      setSocket(new WebSocket('wss://' + window.location.host + '/ws/chat/'))
+      fetch('/chat/init').then(response => {
+        if (response.status === 200) {
+          setSocket(new WebSocket('wss://' + window.location.host + '/ws/chat/'))
+          response.json().then(data => setMessages(data.data))
+        }
+      })
     }
     else {
       socket.onclose = () => setSocket(new WebSocket('wss://' + window.location.host + '/ws/chat/'))
