@@ -150,3 +150,20 @@ class EditComment(View):
         except :
             response.status_code = 400
             return response
+        
+    def delete(self, request, id):
+        response = HttpResponse()
+        try: 
+            if not request.user.is_authenticated:
+                response.status_code = 403
+                return response
+            profile = Profile.objects.get(user=request.user)
+            comment = Comment.objects.get(id=id)
+            if not comment.author == profile:
+                response.status_code = 403
+                return response
+            comment.delete()
+            return response
+        except :
+            response.status_code = 400
+            return response

@@ -86,7 +86,9 @@ function French() {
         leaveAComment : 'Laisser un commentaire',
         send : 'Envoyer',
         somethingWentWrong : 'Une erreur est survenue',
-        edited : 'Edité le'
+        edited : 'Edité le',
+        delete : "Supprimer",
+        areYouSure : "T'es sûr(e) ?"
     }
 }
 
@@ -173,6 +175,8 @@ function English() {
         leaveAComment : 'Leave a comment',
         send : 'Send',
         somethingWentWrong : 'Something went wrong',
-        edited : 'Edited on'
+        edited : 'Edited on',
+        delete : "Delete",
+        areYouSure : "Are you sure ?"
     }
 }

@@ -140,7 +140,7 @@ export function ProjectPage({props}) {
                 <a className="ms-3 text-black" target='_blank' rel='noreferrer' href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
                 <img src="/images/caret-right-small.svg" alt="" />
             </p>}
-            {project.comments.length > 0 && <ul className="list-group gap-2">{project.comments.map(comment => <Comment key={comment.id} props={props} comment={comment} />)}</ul>}
+            {project.comments.length > 0 && <ul className="list-group gap-2">{project.comments.map(comment => <Comment key={comment.id} props={props} comment={comment} project={project} setProject={setProject} />)}</ul>}
             <div className="d-flex flex-column my-2">
                 <label className="h3" htmlFor="commentArea">{props.language.leaveAComment}</label>
                 <textarea className="rounded" rows='5' name="commentArea" id="commentArea"></textarea>
@@ -151,7 +151,7 @@ export function ProjectPage({props}) {
 
 }
 
-function Comment({props, comment}) {
+function Comment({props, comment, project, setProject}) {
 
     const [edit, setEdit] = useState(false)
     const [commentCopy, setCommentCopy] = useState(comment)
@@ -191,6 +191,18 @@ function Comment({props, comment}) {
         })
     }
 
+    const delComment = () => {
+        if (window.confirm(props.language.areYouSure)) {
+            fetch('/projects/editComment/' + commentCopy.id, {
+                method : 'DELETE',
+                headers: {'X-CSRFToken': token}
+            }).then(response => {
+                if (response.status === 200)
+                    setProject({...project, comments : project.comments.filter(comment => comment.id !== commentCopy.id)})
+            })
+        }
+    }
+
     return (
         <li className="fw-bold rounded border border-2 border-black list-group-item d-flex p-0" style={{minHeight : '100px'}}>
             <div className="d-flex flex-column align-items-center justify-content-center border-end" style={{width : '10%', minWidth : '60px'}}>
@@ -201,7 +213,14 @@ function Comment({props, comment}) {
                 {edit ?
                 <fieldset>
                     <textarea className="form-control" name={"editComment_" + commentCopy.id} id={"editComment_" + commentCopy.id} defaultValue={commentCopy.content} style={{height : '200px'}}></textarea>
-                    <button id={'editCommentBtn_' + commentCopy.id} onClick={editComment} type="button" className="btn btn-secondary my-2 ms-3">{props.language.send}</button>
+                    <div className="d-flex gap-1 ms-2">
+                        <button id={'editCommentBtn_' + commentCopy.id} onClick={editComment} type="button" className="btn btn-secondary my-2">
+                            {props.language.send}
+                        </button>
+                        <button id={'delCommentBtn_' + commentCopy.id} onClick={delComment} type="button" className="btn btn-danger my-2">
+                            {props.language.delete}
+                        </button>
+                    </div>
                 </fieldset> :
                 <div id={'comment_' + commentCopy.id} className="p-3" style={{width : '90%'}}></div>}
                 <div className="border-top ps-2 fw-light">{(commentCopy.edited ? props.language.edited : props.language.created) + ' : ' + commentCopy.date}</div>
