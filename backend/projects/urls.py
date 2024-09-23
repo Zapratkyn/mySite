@@ -1,5 +1,5 @@
 from django.urls import path
-from projects.views import NewSuggestion, ProjectList, ProjectPage, GetCurrent, GetArticles, NewComment
+from projects.views import NewSuggestion, ProjectList, ProjectPage, GetCurrent, GetArticles, NewComment, EditComment
 
 urlpatterns = [
     path('newSuggestion', NewSuggestion.as_view()),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('getCurrent', GetCurrent.as_view()),
     path('articles', GetArticles.as_view()),
     path('<int:id>/newComment', NewComment.as_view()),
+    path('editComment/<int:id>', EditComment.as_view())
 ]

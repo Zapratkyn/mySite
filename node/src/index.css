@@ -69,3 +69,9 @@ header, .dropdown-menu {
   top : -2px;
   right : -2px;
 }
+
+.editButton {
+  position:  absolute;
+  top : 3px;
+  right : 3px;
+}

@@ -85,7 +85,8 @@ function French() {
         sendWhisp : 'Envoyer un message privé',
         leaveAComment : 'Laisser un commentaire',
         send : 'Envoyer',
-        somethingWentWrong : 'Une erreur est survenue'
+        somethingWentWrong : 'Une erreur est survenue',
+        edited : 'Edité le'
     }
 }
 
@@ -102,7 +103,7 @@ function English() {
         logout : 'Log out',
         signUp : 'Sign up',
         contact : 'Contact informations',
-        created : 'Created : ',
+        created : 'Created on : ',
         poll : 'Poll',
         pollAsk : 'What should I do next ?',
         suggest : 'A new idea ?',
@@ -171,6 +172,7 @@ function English() {
         sendWhisp : 'Send a private message',
         leaveAComment : 'Leave a comment',
         send : 'Send',
-        somethingWentWrong : 'Something went wrong'
+        somethingWentWrong : 'Something went wrong',
+        edited : 'Edited on'
     }
 }

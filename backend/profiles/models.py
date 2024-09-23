@@ -10,7 +10,7 @@ class Profile(models.Model):
     # avatar = models.ImageField(default=None, blank=True)
     language = models.CharField(max_length=2, default='en')
     # NbOfMessages = models.IntegerField(default=0)
-    messages = models.ManyToManyField('projects.Message', related_name='messages')
+    comments = models.ManyToManyField('projects.Comment', related_name='messages')
     # contributions = models.ManyToManyField('projects.Project', related_name='contrib')
     # suggestions = models.ManyToManyField('projects.Suggestion', related_name='suggestions')
 

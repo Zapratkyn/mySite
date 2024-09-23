@@ -3,8 +3,9 @@ from django.views import View
 from django.http import JsonResponse, HttpResponse
 from profiles.models import Profile
 from backAdmin.models import Suggestion, Article
-from projects.models import Project, Message
+from projects.models import Project, Comment
 from projects.serializers import ProjectListSerializer, HomePageArticleSerializer, CommentSerializer
+from django.utils import timezone
 import json
 import logging
 
@@ -59,7 +60,7 @@ class ProjectPage(View):
             if request.user.is_authenticated and not request.user.is_superuser:
                 profile = Profile.objects.get(user=request.user)
             comment_list = []
-            for comment in project.comments.all():
+            for comment in project.comments.all().order_by('id'):
                 isMyComment = False
                 if profile != None and comment.author != None and profile.id == comment.author.id:
                     isMyComment = True
@@ -116,13 +117,35 @@ class NewComment(View):
             project = Project.objects.get(id=id)
             data = json.loads(request.body)
             comment = data.get('comment')
-            newComment = Message(author=profile, content=comment)
+            newComment = Comment(author=profile, content=comment)
             newComment.save()
-            profile.messages.add(newComment)
+            profile.comments.add(newComment)
             profile.save()
             project.comments.add(newComment)
             project.save()
-            response.status_code = 201
+            return JsonResponse({"data" : CommentSerializer(newComment).data(True)}, status=201)
+        except :
+            response.status_code = 400
+            return response
+        
+class EditComment(View):
+    def post(self, request, id):
+        response = HttpResponse()
+        try: 
+            if not request.user.is_authenticated:
+                response.status_code = 403
+                return response
+            profile = Profile.objects.get(user=request.user)
+            comment = Comment.objects.get(id=id)
+            if not comment.author == profile:
+                response.status_code = 403
+                return response
+            data = json.loads(request.body)
+            newComment = data.get('comment')
+            comment.edited = True
+            comment.date = timezone.now()
+            comment.content = newComment
+            comment.save()
             return response
         except :
             response.status_code = 400

@@ -1,5 +1,7 @@
 from django.db import models
+from datetime import datetime
 from django.utils import timezone
+import pytz
 
 # Create your models here.
 
@@ -11,6 +13,7 @@ class Suggestion(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=50, default='')
-    creation_date = models.DateTimeField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now)
     content_en = models.CharField(max_length=1000, default='')
     content_fr = models.CharField(max_length=1000, default='')
+    edited = models.BooleanField(default=False)

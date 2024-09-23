@@ -1,13 +1,17 @@
 from django.db import models
+from datetime import datetime
 from django.utils import timezone
+import pytz
 
 # Create your models here.
 
-class Message(models.Model):
+class Comment(models.Model):
     author = models.ForeignKey('profiles.Profile', related_name='messageAuthor', null=True, on_delete=models.RESTRICT)
     date = models.DateTimeField(default=timezone.now)
     content = models.CharField(default='', max_length=1000)
     read = models.BooleanField(default=False)
+    edited = models.BooleanField(default=False)
+    responses = models.ManyToManyField('self')
 
 class Project(models.Model):
     name = models.CharField(max_length=100, default='')
@@ -19,7 +23,7 @@ class Project(models.Model):
     # integration = models.BooleanField(default=False)
     contrib = models.ManyToManyField("profiles.Profile", related_name='contributors')
     # completion = models.IntegerField(default=0)
-    comments = models.ManyToManyField('projects.Message', related_name='comments')
+    comments = models.ManyToManyField('projects.Comment', related_name='comments')
     isCurrent = models.BooleanField(default=False)
 
 

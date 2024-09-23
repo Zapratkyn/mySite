@@ -1,4 +1,3 @@
-from django.middleware.csrf import get_token
 from django.views import View
 from django.http import JsonResponse, HttpResponse
 from django.core.validators import validate_email
@@ -29,19 +28,6 @@ def SignIn(request):
             return JsonResponse({"error" : 2}, status=400)
         login(request, user)
         return HttpResponse()
-        # if user.is_superuser:
-        #     return JsonResponse({
-        #         "id" : "admin",
-        #         "language" : "fr",
-        #         "name" : "admin"
-        #     }, status=200)
-        # profile = Profile.objects.get(user=user)
-        # return JsonResponse({
-        #     "id" : profile.id,
-        #     "name" : profile.name,
-        #     "language" : profile.language,
-        #     "onGoingSuggestion" : profile.onGoingSuggestion
-        # }, status=200)
     except: return JsonResponse({"error" : 3}, status=500)
 
 def createUser(username, email, password):
@@ -115,10 +101,3 @@ class GetProfile(View):
             response.status_code = 400
             return response
         
-class GetCookie(View):
-    def get(self, request):
-        csrf_token = get_token(request)
-        response_data = {'message': 'Login successful'}
-        response = JsonResponse(response_data)
-        response.set_cookie('csrftoken', csrf_token)
-        return response

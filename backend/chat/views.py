@@ -7,10 +7,6 @@ from chat.consumers import ChatConsumer
 
 class Init(View):
     def get(self, request):
-        messages = []
-        for message in ChatConsumer.last_fifty_messages:
-            messages.append(message)
-        response = JsonResponse({"data" : messages})
-        csrf_token = get_token(request)
-        response.set_cookie('csrftoken', csrf_token)
+        response = JsonResponse({"data" : ChatConsumer.last_fifty_messages})
+        response.set_cookie('csrftoken', get_token(request))
         return response

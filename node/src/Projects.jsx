@@ -118,15 +118,12 @@ export function ProjectPage({props}) {
             headers: {'X-CSRFToken': token},
             body : JSON.stringify({comment : document.getElementById('commentArea').value})
         }).then(response => {
-            if (response.status !== 201)
+            if (response.status === 201)
+                response.json().then(data => setProject({...project, comments : [...project.comments, data.data]}))
+            else
                 window.alert(props.language.somethingWentWrong)
-            else {
-                fetch('/projects/' + idInt + '/comments').then(response => {
-                    if (response.status === 200)
-                        response.json().then(data => setProject({...project, comments : data}))
-                })
-            }
         })
+        document.getElementById('commentArea').value = ''
     }
 
     if (project < 0)
@@ -139,16 +136,16 @@ export function ProjectPage({props}) {
         <section className="me-2">
             <Title title={project.name} />
             <div id='projectDiv' className="fw-bold mt-3 ms-3"></div>
-            {project.link !== '' && <p className="d-flex align-items-center">
+            {project.link !== '' && <p className="d-flex align-items-center mt-5">
                 <a className="ms-3 text-black" target='_blank' rel='noreferrer' href={project.link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
                 <img src="/images/caret-right-small.svg" alt="" />
             </p>}
-            <div className="d-flex flex-column mb-2">
+            {project.comments.length > 0 && <ul className="list-group gap-2">{project.comments.map(comment => <Comment key={comment.id} props={props} comment={comment} />)}</ul>}
+            <div className="d-flex flex-column my-2">
                 <label className="h3" htmlFor="commentArea">{props.language.leaveAComment}</label>
                 <textarea className="rounded" rows='5' name="commentArea" id="commentArea"></textarea>
                 <div className="d-flex justify-content-center mt-2"><button onClick={sendComment} type='button' className="btn btn-secondary">{props.language.send}</button></div>
             </div>
-            {project.comments.length > 0 && <ul className="list-group gap-2">{project.comments.map(comment => <Comment props={props} comment={comment} />)}</ul>}
         </section>
     )
 
@@ -156,19 +153,59 @@ export function ProjectPage({props}) {
 
 function Comment({props, comment}) {
 
+    const [edit, setEdit] = useState(false)
+    const [commentCopy, setCommentCopy] = useState(comment)
+    const token = Cookies.get('csrftoken')
+
     useEffect(() => {
-        document.getElementById('comment_' + comment.id).innerHTML = format(comment.content)
-    }, [comment])
+        if (!edit)
+            document.getElementById('comment_' + commentCopy.id).innerHTML = format(commentCopy.content)
+    }, [commentCopy])
+
+    const date = () => {
+        var result=""
+        var d = new Date()
+        result += d.getFullYear()+"/"+(d.getMonth()+1)+"/"+d.getDate() + 
+                  " "+ d.getHours()+":"+d.getMinutes()+":"+
+                  d.getSeconds()
+        return result
+    }
+
+    const editComment = () => {
+        document.getElementById('editCommentBtn_' + comment.id).disabled = true
+        fetch('/projects/editComment/' + comment.id, {
+            method : 'POST',
+            headers: {'X-CSRFToken': token},
+            body : JSON.stringify({comment : document.getElementById('editComment_' + commentCopy.id).value})
+        }).then(response => {
+            if (response.status === 200) {
+                document.getElementById('editCommentBtn_' + comment.id).disabled = false
+                setEdit(false)
+                setCommentCopy({
+                    ...comment,
+                    content : document.getElementById('editComment_' + commentCopy.id).value,
+                    edited : true,
+                    date : date()
+                })
+            }
+        })
+    }
 
     return (
         <li className="fw-bold rounded border border-2 border-black list-group-item d-flex p-0" style={{minHeight : '100px'}}>
             <div className="d-flex flex-column align-items-center justify-content-center border-end" style={{width : '10%', minWidth : '60px'}}>
-                <img src={comment.author.avatar} className="rounded-circle" style={{width : '50px', height : '50px'}} alt="" />
-                <span>{comment.author.name}</span>
+                <img src={commentCopy.author.avatar} className="rounded-circle" style={{width : '50px', height : '50px'}} alt="" />
+                <span>{commentCopy.author.name}</span>
             </div>
-            <div className="d-flex flex-column">
-                <div id={'comment_' + comment.id} className="p-3" style={{width : '90%'}}></div>
-                <div className="border-top ps-2 fw-light">{props.language.created + ' ' + comment.date}</div>
+            <div className="d-flex flex-column w-100">
+                {edit ?
+                <fieldset>
+                    <textarea className="form-control" name={"editComment_" + commentCopy.id} id={"editComment_" + commentCopy.id} defaultValue={commentCopy.content} style={{height : '200px'}}></textarea>
+                    <button id={'editCommentBtn_' + commentCopy.id} onClick={editComment} type="button" className="btn btn-secondary my-2 ms-3">{props.language.send}</button>
+                </fieldset> :
+                <div id={'comment_' + commentCopy.id} className="p-3" style={{width : '90%'}}></div>}
+                <div className="border-top ps-2 fw-light">{(commentCopy.edited ? props.language.edited : props.language.created) + ' : ' + commentCopy.date}</div>
+                {!edit && commentCopy.isMyComment && <img type='button' onClick={() => setEdit(true)} className="editButton" src='/images/pencil-square.svg' alt=''></img>}
             </div>
         </li>
     )

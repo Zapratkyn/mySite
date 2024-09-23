@@ -1,7 +1,6 @@
 from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from profiles.models import Profile
-from django.utils import timezone
 from datetime import datetime
 import pytz
 
@@ -88,6 +87,8 @@ class ChatConsumer(JsonWebsocketConsumer):
                 })
             else:
                 if bool(target in ChatConsumer.connected_users):
+                    now = datetime.now(pytz.timezone('Europe/Amsterdam'))
+                    logger.info('[' + datetime.strftime(now, '%d/%m/%Y, %H:%M:%S') + '] : ' + data["message"]["name"] + ' to ' + target + ' - ' + data["message"]["message"])
                     async_to_sync(self.channel_layer.send)(ChatConsumer.connected_users[target], data)
                     self.send_json({
                         "type" : "iWhisp",

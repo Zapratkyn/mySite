@@ -1,4 +1,6 @@
 from datetime import datetime
+from django.utils.timezone import localtime
+import pytz
 import logging
 
 logger = logging.getLogger(__name__)
@@ -11,7 +13,7 @@ class ProjectListSerializer:
         return {
             "id" : self.instance.id,
             "name" : self.instance.name,
-            "creation_date" : datetime.strftime(self.instance.creation_date, '%d/%m/%Y'),
+            "creation_date" : datetime.strftime(pytz.timezone(self.instance.creation_date, "Europe/Amsterdam"), '%d/%m/%Y'),
             "desc_en" : self.instance.description_en,
             "desc_fr" : self.instance.description_fr
         }
@@ -24,7 +26,7 @@ class HomePageArticleSerializer:
         return {
             "id" : self.instance.id,
             "title" : self.instance.title,
-            "creation_date" : datetime.strftime(self.instance.creation_date, '%d/%m/%Y'),
+            "creation_date" : datetime.strftime(localtime(self.instance.date), '%d/%m/%Y'),
             "content_fr" : self.instance.content_fr,
             "content_en" : self.instance.content_en
         }
@@ -41,7 +43,8 @@ class CommentSerializer:
                 "avatar" : "/images/default-avatar.jpg"
             },
             "id" : self.instance.id,
-            "date" : datetime.strftime(self.instance.date, '%d/%m/%Y'),
+            "date" : datetime.strftime(localtime(self.instance.date), '%d/%m/%Y, %H:%M:%S'),
             "content" : self.instance.content,
-            "isMyComment" : isMyComment
+            "isMyComment" : isMyComment,
+            "edited" : self.instance.edited
         }
