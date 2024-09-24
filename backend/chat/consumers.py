@@ -2,6 +2,7 @@ from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from profiles.models import Profile
 from datetime import datetime
+from projects.models import Comment
 import pytz
 
 import logging

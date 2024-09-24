@@ -12,6 +12,7 @@ class Comment(models.Model):
     read = models.BooleanField(default=False)
     edited = models.BooleanField(default=False)
     responses = models.ManyToManyField('self')
+    isResponse = models.BooleanField(default=False)
 
 class Project(models.Model):
     name = models.CharField(max_length=100, default='')

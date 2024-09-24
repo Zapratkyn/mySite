@@ -7,9 +7,9 @@ function Header({props}) {
     const menu = <Menu props={props} burger={burger} />
 
     return (
-        <header className="border-bottom d-flex justify-content-center" style={{height : lg ? '150px' : '100px', position : 'sticky', top : '0px', zIndex : '2'}}>
+        <header className="border-bottom d-flex justify-content-center" style={{minHeight : lg ? '150px' : '100px', position : 'sticky', top : '0px', zIndex : '2'}}>
             <div className={`h-100 d-flex justify-content-between align-items-center ${useMediaQuery({query: '(min-width: 769px)'}) ? 'w-75' : 'w-100 px-5'}`}>
-                <Initials lg={lg} />
+                <Initials lg={lg} props={props} />
                 {lg && <SiteName props={props} />}
                 {burger ? <Burger menu={menu} /> : menu}
             </div>
@@ -31,12 +31,14 @@ function Burger({menu}) {
 
 }
 
-function Initials({lg}) {
+function Initials({lg, props}) {
 
     const size = lg ? '100px' : '70px'
 
     return (
-        <p 
+        <p
+            type='button'
+            onClick={() => props.navigate('/')}
             className="h1 rounded-circle border border-3 border-black p-3 fw-bold d-flex align-items-center justify-content-center" 
             style={{height : size, width : size}}>
                 GP

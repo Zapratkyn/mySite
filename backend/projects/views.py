@@ -61,10 +61,7 @@ class ProjectPage(View):
                 profile = Profile.objects.get(user=request.user)
             comment_list = []
             for comment in project.comments.all().order_by('id'):
-                isMyComment = False
-                if profile != None and comment.author != None and profile.id == comment.author.id:
-                    isMyComment = True
-                comment_list.append(CommentSerializer(comment).data(isMyComment))
+                comment_list.append(CommentSerializer(comment).data(profile))
             return JsonResponse({
                 "name" : project.name,
                 "desc_en" : project.description_en,
@@ -123,7 +120,7 @@ class NewComment(View):
             profile.save()
             project.comments.add(newComment)
             project.save()
-            return JsonResponse({"data" : CommentSerializer(newComment).data(True)}, status=201)
+            return JsonResponse({"data" : CommentSerializer(newComment).data(profile)}, status=201)
         except :
             response.status_code = 400
             return response
@@ -164,6 +161,29 @@ class EditComment(View):
                 return response
             comment.delete()
             return response
+        except :
+            response.status_code = 400
+            return response
+
+class NewResponse(View):
+    def post(self, request, id):
+        response = HttpResponse()
+        try: 
+            if not request.user.is_authenticated:
+                response.status_code = 403
+                return response
+            profile = Profile.objects.get(user=request.user)
+            comment = Comment.objects.get(id=id)
+            if not comment.author == profile:
+                response.status_code = 403
+                return response
+            data = json.loads(request.body)
+            content = data.get('response')
+            newResponse = Comment(author=profile, content=content, isResponse=True)
+            newResponse.save()
+            comment.responses.add(newResponse)
+            comment.save()
+            return JsonResponse({"response" : CommentSerializer(newResponse).data(profile)}, status=201)
         except :
             response.status_code = 400
             return response

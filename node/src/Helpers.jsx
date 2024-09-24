@@ -88,13 +88,13 @@ export function validateSignup(inputs, props) {
 
 }
 
-export function validateForm(inputs) {
+export function validateForm(inputs, attributeSet) {
 
   let okay = true
 
   for (let input of inputs) {
       if (input.value === '') {
-          input.setAttribute('class', 'form-control border border-3 border-danger w-50')
+          input.setAttribute('class', attributeSet +  'border border-3 border-danger')
           okay = false
       }
   }

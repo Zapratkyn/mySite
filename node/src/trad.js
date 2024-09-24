@@ -88,7 +88,14 @@ function French() {
         somethingWentWrong : 'Une erreur est survenue',
         edited : 'Edité le',
         delete : "Supprimer",
-        areYouSure : "T'es sûr(e) ?"
+        areYouSure : "T'es sûr(e) ?",
+        cancel : 'Annuler',
+        seeAnswers : 'Voir les réponses',
+        hideAnswers : 'Cacher les réponses',
+        answer : 'Répondre',
+        displayComments : 'Afficher les commentaires',
+        edit : 'Editer',
+        by : 'Par'
     }
 }
 
@@ -105,7 +112,7 @@ function English() {
         logout : 'Log out',
         signUp : 'Sign up',
         contact : 'Contact informations',
-        created : 'Created on : ',
+        created : 'Created on',
         poll : 'Poll',
         pollAsk : 'What should I do next ?',
         suggest : 'A new idea ?',
@@ -177,6 +184,13 @@ function English() {
         somethingWentWrong : 'Something went wrong',
         edited : 'Edited on',
         delete : "Delete",
-        areYouSure : "Are you sure ?"
+        areYouSure : "Are you sure ?",
+        cancel : 'Cancel',
+        seeAnswers : 'See answers',
+        hideAnswers : 'Hide answers',
+        answer : 'Answer',
+        displayComments : 'Display comments',
+        edit : 'Edit',
+        by : 'By'
     }
 }
