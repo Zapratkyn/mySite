@@ -2,7 +2,7 @@ from django.views import View
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from projects.models import Project
-from backAdmin.models import Suggestion, Article
+from backAdmin.models import Suggestion, Article, Stats
 from backAdmin.serializers import ProjectAdminListSerializer, SuggestionAdminListSerializer, ProjectEditionSerializer, ArticleAdminListSerializer, ArticleEditionSerializer, HomePageArticleSerializer
 import json
 import logging
@@ -242,3 +242,37 @@ class MakeCurrent(View):
             response.status_code = 400
             return response
       
+class GetBio(View):
+    def get(self, request):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response.status_code = 403
+                return response
+            stats = Stats.objects.get(id=1)
+            return JsonResponse({
+                "bio_fr" : stats.bio_fr,
+                "bio_en" : stats.bio_en
+                })
+        except:
+            response.status_code = 400
+            return response
+        
+class EditBio(View):
+    def post(self, request):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or not request.user.is_superuser:
+                response.status_code = 403
+                return response
+            stats = Stats.objects.get(id=1)
+            data = json.loads(request.body)
+            bio_fr = data.get("bio_fr")
+            bio_en = data.get("bio_en")
+            stats.bio_fr = bio_fr
+            stats.bio_en = bio_en
+            stats.save()
+            return response
+        except:
+            response.status_code = 400
+            return response

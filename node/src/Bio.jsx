@@ -1,22 +1,32 @@
-import {Title} from "./Helpers"
+import { useEffect, useState } from "react"
+import {format, Loading, Title} from "./Helpers"
 
 function Bio({props}) {
+
+    const [bio, setBio] = useState(undefined)
+
+    useEffect(() => {
+        if (!bio) {
+            setBio('loading')
+            fetch('chat/getBio').then(response => {
+                if (response.status === 200)
+                    response.json().then(data => setBio(data))
+            })
+        }
+    }, [bio])
+
+    useEffect(() => {
+        if (bio && bio !== 'loading')
+            document.getElementById('bio').innerHTML = format(bio['bio_' + props.language.language], props.language.language)
+    }, [bio, props.language])
+
+    if (!bio || bio === 'loading')
+        return <Loading />
+
     return (
         <section className="fw-bold">
             <Title title='Bio' />
-            <div className="mx-3">
-                <p>{props.language.bio1}</p>
-                <p className="d-flex justify-content-center my-4"><img className="rounded-circle" src="/images/pic.png" alt="" style={{height : '200px'}} /></p>
-                <p>{props.language.bio2}</p>
-                <p>{props.language.bio3}</p>
-                <p>{props.language.bio4}</p>
-                <p>{props.language.bio5}</p>
-                <p>{props.language.bio6}</p>
-                <p>{props.language.bio7}</p>
-                <p>{props.language.bio8}</p>
-                <p>{props.language.bio9}</p>
-                <p>{props.language.bio10}</p>
-            </div>
+            <div className="mx-3" id='bio'></div>
         </section>
     )
 }

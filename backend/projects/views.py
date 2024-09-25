@@ -6,6 +6,7 @@ from backAdmin.models import Suggestion, Article
 from projects.models import Project, Comment
 from projects.serializers import ProjectListSerializer, HomePageArticleSerializer, CommentSerializer
 from django.utils import timezone
+import re
 import json
 import logging
 

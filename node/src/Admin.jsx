@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Loading, Title } from "./Helpers"
+import { Loading, Title, validateForm } from "./Helpers"
 import Cookies from 'js-cookie'
 
 function Admin({props}) {
@@ -33,6 +33,10 @@ function Admin({props}) {
     return (
         <section className="me-2">
             <Title title='Admin' />
+            <div className="d-flex gap-3 mb-3">
+                <h2 className="ps-3 text-decoration-underline fw-bold">Bio</h2>
+                <button onClick={() => props.navigate('/admin/editBio')} type="button" className="btn btn-success">Editer la bio</button>
+            </div>
             <div className="d-flex gap-3 mb-2">
                 <h2 className="ps-3 text-decoration-underline fw-bold">Articles</h2>
                 <button onClick={() => props.navigate('/admin/newArticle')} type="button" className="btn btn-success">Nouvel article</button>
@@ -67,6 +71,60 @@ function Admin({props}) {
                 }
             </div>
         </section>
+    )
+
+}
+
+export function EditBio({props}) {
+
+    const token = Cookies.get('csrftoken')
+
+    useEffect(() => {
+        if (document.getElementById('editBio_fr').value === '') {
+            fetch('/backAdmin/getBio').then(response => {
+                if (response.status === 200) {
+                    response.json().then(data => {
+                        document.getElementById('editBio_fr').value = data.bio_fr
+                        document.getElementById('editBio_en').value = data.bio_en
+                    })
+                }
+                else
+                    window.alert('Oups...')
+            })
+        }
+    })
+
+    const send = () => {
+        let inputs = [document.getElementById('editBio_fr'), document.getElementById('editBio_en')]
+        if (!validateForm([inputs], 'form-control'))
+            return
+        fetch('/backAdmin/editBio', {
+            method : 'POST',
+            headers: {'X-CSRFToken': token},
+            mode : 'same-origin',
+            body : JSON.stringify({
+                bio_fr : inputs[0].value,
+                bio_en : inputs[1].value
+            })
+        }).then(response => {
+            if (response.status === 200)
+                props.navigate('/bio')
+            else
+                window.alert('Oups...')
+        })
+    }
+
+    return (
+        <div className="me-2">
+            <Title title='Edition bio' />
+            <fieldset className="d-flex flex-column gap-2">
+                <label htmlFor="editBio_fr">Français</label>
+                <textarea className="form-control" rows='20' name="editBio_fr" id="editBio_fr"></textarea>
+                <label htmlFor="editBio_en">Anglais</label>
+                <textarea className="form-control" rows='20' name="editBio_en" id="editBio_en"></textarea>
+                <span><button onClick={send} type='button' className="btn btn-secondary">Mettre à jour</button></span>
+            </fieldset>
+        </div>
     )
 
 }

@@ -3,6 +3,7 @@ from asgiref.sync import async_to_sync
 from profiles.models import Profile
 from datetime import datetime
 from projects.models import Comment
+from backAdmin.models import Stats
 import pytz
 
 import logging

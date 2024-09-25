@@ -95,7 +95,7 @@ function NewCommentForm({props, id, project, setProject}) {
     return (
         <fieldset className="d-flex flex-column my-2">
             <label className="h3" htmlFor="commentArea">{props.language.leaveAComment}</label>
-            <textarea className="form-control" rows='5' name="commentArea" id="commentArea"></textarea>
+            <textarea className="form-control" rows='5' name="commentArea" id="commentArea" placeholder={props.language.commentPlaceholder}></textarea>
             <div className="mt-2">
                 <button onClick={sendComment} type='button' className="btn btn-secondary">
                     {props.language.send}
@@ -138,7 +138,7 @@ export function ProjectPage({props}) {
 
     useEffect(() => {
         if (project && !(project < 1) && project !== 'loading')
-            document.getElementById('projectDiv').innerHTML = format(project['desc_' + props.language.language])
+            document.getElementById('projectDiv').innerHTML = format(project['desc_' + props.language.language], props.language.language)
     }, [props.language, project])
 
     if (project < 0)
@@ -288,8 +288,8 @@ function ResponseForm({props, id, comment, setComment}) {
 function Response({props, response, index}) {
 
     useEffect(() => {
-        document.getElementById('response_' + response.id).innerHTML = format(response.content)
-    }, [response])
+        document.getElementById('response_' + response.id).innerHTML = format(response.content, props.language.language)
+    }, [response, props.language.language])
 
     return (
         <li className={`me-2 p-2 d-flex flex-column gap-2 ${index % 2 === 0 && 'bg-secondary-subtle'}`}>
@@ -324,8 +324,8 @@ function Comment({props, comment, project, setProject}) {
 
     useEffect(() => {
         if (!edit)
-            document.getElementById('comment_' + commentCopy.id).innerHTML = format(commentCopy.content)
-    }, [commentCopy, edit])
+            document.getElementById('comment_' + commentCopy.id).innerHTML = format(commentCopy.content, props.language.language)
+    }, [commentCopy, edit, props.language.language])
 
     return (
         <li className="fw-bold rounded border border-2 border-black list-group-item d-flex p-0" style={{minHeight : '100px'}}>

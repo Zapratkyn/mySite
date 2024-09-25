@@ -32,7 +32,7 @@ function Article({article, props}) {
     const lg = useMediaQuery({query: '(max-width: 1000px)'})
 
     useEffect(() => {
-        document.getElementById('article_' + article.id).innerHTML = format(article['content_' + props.language.language])
+        document.getElementById('article_' + article.id).innerHTML = format(article['content_' + props.language.language], props.language.language)
     }, [props.language, article])
 
     return (

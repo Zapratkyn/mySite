@@ -164,7 +164,7 @@ LOGGING = {
         }
     },
     "loggers": {
-        "projects.views": {
+        "backAdmin.views": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },
@@ -176,7 +176,7 @@ LOGGING = {
             'handlers' : ['logfile'],
             'level' : 'INFO'
         },
-        "profiles.views": {
+        "chat.views": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },

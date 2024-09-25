@@ -13,6 +13,14 @@ code {
     monospace;
 }
 
+.bioImage {
+  height: 200px;
+}
+
+/* .quote {
+  background-color: #b5b5b8;
+} */
+
 .navLink:hover {
   text-decoration: underline;
 }

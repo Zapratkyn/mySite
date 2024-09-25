@@ -142,10 +142,24 @@ export function getMessage(prompt, myName) {
 
 }
 
-export function format(str) {
+export function format(str, language) {
 
-  let regex = /\n/g
-  let result = str.replace(regex, '<br>')
+  let result = str
+  let regex = /\[quote +author=['"][A-Za-z0-9]+['"] *\]/
+  let quote = result.match(regex)
+  while (quote) {
+    let tagEnd = result.indexOf(']', quote.index)
+    let tag = result.substring(quote.index, tagEnd)
+    let authorStart = tag.indexOf("author=") + 8
+    let stopSign = tag[authorStart - 1]
+    let author = tag.substring(authorStart, tag.indexOf(stopSign, authorStart))
+    result = result.replace(regex, "<span class='ms-3'>" + author + (language === 'fr' ? ' a écrit' : ' said') + "</span></br><p class='rounded w-75 mx-3 bg-secondary-subtle p-2 border border-2 border-secondary fw-light mb-0'>")
+    quote = result.match(regex)
+  }
+  result = result.replace(/\[\/quote\]/g, '</p>')
+  result = result.replace(/```c\n*/g, "<pre><p class='rounded w-75 mx-3 py-2 bg-secondary-subtle border border-2 border-secondary fw-light mb-0'>")
+  result = result.replace(/```/g, '</p></pre>')
+  result = result.replace(/\n/g, '<br>')
   return result
 
 }

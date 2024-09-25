@@ -17,3 +17,8 @@ class Article(models.Model):
     content_en = models.CharField(max_length=1000, default='')
     content_fr = models.CharField(max_length=1000, default='')
     edited = models.BooleanField(default=False)
+
+class Stats(models.Model):
+    visits = models.IntegerField(default=0)
+    bio_fr = models.CharField(max_length=10000, default='')
+    bio_en = models.CharField(max_length=10000, default='')

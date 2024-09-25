@@ -10,8 +10,11 @@ RUN apt update \
     && apt clean
 
 RUN npm install
+# RUN npm install -g serve
+# RUN npm run build
 
 VOLUME /app/src
 VOLUME /app/public
 
-CMD ["npm", "run", "build"]
+# CMD ["serve", "-s", "build"]
+CMD ["npm", "run", "start"]

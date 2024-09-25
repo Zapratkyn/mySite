@@ -95,7 +95,8 @@ function French() {
         answer : 'Répondre',
         displayComments : 'Afficher les commentaires',
         edit : 'Editer',
-        by : 'Par'
+        by : 'Par',
+        commentPlaceholder : "[quote author='<Nom>']<Citation>[/quote] pour citer\n```c<code>``` pour insérer un snippet"
     }
 }
 
@@ -191,6 +192,7 @@ function English() {
         answer : 'Answer',
         displayComments : 'Display comments',
         edit : 'Edit',
-        by : 'By'
+        by : 'By',
+        commentPlaceholder : "[quote author='<Name>']<Quote>[/quote] to quote\n```c<code>``` to insert a snippet"
     }
 }
