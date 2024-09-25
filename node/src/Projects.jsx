@@ -138,7 +138,7 @@ export function ProjectPage({props}) {
 
     useEffect(() => {
         if (project && !(project < 1) && project !== 'loading')
-            document.getElementById('projectDiv').innerHTML = format(project['desc_' + props.language.language], props.language.language)
+            document.getElementById('projectDiv').innerHTML = format(project['desc_' + props.language.language], props.language.language, false)
     }, [props.language, project])
 
     if (project < 0)
@@ -288,7 +288,7 @@ function ResponseForm({props, id, comment, setComment}) {
 function Response({props, response, index}) {
 
     useEffect(() => {
-        document.getElementById('response_' + response.id).innerHTML = format(response.content, props.language.language)
+        document.getElementById('response_' + response.id).innerHTML = format(response.content, props.language.language, false)
     }, [response, props.language.language])
 
     return (
@@ -324,7 +324,7 @@ function Comment({props, comment, project, setProject}) {
 
     useEffect(() => {
         if (!edit)
-            document.getElementById('comment_' + commentCopy.id).innerHTML = format(commentCopy.content, props.language.language)
+            document.getElementById('comment_' + commentCopy.id).innerHTML = format(commentCopy.content, props.language.language, false)
     }, [commentCopy, edit, props.language.language])
 
     return (

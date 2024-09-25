@@ -17,8 +17,11 @@ function Bio({props}) {
 
     useEffect(() => {
         if (bio && bio !== 'loading')
-            document.getElementById('bio').innerHTML = format(bio['bio_' + props.language.language], props.language.language)
+            document.getElementById('bio').innerHTML = format(bio['bio_' + props.language.language], props.language.language, true)
     }, [bio, props.language])
+
+    if (bio)
+        console.log(bio.bio_fr)
 
     if (!bio || bio === 'loading')
         return <Loading />

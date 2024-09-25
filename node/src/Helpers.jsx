@@ -142,7 +142,7 @@ export function getMessage(prompt, myName) {
 
 }
 
-export function format(str, language) {
+export function format(str, language, bio) {
 
   let result = str
   let regex = /\[quote +author=['"][A-Za-z0-9]+['"] *\]/
@@ -158,6 +158,8 @@ export function format(str, language) {
   }
   result = result.replace(/\[\/quote\]/g, '</p>')
   result = result.replace(/```c\n*/g, "<pre><p class='overflow-scroll noScrollBar rounded w-75 mx-3 py-2 bg-secondary-subtle border border-2 border-secondary fw-light mb-0'>")
+  if (!bio)
+    result = result.replace(/<[^img][a-zA-Z]+/g, "\<")
   result = result.replace(/```/g, '</p></pre>')
   result = result.replace(/\n/g, '<br>')
   return result
