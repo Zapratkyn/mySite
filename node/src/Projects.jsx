@@ -292,7 +292,7 @@ function Response({props, response, index}) {
     }, [response, props.language.language])
 
     return (
-        <li className={`me-2 p-2 d-flex flex-column gap-2 ${index % 2 === 0 && 'bg-secondary-subtle'}`}>
+        <li className={`overflow-scroll noScrollBar me-2 p-2 d-flex flex-column gap-2 ${index % 2 === 0 && 'bg-secondary-subtle'}`}>
             <span id={'response_' + response.id}>{response.content}</span>
             <div>
                 {props.language.by + ' '}
@@ -309,7 +309,7 @@ function ResponseList({props, list}) {
     let index = 1
 
     return (
-        <ul className="d-flex flex-column gap-1" style={{listStyle : 'none'}}>
+        <ul className="d-flex flex-column gap-1 overflow-scroll noScrollBar" style={{listStyle : 'none'}}>
             {list.map(response => <Response key={response.id} props={props} response={response} index={index++} />)}
         </ul>
     )
@@ -328,7 +328,7 @@ function Comment({props, comment, project, setProject}) {
     }, [commentCopy, edit, props.language.language])
 
     return (
-        <li className="fw-bold rounded border border-2 border-black list-group-item d-flex p-0" style={{minHeight : '100px'}}>
+        <li className="overflow-scroll noScrollBar fw-bold rounded border border-2 border-black list-group-item d-flex p-0" style={{minHeight : '100px'}}>
             <Author props={props} author={commentCopy.author} />
             <div className="d-flex flex-column w-100">
                 <div className="border-bottom ps-2 fw-light">

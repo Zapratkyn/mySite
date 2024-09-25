@@ -17,9 +17,9 @@ code {
   height: 200px;
 }
 
-/* .quote {
-  background-color: #b5b5b8;
-} */
+.bw {
+  word-break: normal;
+}
 
 .navLink:hover {
   text-decoration: underline;
