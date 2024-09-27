@@ -142,26 +142,71 @@ export function getMessage(prompt, myName) {
 
 }
 
-export function format(str, language, bio) {
+function getQuotes(str, language) {
 
-  let result = str
-  let regex = /\[quote +author=['"][A-Za-z0-9]+['"] *\]/
-  let quote = result.match(regex)
+  let regex = /\[quote +[A-Za-z0-9]+ *\]\n*/
+  let quote = str.match(regex)
   while (quote) {
-    let tagEnd = result.indexOf(']', quote.index)
-    let tag = result.substring(quote.index, tagEnd)
-    let authorStart = tag.indexOf("author=") + 8
-    let stopSign = tag[authorStart - 1]
-    let author = tag.substring(authorStart, tag.indexOf(stopSign, authorStart))
-    result = result.replace(regex, "<span class='ms-3'>" + author + (language === 'fr' ? ' a écrit' : ' said') + "</span></br><p class='overflow-scroll noScrollBar rounded w-75 mx-3 bg-secondary-subtle p-2 border border-2 border-secondary fw-light mb-0'>")
-    quote = result.match(regex)
+    let tag = str.substring(quote.index, str.indexOf(']', quote.index) + 1)
+    let i = 6
+    while (tag[i] === ' ')
+      i++
+    let author = tag.substring(i)
+    author = author.substring(0, author.match(/[ \]]/).index)
+    str = str.replace(regex, "<br><span class='ms-3'>" + author + (language === 'fr' ? ' a écrit' : ' said') + "</span></br><p class='overflow-scroll noScrollBar rounded w-75 mx-3 bg-secondary-subtle p-2 border border-2 border-secondary fw-light mb-0'>")
+    quote = str.match(regex)
   }
-  result = result.replace(/\[\/quote\]/g, '</p>')
-  result = result.replace(/```c\n*/g, "<pre><p class='overflow-scroll noScrollBar rounded w-75 mx-3 py-2 bg-secondary-subtle border border-2 border-secondary fw-light mb-0'>")
-  if (!bio)
-    result = result.replace(/<[^img][a-zA-Z]+/g, "\<")
-  result = result.replace(/```/g, '</p></pre>')
-  result = result.replace(/\n/g, '<br>')
-  return result
+  return str
+
+}
+
+function getImages(str) {
+
+  let regex = /\[image +.+ *]\n*/
+  let image = str.match(regex)
+  while (image) {
+    let tag = str.substring(image.index, str.indexOf(']', image.index) + 1)
+    let i = 6
+    while (tag[i] === ' ')
+      i++
+    let src = tag.substring(i)
+    src = src.substring(0, src.match(/[ \]]/).index)
+    str = str.replace(regex, '<br><img class="w-100" src="' + src + '" alt=""/>')
+    image = str.match(regex)
+  }
+  console.log(str)
+  return str
+
+}
+
+export function getLinks(str) {
+
+  let regex = /(?<![">/(image +)])(https:|http:|www\.)\S*/
+  let match = str.match(regex)
+  while (match) {
+    let link = str.substring(match.index)
+    let end = link.match(/[ \0\n\[]/)
+    if (end)
+      link = link.substring(0, end.index)
+    str = str.substring(0, match.index) + '<a href="' + (link.substring(0, 4) === 'http' ? link : 'https://' + link) + '" target="_blank" rel="noreferrer">' + link + '</a>' + str.substring(match.index + link.length)
+    match = str.match(regex)
+  }
+  return str
+
+}
+
+export function format(str, language) {
+
+  str = str.replace(/<.[^<>]*>/g, '')
+  str = getQuotes(str, language)
+  str = getLinks(str)
+  str = getImages(str)
+  str = str.replace(/\[snippet\]\n*/g, "<pre><p class='overflow-scroll noScrollBar rounded w-75 mx-3 py-2 bg-secondary-subtle border border-2 border-secondary fw-light mb-0'>")
+  str = str.replace(/\[center\]\n*/g, "<p class='d-flex justify-content-center'>")
+  str = str.replace(/\[\/quote\]/g, '</p>')
+  str = str.replace(/\[\/snippet\]/g, '</p></pre>')
+  str = str.replace(/\[\/center\]/g, '</p>')
+  str = str.replace(/\n/g, '<br>')
+  return str
 
 }

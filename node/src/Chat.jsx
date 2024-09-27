@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getMessage, Loading } from "./Helpers"
+import { getMessage, Loading, format } from "./Helpers"
 import { useMediaQuery } from 'react-responsive'
 
 function Chat({props}) {
@@ -29,6 +29,11 @@ function ChatWindow({props, autoScroll, setAutoScroll}) {
         }
     }, [props.messages, autoScroll])
 
+    useEffect(() => {
+        let chatDiv = document.getElementById('chatDiv')
+        chatDiv.scrollTop = chatDiv.scrollHeight
+    })
+
     const checkScrollDirectionIsUp = e => {
 		if (e.wheelDelta) {
 		  return e.wheelDelta > 0;
@@ -44,8 +49,8 @@ function ChatWindow({props, autoScroll, setAutoScroll}) {
     let index = 0
 
     return (
-        <div onWheel={unScroll} id='chatDiv' className="overflow-auto flex-grow-1">
-            {props.messages.map(message => <Message key={index++} message={message} props={props} />)}
+        <div onWheel={unScroll} id='chatDiv' className="overflow-auto flex-grow-1 noScrollBar">
+            {props.messages.map(message => <Message key={index} id={index++} message={message} props={props} />)}
         </div>
     )
 
@@ -62,7 +67,11 @@ function ToBottomButton({setAutoScroll}) {
     return <div onClick={toBottom} className="d-flex justify-content-center mt-4"><img type='button' src="/images/arrow.svg" alt="" /></div>
 }
 
-function Message({message, props}) {
+function Message({id, message, props}) {
+
+    useEffect(() => {
+        document.getElementById('message_' + id).innerHTML = format(message.message, props.language.language)
+    }, [message])
 
     if (message.type === 'admin')
         return <div className="text-primary fw-bold">{"Admin : " + message.message}</div>
@@ -95,7 +104,8 @@ function Message({message, props}) {
                 <li type='button' className="menuLink fw-bold px-2" onClick={() => props.navigate('/profile/' + message.id)}>{props.language.seeProfile}</li>
                 <li type='button' className="menuLink fw-bold px-2" onClick={sendWhisp}>{props.language.sendWhisp}</li>
             </ul>
-            <span>{' : ' + message.message}</span>
+            {' : '}
+            <span id={'message_' + id}></span>
         </div>
     )
 
@@ -117,7 +127,7 @@ function Prompt({props}) {
 	}
 
     return (
-        <input id='prompt' onKeyDown={captureKey} className="w-100 form-control" type="text" placeholder={props.myProfile ? props.language.chatOn : props.language.chatOff} disabled={!props.myProfile} />
+        <input rows='1' id='prompt' onKeyDown={captureKey} className="w-100 form-control" type="text" placeholder={props.myProfile ? props.language.chatOn : props.language.chatOff} disabled={!props.myProfile} />
     )
 
 }

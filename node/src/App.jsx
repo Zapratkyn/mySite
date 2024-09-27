@@ -10,7 +10,7 @@ import Footer from './Footer.jsx';
 
 function App() {
 
-  const [language, setLanguage] = useState(getLanguage('en'))
+  const [language, setLanguage] = useState(getLanguage('fr'))
   const [displayChat, setDisplayChat] = useState(false)
   const [currentPage, setCurrentPage] = useState(getCurrentPage())
   const [myProfile, setMyProfile] = useState(undefined)
