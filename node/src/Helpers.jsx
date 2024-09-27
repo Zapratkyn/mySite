@@ -174,7 +174,6 @@ function getImages(str) {
     str = str.replace(regex, '<br><img class="w-100" src="' + src + '" alt=""/>')
     image = str.match(regex)
   }
-  console.log(str)
   return str
 
 }
