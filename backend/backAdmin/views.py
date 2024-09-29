@@ -1,6 +1,6 @@
 from django.views import View
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render
+from profiles.models import Profile
 from projects.models import Project
 from backAdmin.models import Suggestion, Article, Stats
 from backAdmin.serializers import ProjectAdminListSerializer, SuggestionAdminListSerializer, ProjectEditionSerializer, ArticleAdminListSerializer, ArticleEditionSerializer, HomePageArticleSerializer
@@ -22,6 +22,7 @@ class Dashboard(View):
                 articles = Article.objects.all().order_by('-id')
                 projects = Project.objects.all().order_by('-id')
                 suggestions = Suggestion.objects.all().order_by('-id')
+                profiles = Profile.objects.all().order_by('-id')
                 articleList = []
                 for item in articles:
                     articleList.append(ArticleAdminListSerializer(item).data())
@@ -31,10 +32,14 @@ class Dashboard(View):
                 suggList = []
                 for item in suggestions:
                     suggList.append(SuggestionAdminListSerializer(item).data())
+                users = []
+                for item in profiles:
+                    users.append({"name" : item.user.username, "id" : item.id})
                 data = {
                     "articles" : articleList,
                     "projects" : projectList,
-                    "suggestions" : suggList
+                    "suggestions" : suggList,
+                    "users" : users
                 }
                 return JsonResponse(data, status=200)
         except:
@@ -249,11 +254,16 @@ class GetBio(View):
             if not request.user.is_authenticated or not request.user.is_superuser:
                 response.status_code = 403
                 return response
+            if not bool(Stats.objects.filter(id=1).exists()):
+                return JsonResponse({
+                    "bio_fr" : "",
+                    "bio_en" : ""
+                })
             stats = Stats.objects.get(id=1)
             return JsonResponse({
                 "bio_fr" : stats.bio_fr,
                 "bio_en" : stats.bio_en
-                })
+            })
         except:
             response.status_code = 400
             return response
@@ -265,7 +275,11 @@ class EditBio(View):
             if not request.user.is_authenticated or not request.user.is_superuser:
                 response.status_code = 403
                 return response
-            stats = Stats.objects.get(id=1)
+            stats = None
+            if not bool(Stats.objects.filter(id=1).exists()):
+                stats = Stats()
+            else:
+                stats = Stats.objects.get(id=1)
             data = json.loads(request.body)
             bio_fr = data.get("bio_fr")
             bio_en = data.get("bio_en")

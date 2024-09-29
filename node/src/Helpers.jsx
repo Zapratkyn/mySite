@@ -163,7 +163,7 @@ function getImages(str) {
   while (image) {
     let tag = str.substring(image.index, str.indexOf(']', image.index) + 1)
     let src = tag.substring(tag.indexOf('=') + 1, tag.indexOf(']'))
-    str = str.replace(regex, '<br><img class="mw-100" src="' + src + '" alt=""/>')
+    str = str.replace(regex, '<br><div><img class="mw-100" src="' + src + '" alt=""/></div>')
     image = str.match(regex)
   }
   return str
@@ -201,6 +201,8 @@ export function format(str, language) {
   str = str.replace(/\[\/i\]/g, '</i>')
   str = str.replace(/\[b\]/g, '<b>')
   str = str.replace(/\[\/b\]/g, '</b>')
+  str = str.replace(/\[s\]/g, '<s>')
+  str = str.replace(/\[\/s\]/g, '</s>')
   str = str.replace(/\n/g, '<br>')
   return str
 

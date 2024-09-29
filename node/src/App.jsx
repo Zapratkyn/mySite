@@ -16,16 +16,20 @@ function App() {
   const [myProfile, setMyProfile] = useState(undefined)
   const [messages, setMessages] = useState([])
   const [socket, setSocket] = useState(undefined)
+  const [stats, setStats] = useState(undefined)
   const navigate = useNavigate()
 
-  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, setMessages, socket, setSocket, navigate}
+  const props = {language, setLanguage, currentPage, setCurrentPage, myProfile, setMyProfile, displayChat, messages, setMessages, socket, setSocket, navigate, stats}
 
   useEffect(() => {
     if (!socket) {
       fetch('/chat/init').then(response => {
         if (response.status === 200) {
           setSocket(new WebSocket('wss://' + window.location.host + '/ws/chat/'))
-          response.json().then(data => setMessages(data.data))
+          response.json().then(data => {
+            setMessages(data.messages)
+            setStats({visits : parseInt(data.visits, 10), users : parseInt(data.users, 10)})
+          })
         }
       })
     }
@@ -44,6 +48,16 @@ function App() {
       }
     }
   }, [socket, messages, language])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch('/chat/getStats').then(response => {
+        if (response.status === 200)
+          response.json().then(data => setStats(data))
+      })
+    }, 60000)
+    return () => clearInterval(interval)
+  })
 
   return (
     <div className='d-flex flex-column vh-100'>

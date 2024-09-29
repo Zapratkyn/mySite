@@ -6,7 +6,11 @@ import Cookies from 'js-cookie'
 function Admin({props}) {
 
     const [data, setData] = useState(undefined)
+    const [displayArticles, setDisplayArticles] = useState(false)
+    const [displayProjects, setDisplayProjects] = useState(false)
+    const [displaySugg, setDisplaySugg] = useState(false)
     const [displayArchived, setDisplayArchived] = useState(false)
+    const [displayUsers, setDisplayUsers] = useState(false)
 
     useEffect(() => {
         if (!data) {
@@ -29,37 +33,53 @@ function Admin({props}) {
     let articleIndex = 0
     let projectIndex = 0
     let suggestIndex = 0
+    let userIndex = 0
 
     return (
-        <section className="me-2">
+        <section className="me-2 overflow-auto noScrollBar" style={{height : '500px'}}>
             <Title title='Admin' />
-            <div className="d-flex gap-3 mb-3">
+            <div className="d-flex gap-2">
+                <h2 className="ps-3 text-decoration-underline fw-bold">Utilisateurs</h2>
+                <button onClick={() => setDisplayUsers(!displayUsers)} type="button" className="btn btn-success">Afficher la liste</button>
+            </div>
+            {displayUsers && <ul className="mt-2 list-group">{data.users.map(user => <User key={userIndex++} props={props} user={user} />)}</ul>}
+            <hr />
+            <div className="d-flex gap-3 my-3">
                 <h2 className="ps-3 text-decoration-underline fw-bold">Bio</h2>
                 <button onClick={() => props.navigate('/admin/editBio')} type="button" className="btn btn-success">Editer la bio</button>
+                <button onClick={() => props.navigate('/bio')} type="button" className="btn btn-success">Voir la bio</button>
             </div>
+            <hr />
             <div className="d-flex gap-3 mb-2">
                 <h2 className="ps-3 text-decoration-underline fw-bold">Articles</h2>
                 <button onClick={() => props.navigate('/admin/newArticle')} type="button" className="btn btn-success">Nouvel article</button>
+                <button onClick={() => setDisplayArticles(!displayArticles)} type="button" className="btn btn-success">Afficher la liste</button>
             </div>
-            <div id="articlesAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
+            {displayArticles && <div className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
                 {data.articles.length === 0 ?
                     <h3>Aucun article</h3> :
                     data.articles.map(article => <Article key={article.id} props={props} article={article} index={articleIndex++} />)
                 }
-            </div>
+            </div>}
+            <hr />
             <div className="d-flex gap-3 mb-2 mt-3">
                 <h2 className="ps-3 text-decoration-underline fw-bold">Projets</h2>
                 <button onClick={() => props.navigate('/admin/newProject')} type="button" className="btn btn-success">Nouveau projet</button>
+                <button onClick={() => setDisplayProjects(!displayProjects)} type="button" className="btn btn-success">Afficher la liste</button>
             </div>
-            <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
+            {displayProjects && <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
                 {data.projects.length === 0 ?
                     <h3>Aucun projet</h3> :
                     data.projects.map(project => <Project key={project.id} props={props} project={project} index={projectIndex++} />)
                 }
+            </div>}
+            <hr />
+            <div className="d-flex gap-2">
+                <h2 className="ps-3 text-decoration-underline fw-bold">Suggestions</h2>
+                <button onClick={() => setDisplayArchived(!displayArchived)} type='button' className="btn btn-success">Afficher les archives</button>
+                <button onClick={() => setDisplaySugg(!displaySugg)} type="button" className="btn btn-success">Afficher la liste</button>
             </div>
-            <h2 className="ps-3 mt-3 text-decoration-underline fw-bold">Suggestions</h2>
-            <button onClick={() => setDisplayArchived(!displayArchived)} type='button' className="btn btn-secondary ms-3 mb-2">Afficher les archives</button>
-            <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
+            {displaySugg && <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 mt-3">
                 {data.suggestions.length === 0 || (!displayArchived && !data.suggestions.filter(sugg => !sugg.archived).length) ?
                     <h3>Aucune suggestion</h3> :
                     data.suggestions.map(suggestion => {
@@ -69,8 +89,18 @@ function Admin({props}) {
                             return undefined
                     })
                 }
-            </div>
+            </div>}
         </section>
+    )
+
+}
+
+function User({props, user}) {
+
+    return (
+        <li type='button' className="list-group-item userList fw-bold" onClick={() => props.navigate('/profile/' + user.id)}>
+            {user.name}
+        </li>
     )
 
 }
@@ -151,7 +181,7 @@ function Project({props, project, index}) {
                 <div className="position-relative">
                     {project.newMessage && <img className="newMessage" src="/images/circle-fill.svg" alt="" />}
                     <button type='button' className="btn btn-secondary">
-                        Messages
+                        Commentaires
                     </button>
                 </div>
             </div>

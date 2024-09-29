@@ -14,6 +14,7 @@ class ChatConsumer(JsonWebsocketConsumer):
 
     connected_users = {}
     last_fifty_messages = []
+    visits = 0
 
     def connect(self):
         self.user = self.scope["user"]

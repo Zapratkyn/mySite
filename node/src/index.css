@@ -17,6 +17,10 @@ code {
   width: 200px;
 }
 
+.userList:hover {
+  background-color: #68b6f7;
+}
+
 .bw {
   word-break: normal;
 }

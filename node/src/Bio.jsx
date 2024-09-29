@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import {format, Loading, Title} from "./Helpers"
+import { Loading, Title } from "./Helpers"
 
 function Bio({props}) {
 
@@ -19,9 +19,6 @@ function Bio({props}) {
         if (bio && bio !== 'loading')
             document.getElementById('bio').innerHTML = bio['bio_' + props.language.language].replace(/\n/g, '<br>')
     }, [bio, props.language])
-
-    // if (bio)
-    //     console.log(bio.bio_fr)
 
     if (!bio || bio === 'loading')
         return <Loading />

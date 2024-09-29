@@ -36,17 +36,17 @@ function Body({props}) {
 function Links({lg}) {
     return (
         <nav className={`d-flex gap-2 justify-content-end mt-3 pe-3 ${lg ? 'w-75' : 'w-100'}`} style={{listStyle : 'none'}}>
-                <li>
-                    <a href="https://www.linkedin.com/in/gilles-poncelet-b8a984a3" target='_blank' rel='noreferrer'>
-                        <img src="/images/linkedin.png" alt="LinkedIn" style={{height : '30px'}} />
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/Zapratkyn" target='_blank' rel='noreferrer'>
-                        <img src="/images/github.png" alt="GitHub" style={{height : '30px'}} />
-                    </a>
-                </li>
-            </nav>
+            <li>
+                <a href="https://www.linkedin.com/in/gilles-poncelet-b8a984a3" target='_blank' rel='noreferrer'>
+                    <img src="/images/linkedin.png" alt="LinkedIn" style={{height : '30px'}} />
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/Zapratkyn" target='_blank' rel='noreferrer'>
+                    <img src="/images/github.png" alt="GitHub" style={{height : '30px'}} />
+                </a>
+            </li>
+        </nav>
     )
 }
 
