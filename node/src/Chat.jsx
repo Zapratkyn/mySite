@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getMessage, Loading, format } from "./Helpers"
+import { getMessage, Loading, getLinks } from "./Helpers"
 import { useMediaQuery } from 'react-responsive'
 
 function Chat({props}) {
@@ -70,20 +70,21 @@ function ToBottomButton({setAutoScroll}) {
 function Message({id, message, props}) {
 
     useEffect(() => {
-        document.getElementById('message_' + id).innerHTML = format(message.message, props.language.language)
+        if (message.type !== 'error')
+            document.getElementById('message_' + id).innerHTML = getLinks(message.message.replace(/<.[^<>]*>/g, ''))
     }, [message])
 
     if (message.type === 'admin')
-        return <div className="text-primary fw-bold">{"Admin : " + message.message}</div>
+        return <div id={'message_' + id} className="text-primary fw-bold">{"Admin : " + message.message}</div>
 
     else if (message.type === 'error')
-        return <div className="text-danger fw-bold">{message.target && message.target + ' : '} {props.language['chatError_' + message.code]}</div>
+        return <div id={'message_' + id} className="text-danger fw-bold">{message.target && message.target + ' : '} {props.language['chatError_' + message.code]}</div>
 
     else if (message.type === 'iWhisp')
         return (
             <div>
                 <span className='text-success'>{props.language.to + ' ' + message.target}</span>
-                <span>{' : ' + message.message}</span>
+                <span id={'message_' + id}></span>
             </div>
         )
 

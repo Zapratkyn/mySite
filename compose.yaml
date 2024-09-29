@@ -9,8 +9,6 @@ services:
       - "80:80"
       - "443:443"
     restart: unless-stopped
-    volumes:
-      - /private/ssl/gillesponcelet.com/:/etc/nginx/ssl/
     depends_on:
       - db
       - django

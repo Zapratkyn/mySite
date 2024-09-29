@@ -116,12 +116,12 @@ export function getMessage(prompt, myName) {
     code : 3
   }
 
-  if (prompt.substring(0, 2) === '/w') {
+  if (prompt.substring(0, 3) === '/w ') {
       message.type = 'whisp'
-      prompt = prompt.substring(2)
+      prompt = prompt.substring(3)
       if (!prompt.length)
         return error
-      let targetStart = 2
+      let targetStart = 0
       while (prompt[targetStart] === ' ')
         targetStart++
       if (!prompt[targetStart])
@@ -144,16 +144,12 @@ export function getMessage(prompt, myName) {
 
 function getQuotes(str, language) {
 
-  let regex = /\[quote +[A-Za-z0-9]+ *\]\n*/
+  let regex = /\[quote=\S+\]\n*/
   let quote = str.match(regex)
   while (quote) {
     let tag = str.substring(quote.index, str.indexOf(']', quote.index) + 1)
-    let i = 6
-    while (tag[i] === ' ')
-      i++
-    let author = tag.substring(i)
-    author = author.substring(0, author.match(/[ \]]/).index)
-    str = str.replace(regex, "<br><span class='ms-3'>" + author + (language === 'fr' ? ' a écrit' : ' said') + "</span></br><p class='overflow-scroll noScrollBar rounded w-75 mx-3 bg-secondary-subtle p-2 border border-2 border-secondary fw-light mb-0'>")
+    let author = tag.substring(tag.indexOf('=') + 1, tag.indexOf(']'))
+    str = str.replace(tag, "<br><span class='ms-3'>" + author + (language === 'fr' ? ' a écrit' : ' said') + "</span></br><p class='overflow-scroll noScrollBar rounded w-75 mx-3 bg-secondary-subtle p-2 border border-2 border-secondary fw-light mb-0'>")
     quote = str.match(regex)
   }
   return str
@@ -162,16 +158,12 @@ function getQuotes(str, language) {
 
 function getImages(str) {
 
-  let regex = /\[image +.+ *]\n*/
+  let regex = /\[image=\S+\]/
   let image = str.match(regex)
   while (image) {
     let tag = str.substring(image.index, str.indexOf(']', image.index) + 1)
-    let i = 6
-    while (tag[i] === ' ')
-      i++
-    let src = tag.substring(i)
-    src = src.substring(0, src.match(/[ \]]/).index)
-    str = str.replace(regex, '<br><img class="w-100" src="' + src + '" alt=""/>')
+    let src = tag.substring(tag.indexOf('=') + 1, tag.indexOf(']'))
+    str = str.replace(regex, '<br><img class="mw-100" src="' + src + '" alt=""/>')
     image = str.match(regex)
   }
   return str
@@ -180,14 +172,14 @@ function getImages(str) {
 
 export function getLinks(str) {
 
-  let regex = /(?<![">/(image +)])(https:|http:|www\.)\S*/
+  let regex = /(?<!(="|">|\/\/))(https:|http:|www\.)\S*/
   let match = str.match(regex)
   while (match) {
     let link = str.substring(match.index)
     let end = link.match(/[ \0\n\[]/)
     if (end)
       link = link.substring(0, end.index)
-    str = str.substring(0, match.index) + '<a href="' + (link.substring(0, 4) === 'http' ? link : 'https://' + link) + '" target="_blank" rel="noreferrer">' + link + '</a>' + str.substring(match.index + link.length)
+    str = str.replace(regex, '<a href="' + (link.substring(0, 4) === 'http' ? link : 'http://' + link) + '" target="_blank" rel="noreferrer">' + link + '</a>')
     match = str.match(regex)
   }
   return str
@@ -198,13 +190,17 @@ export function format(str, language) {
 
   str = str.replace(/<.[^<>]*>/g, '')
   str = getQuotes(str, language)
-  str = getLinks(str)
   str = getImages(str)
+  str = getLinks(str)
   str = str.replace(/\[snippet\]\n*/g, "<pre><p class='overflow-scroll noScrollBar rounded w-75 mx-3 py-2 bg-secondary-subtle border border-2 border-secondary fw-light mb-0'>")
   str = str.replace(/\[center\]\n*/g, "<p class='d-flex justify-content-center'>")
-  str = str.replace(/\[\/quote\]/g, '</p>')
-  str = str.replace(/\[\/snippet\]/g, '</p></pre>')
-  str = str.replace(/\[\/center\]/g, '</p>')
+  str = str.replace(/\n*\[\/quote\]/g, '</p>')
+  str = str.replace(/\n*\[\/snippet\]/g, '</p></pre>')
+  str = str.replace(/\n*\[\/center\]/g, '</p>')
+  str = str.replace(/\[i\]/g, '<i>')
+  str = str.replace(/\[\/i\]/g, '</i>')
+  str = str.replace(/\[b\]/g, '<b>')
+  str = str.replace(/\[\/b\]/g, '</b>')
   str = str.replace(/\n/g, '<br>')
   return str
 

@@ -96,7 +96,7 @@ function French() {
         displayComments : 'Afficher les commentaires',
         edit : 'Editer',
         by : 'Par',
-        commentPlaceholder : "Options de mise en forme :\n\n\n[quote <Nom>]<Texte>[/quote] pour une citation\n\n[image <source>] pour une image\n\n[center]<Contenu>[/center] pour centrer du contenu\n\n[snippet]<Code>[/snippet] pour insérer un snippet\n\n(Les liens sont automatiquement mis en forme)"
+        commentPlaceholder : "Options de mise en forme :\n\n[quote=<Nom>]<Texte>[/quote] pour une citation\n[image=<source>] pour une image\n[center]<Contenu>[/center] pour centrer du contenu\n[snippet]<Code>[/snippet] pour insérer un snippet\n[i]<Texte>[/i] pour l'italique\n[b]<Texte>[/b] pour le gras\n(Les liens sont automatiquement mis en forme)"
     }
 }
 
@@ -193,6 +193,6 @@ function English() {
         displayComments : 'Display comments',
         edit : 'Edit',
         by : 'By',
-        commentPlaceholder : "Display options :\n\n\n[quote <Name>]<Text>[/quote] for a quote\n\n[image <source>] for an image\n\n[center]<Content>[/center] to center content\n\n[snippet]<Code>[/snippet] to insert a snippet\n\n(Links are automatically formated)"
+        commentPlaceholder : "Display options :\n\n[quote=<Name>]<Text>[/quote] for a quote\n[image=<source>] for an image\n[center]<Content>[/center] to center content\n[snippet]<Code>[/snippet] to insert a snippet\n[i]<Text>[/i] for italicized\n[b]<Text>[/b] for bold\n(Links are automatically formated)"
     }
 }
