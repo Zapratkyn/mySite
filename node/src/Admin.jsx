@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Loading, Title, validateForm } from "./Helpers"
+import { useMediaQuery } from 'react-responsive'
 import Cookies from 'js-cookie'
 
 function Admin({props}) {
@@ -11,6 +12,7 @@ function Admin({props}) {
     const [displaySugg, setDisplaySugg] = useState(false)
     const [displayArchived, setDisplayArchived] = useState(false)
     const [displayUsers, setDisplayUsers] = useState(false)
+    const sm = useMediaQuery({query: '(max-width: 620px)'})
 
     useEffect(() => {
         if (!data) {
@@ -44,16 +46,20 @@ function Admin({props}) {
             </div>
             {displayUsers && <ul className="mt-2 list-group">{data.users.map(user => <User key={userIndex++} props={props} user={user} />)}</ul>}
             <hr />
-            <div className="d-flex gap-3 my-3">
+            <div className={`d-flex gap-3 my-3 ${sm && 'flex-column'}`}>
                 <h2 className="ps-3 text-decoration-underline fw-bold">Bio</h2>
-                <button onClick={() => props.navigate('/admin/editBio')} type="button" className="btn btn-success">Editer la bio</button>
-                <button onClick={() => props.navigate('/bio')} type="button" className="btn btn-success">Voir la bio</button>
+                <div className="d-flex gap-2">
+                    <button onClick={() => props.navigate('/admin/editBio')} type="button" className="btn btn-success">Editer la bio</button>
+                    <button onClick={() => props.navigate('/bio')} type="button" className="btn btn-success">Voir la bio</button>
+                </div>
             </div>
             <hr />
-            <div className="d-flex gap-3 mb-2">
+            <div className={`d-flex gap-3 mb-2 ${sm && 'flex-column'}`}>
                 <h2 className="ps-3 text-decoration-underline fw-bold">Articles</h2>
-                <button onClick={() => props.navigate('/admin/newArticle')} type="button" className="btn btn-success">Nouvel article</button>
-                <button onClick={() => setDisplayArticles(!displayArticles)} type="button" className="btn btn-success">Afficher la liste</button>
+                <div className="d-flex gap-2">
+                    <button onClick={() => props.navigate('/admin/newArticle')} type="button" className="btn btn-success">Nouvel article</button>
+                    <button onClick={() => setDisplayArticles(!displayArticles)} type="button" className="btn btn-success">Afficher la liste</button>
+                </div>
             </div>
             {displayArticles && <div className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
                 {data.articles.length === 0 ?
@@ -62,10 +68,12 @@ function Admin({props}) {
                 }
             </div>}
             <hr />
-            <div className="d-flex gap-3 mb-2 mt-3">
+            <div className={`d-flex gap-3 mb-2 ${sm && 'flex-column'}`}>
                 <h2 className="ps-3 text-decoration-underline fw-bold">Projets</h2>
-                <button onClick={() => props.navigate('/admin/newProject')} type="button" className="btn btn-success">Nouveau projet</button>
-                <button onClick={() => setDisplayProjects(!displayProjects)} type="button" className="btn btn-success">Afficher la liste</button>
+                <div className="d-flex gap-2">
+                    <button onClick={() => props.navigate('/admin/newProject')} type="button" className="btn btn-success">Nouveau projet</button>
+                    <button onClick={() => setDisplayProjects(!displayProjects)} type="button" className="btn btn-success">Afficher la liste</button>
+                </div>
             </div>
             {displayProjects && <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 pt-3">
                 {data.projects.length === 0 ?
@@ -74,10 +82,12 @@ function Admin({props}) {
                 }
             </div>}
             <hr />
-            <div className="d-flex gap-2">
+            <div className={`d-flex gap-3 ${sm && 'flex-column'}`}>
                 <h2 className="ps-3 text-decoration-underline fw-bold">Suggestions</h2>
-                <button onClick={() => setDisplayArchived(!displayArchived)} type='button' className="btn btn-success">Afficher les archives</button>
-                <button onClick={() => setDisplaySugg(!displaySugg)} type="button" className="btn btn-success">Afficher la liste</button>
+                <div className="d-flex gap-2">
+                    <button onClick={() => setDisplayArchived(!displayArchived)} type='button' className="btn btn-success">Afficher les archives</button>
+                    <button onClick={() => setDisplaySugg(!displaySugg)} type="button" className="btn btn-success">Afficher la liste</button>
+                </div>
             </div>
             {displaySugg && <div id="projectsAdmin" className="overflow-auto noScrollBar border rounded p-2 d-flex flex-column gap-2 mt-3">
                 {data.suggestions.length === 0 || (!displayArchived && !data.suggestions.filter(sugg => !sugg.archived).length) ?
@@ -161,8 +171,10 @@ export function EditBio({props}) {
 
 function Article({props, article, index}) {
 
+    const sm = useMediaQuery({query: '(max-width: 620px)'})
+
     return (
-        <div className={`rounded p-2 d-flex justify-content-between ${index % 2 === 0 ? 'bg-secondary-subtle' : 'bg-primary-subtle'}`}>
+        <div className={`rounded p-2 d-flex justify-content-between ${index % 2 === 0 ? 'bg-secondary-subtle' : 'bg-primary-subtle'} ${sm && 'flex-column align-items-center'}`}>
             <h4>{article.title}</h4>
             <button onClick={() => props.navigate('/admin/editArticle/' + article.id)} type='button' className="btn btn-secondary">Editer</button>
         </div>
@@ -172,15 +184,17 @@ function Article({props, article, index}) {
 
 function Project({props, project, index}) {
 
+    const sm = useMediaQuery({query: '(max-width: 620px)'})
+
     return (
-        <div className={`rounded p-2 d-flex justify-content-between ${index % 2 === 0 ? 'bg-secondary-subtle' : 'bg-primary-subtle'}`}>
+        <div className={`rounded p-2 d-flex justify-content-between ${index % 2 === 0 ? 'bg-secondary-subtle' : 'bg-primary-subtle'} ${sm && 'flex-column align-items-center'}`}>
             <h4>{project.name}</h4>
-            <div className="d-flex gap-2">
+            <div className={`d-flex gap-2 ${sm && 'flex-column gap-2'}`}>
                 <button onClick={() => props.navigate('/project/' + project.id)} type='button' className="btn btn-secondary">Voir</button>
                 <button onClick={() => props.navigate('/admin/editProject/' + project.id)} type='button' className="btn btn-secondary">Editer</button>
                 <div className="position-relative">
                     {project.newMessage && <img className="newMessage" src="/images/circle-fill.svg" alt="" />}
-                    <button type='button' className="btn btn-secondary">
+                    <button type='button' className="btn btn-secondary w-100">
                         Commentaires
                     </button>
                 </div>
@@ -288,7 +302,7 @@ export function EditArticle({type, props}) {
             <form action="" className="w-100 d-flex flex-column align-items-center ps-3 gap-2">
                 {/* <fieldset> */}
                     <label className="h3 fw-bold" htmlFor="title">Titre</label>
-                    <input onKeyDown={typing} className="form-control border-2 w-25" type="text" name='title' id='title' defaultValue={type === 'edit' ? article.title : ''} />
+                    <input onKeyDown={typing} className="form-control border-2 w-25" type="text" name='title' id='title' defaultValue={type === 'edit' ? article.title : ''} style={{minWidth : '250px'}} />
                     <label className="h3 fw-bold" htmlFor="content_fr">Contenu (FR)</label>
                     {/* <CustomForm /> */}
                     <textarea onKeyDown={typing} rows='15' className="form-control border-2" name="content_fr" id="content_fr" defaultValue={type === 'edit' ? article.content_fr : ''}></textarea>
@@ -344,20 +358,6 @@ export function EditProject({type, props}) {
         }
         return formOk
     }
-
-    // const sendImage = (id, input) => {
-    //     const data = new FormData()
-    //     data.set('image', input.files[0])
-    //     fetch('/backAdmin/addImageToProject/' + id, {
-    //         method : 'POST',
-    //         headers: {'X-CSRFToken': token},
-    //         mode : 'same-origin',
-    //         body : data
-    //     }).then(response => {
-    //         if (response.status !== 200)
-    //             window.alert('Une erreur est survenue lors du chargement de l\'image')
-    //     })
-    // }
 
     const send = () => {
         if (!completeForm())
@@ -417,18 +417,18 @@ export function EditProject({type, props}) {
             <form action="" className="w-100 d-flex flex-column align-items-center ps-3 gap-2">
                 {/* <fieldset> */}
                     <label className="h3 fw-bold" htmlFor="title">Titre</label>
-                    <input onKeyDown={typing} className="form-control border-2 w-25" type="text" name='title' id='title' defaultValue={type === 'edit' ? project.name : ''} />
+                    <input onKeyDown={typing} className="form-control border-2 w-25" type="text" name='title' id='title' defaultValue={type === 'edit' ? project.name : ''} style={{minWidth : '250px'}} />
                     <label className="h3 fw-bold mt-2" htmlFor="GHLink">Lien GitHub</label>
-                    <input className="form-control border-2 w-25" type="text" name="GHLink" id="GHLink" defaultValue={type === 'edit' ? project.link : ''} />
+                    <input className="form-control border-2 w-25" type="text" name="GHLink" id="GHLink" defaultValue={type === 'edit' ? project.link : ''} style={{minWidth : '250px'}} />
                     <label className="h3 fw-bold" htmlFor="description_fr">Description (FR)</label>
                     {/* <CustomForm /> */}
                     <textarea onKeyDown={typing} rows='15' className="form-control border-2" name="description_fr" id="description_fr" defaultValue={type === 'edit' ? project.desc_fr : ''}></textarea>
                     <label className="h3 fw-bold" htmlFor="description_en">Description (EN)</label>
                     {/* <CustomForm /> */}
                     <textarea onKeyDown={typing} rows='15' className="form-control border-2" name="description_en" id="description_en" defaultValue={type === 'edit' ? project.desc_en : ''}></textarea>
-                    <button onClick={send} type="button" className="w-25 mt-2 align-self-center btn btn-secondary">Sauver</button>
-                    {type === 'edit' && <button onClick={makeCurrent} type='button' className="w-25 align-self-center btn btn-warning">Projet en cours</button>}
-                    {type === 'edit' && <button onClick={del} type='button' className="w-25 align-self-center btn btn-danger">Supprimer le projet</button>}
+                    <button onClick={send} type="button" className="w-25 mt-2 align-self-center btn btn-secondary" style={{minWidth : '250px'}}>Sauver</button>
+                    {type === 'edit' && <button onClick={makeCurrent} type='button' className="w-25 align-self-center btn btn-warning" style={{minWidth : '250px'}}>Projet en cours</button>}
+                    {type === 'edit' && <button onClick={del} type='button' className="w-25 align-self-center btn btn-danger" style={{minWidth : '250px'}}>Supprimer le projet</button>}
                 {/* </fieldset> */}
             </form>
         </section>
