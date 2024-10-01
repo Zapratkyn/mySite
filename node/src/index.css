@@ -44,8 +44,12 @@ code {
   color: #505052;
 }
 
-header, .dropdown-menu {
+.section-light, .dropdown-menu {
   background-color: #F0F0F0;
+}
+
+.section-dark {
+  background-color: #817e7e;
 }
 
 .project_link_even:hover {

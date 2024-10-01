@@ -44,15 +44,15 @@ function Project({props, project, index}) {
     }
 
     const startOnly = str => {
-        if (str.length > 25) {
-            str = str.substring(0, 22)
+        if (str.length > 50) {
+            str = str.substring(0, 47)
             str = str.concat('...')
         }
         return str
     }
 
     return (
-        <li type='button' onClick={() => props.navigate('/project/' + project.id)} className={`rounded ps-3 pt-2 ${evenOrOdd()}`}>
+        <li type='button' onClick={() => props.navigate('/project/' + project.id)} className={`text-dark rounded ps-3 pt-2 ${evenOrOdd()}`}>
             <h5 className="text-primary mb-0">{project.name}</h5>
             <p>({props.language.created} {project.creation_date})</p>
             <p className="mb-0">{startOnly(project['desc_' + props.language.language])}</p>
@@ -65,7 +65,7 @@ function GHLink({link, props}) {
 
     return (
         <p className="d-flex align-items-center mt-5">
-            <a className="ms-3 text-black" target='_blank' rel='noreferrer' href={link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
+            <a className={`ms-3 ${props.nightMode ? 'text-white' : 'text-black'}`} target='_blank' rel='noreferrer' href={link} style={{textDecoration : 'underline dotted'}}>{props.language.seeOnGH}</a>
             <img src="/images/caret-right-small.svg" alt="" />
         </p>
     )
@@ -108,7 +108,7 @@ function NewCommentForm({props, id, project, setProject}) {
 function DisplayCommentButton({props, length, displayComments, setDisplayComments}) {
 
     return (
-        <p type='button' onClick={() => setDisplayComments(!displayComments)} className="d-flex gap-1 bg-secondary-subtle rounded ps-1 fw-bold mt-3" style={{width : '240px'}}>
+        <p type='button' onClick={() => setDisplayComments(!displayComments)} className="text-dark d-flex gap-1 bg-secondary-subtle rounded ps-1 fw-bold mt-3" style={{width : '240px'}}>
             {props.language.displayComments + ' (' + length + ')'}
             <img src={displayComments ? '/images/caret-down-fill.svg' : "/images/caret-right-fill.svg"} alt="" />
         </p>
@@ -328,7 +328,7 @@ function Comment({props, comment, project, setProject}) {
     }, [commentCopy, edit, props.language.language])
 
     return (
-        <li className="overflow-scroll noScrollBar fw-bold rounded border border-2 border-black list-group-item d-flex p-0" style={{minHeight : '100px'}}>
+        <li className="overflow-scroll noScrollBar fw-bold rounded border border-2 border-black list-group-item d-flex" style={{minHeight : '100px'}}>
             <Author props={props} author={commentCopy.author} />
             <div className="d-flex flex-column w-100">
                 <div className="border-bottom ps-2 fw-light">

@@ -12,23 +12,22 @@ function Options({props}) {
                         <MenuAdmin props={props} /> :
                         <MenuIn props={props} /> :
                         <MenuOut props={props} />}
-                <span className="text-white fw-bold ms-4">|</span>
+                <span className="text-white fw-bold mx-2">|</span>
                 <Languages props={props} />
+                <span className="text-white fw-bold mx-2">|</span>
+                <NightModeToggle props={props} />
             </div>
         </div>
     )
 }
 
-// function Greetings({props}) {
+function NightModeToggle({props}) {
 
-//     return (
-//         <span className="d-flex gap-1">
-//             <span>{props.language.hello}</span>
-//             <span>{props.myProfile.name}</span>
-//         </span>
-//     )
+    return (
+        <img className="my-1" type='button' onClick={() => props.setNightMode(!props.nightMode)} src={'/images/' + (props.nightMode ? 'moon-fill' : 'brightness-high-fill' ) + '.svg'} alt="" />
+    )
 
-// }
+}
 
 function MenuAdmin({props}) {
 
@@ -117,10 +116,10 @@ function MenuOut({props}) {
 
 function Languages({props}) {
     return (
-        <ul className="text-white fw-bold d-flex gap-2" style={{listStyle : 'none'}}>
-            <li type='button' className={`${props.language.home === 'Home' && 'text-danger'}`} onClick={() => props.setLanguage(getLanguage('en'))}>EN</li>
-            <li type='button' className={`${props.language.home === 'Accueil' && 'text-danger'}`} onClick={() => props.setLanguage(getLanguage('fr'))}>FR</li>
-        </ul>
+        <div className="text-white fw-bold d-flex gap-2" style={{listStyle : 'none'}}>
+            <span type='button' className={`${props.language.home === 'Home' && 'text-danger'}`} onClick={() => props.setLanguage(getLanguage('en'))}>EN</span>
+            <span type='button' className={`${props.language.home === 'Accueil' && 'text-danger'}`} onClick={() => props.setLanguage(getLanguage('fr'))}>FR</span>
+        </div>
     )
 }
 

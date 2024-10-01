@@ -19,9 +19,9 @@ function Body({props}) {
     const [displayWidgets, setDisplayWidgets] = useState(!md)
 
     return (
-        <div className="w-100 d-flex align-items-center flex-column flex-grow-1">
+        <div className="w-100 d-flex align-items-center flex-column flex-grow-1" style={{minHeight : 'calc(100vh - 246px'}}>
             <Links lg={lg} />
-            {md && <p type='button' onClick={() => setDisplayWidgets(!displayWidgets)} className="d-flex gap-1 bg-secondary-subtle rounded w-75 ps-1 fw-bold mt-3">
+            {md && <p type='button' onClick={() => setDisplayWidgets(!displayWidgets)} className="text-dark d-flex gap-1 bg-secondary-subtle rounded w-75 ps-1 fw-bold mt-3">
                     {props.language.displayWidgets}
                     <img src="/images/caret-down-fill.svg" alt="" />
                 </p>}
@@ -43,7 +43,7 @@ function Links({lg}) {
             </li>
             <li>
                 <a href="https://github.com/Zapratkyn" target='_blank' rel='noreferrer'>
-                    <img src="/images/github.png" alt="GitHub" style={{height : '30px'}} />
+                    <img className="rounded-circle bg-white" src="/images/github.png" alt="GitHub" style={{height : '30px'}} />
                 </a>
             </li>
         </nav>

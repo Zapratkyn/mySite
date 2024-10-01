@@ -7,7 +7,7 @@ function Header({props}) {
     const menu = <Menu props={props} burger={burger} />
 
     return (
-        <header className="border-bottom d-flex justify-content-center" style={{minHeight : lg ? '150px' : '100px', position : 'sticky', top : '0px', zIndex : '2'}}>
+        <header className={`border-bottom d-flex justify-content-center pt-2 ${props.nightMode ? 'section-dark' : 'section-light'}`} style={{minHeight : lg ? '125px' : '100px', position : 'sticky', top : '0px', zIndex : '2'}}>
             <div className={`h-100 d-flex justify-content-between align-items-center ${useMediaQuery({query: '(min-width: 769px)'}) ? 'w-75' : 'w-100 px-5'}`}>
                 <Initials lg={lg} props={props} />
                 {lg && <SiteName props={props} />}

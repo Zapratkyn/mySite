@@ -28,12 +28,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    'gillesponcelet.com'
+    'gillesponcelet.com',
+    'www.gillesponcelet.com'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://localhost',
-    'https://gillesponcelet.com'
+    'https://gillesponcelet.com',
+    'https://www.gillesponcelet.com'
 ]
 
 
