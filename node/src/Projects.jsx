@@ -55,7 +55,7 @@ function Project({props, project, index}) {
         <li type='button' onClick={() => props.navigate('/project/' + project.id)} className={`text-dark rounded ps-3 pt-2 ${evenOrOdd()}`}>
             <h5 className="text-primary mb-0">{project.name}</h5>
             <p>({props.language.created} {project.creation_date})</p>
-            <p className="mb-0">{startOnly(project['desc_' + props.language.language])}</p>
+            <p className="mb-2">{startOnly(project['desc_' + props.language.language])}</p>
         </li>
     )
 
