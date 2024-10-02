@@ -101,3 +101,34 @@ class GetProfile(View):
             response.status_code = 400
             return response
         
+class SetLanguage(View):
+    def post(self, request):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or request.user.is_superuser:
+                response.status_code = 403
+                return response
+            profile = Profile.objects.get(user=request.user)
+            data = json.loads(request.body)
+            language = data.get('language')
+            profile.language = language
+            profile.save()
+            return response
+        except:
+            response.status_code = 400
+            return response
+        
+class SetNightMode(View):
+    def post(self, request):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated or request.user.is_superuser:
+                response.status_code = 403
+                return response
+            profile = Profile.objects.get(user=request.user)
+            profile.nightMode = not bool(profile.nightMode)
+            profile.save()
+            return response
+        except:
+            response.status_code = 400
+            return response

@@ -105,7 +105,7 @@ function Message({id, message, props}) {
                 <li type='button' className="menuLink fw-bold px-2" onClick={() => props.navigate('/profile/' + message.id)}>{props.language.seeProfile}</li>
                 <li type='button' className="menuLink fw-bold px-2" onClick={sendWhisp}>{props.language.sendWhisp}</li>
             </ul>
-            {' : '}
+            <span className="text-dark">{' : '}</span>
             <span id={'message_' + id}></span>
         </div>
     )

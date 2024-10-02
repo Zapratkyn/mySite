@@ -26,6 +26,11 @@ function Admin({props}) {
         }
     }, [data])
 
+    useEffect(() => {
+        if (!props.myProfile)
+            setData(-1)
+    }, [props.myProfile])
+
     if (!data || data === 'loading')
         return <Loading />
 
@@ -175,7 +180,7 @@ function Article({props, article, index}) {
 
     return (
         <div className={`rounded p-2 d-flex justify-content-between ${index % 2 === 0 ? 'bg-secondary-subtle' : 'bg-primary-subtle'} ${sm && 'flex-column align-items-center'}`}>
-            <h4>{article.title}</h4>
+            <h4 className="text-dark">{article.title}</h4>
             <button onClick={() => props.navigate('/admin/editArticle/' + article.id)} type='button' className="btn btn-secondary">Editer</button>
         </div>
     )
@@ -188,7 +193,7 @@ function Project({props, project, index}) {
 
     return (
         <div className={`rounded p-2 d-flex justify-content-between ${index % 2 === 0 ? 'bg-secondary-subtle' : 'bg-primary-subtle'} ${sm && 'flex-column align-items-center'}`}>
-            <h4>{project.name}</h4>
+            <h4 className="text-dark">{project.name}</h4>
             <div className={`d-flex gap-2 ${sm && 'flex-column gap-2'}`}>
                 <button onClick={() => props.navigate('/project/' + project.id)} type='button' className="btn btn-secondary">Voir</button>
                 <button onClick={() => props.navigate('/admin/editProject/' + project.id)} type='button' className="btn btn-secondary">Editer</button>

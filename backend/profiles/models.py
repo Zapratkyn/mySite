@@ -9,6 +9,7 @@ class Profile(models.Model):
     onGoingSuggestion = models.BooleanField(default=False)
     # avatar = models.ImageField(default=None, blank=True)
     language = models.CharField(max_length=2, default='en')
+    nightMode = models.BooleanField(default=False)
     # NbOfMessages = models.IntegerField(default=0)
     comments = models.ManyToManyField('projects.Comment', related_name='messages')
     # contributions = models.ManyToManyField('projects.Project', related_name='contrib')

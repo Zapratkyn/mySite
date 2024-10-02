@@ -98,7 +98,10 @@ function French() {
         by : 'Par',
         commentPlaceholder : "Options de mise en forme :\n\n[quote=<Nom>]<Texte>[/quote] pour une citation\n[image=<source>] pour une image\n[center]<Contenu>[/center] pour centrer du contenu\n[snippet]<Code>[/snippet] pour insérer un snippet\n[i]<Texte>[/i] pour l'italique\n[b]<Texte>[/b] pour le gras\n(Les liens sont automatiquement mis en forme)",
         visits : 'Visites',
-        users : 'Profils enregistrés'
+        users : 'Profils enregistrés',
+        commentLoggedOut : "Vous devez vous connecter pour commenter",
+        setLanguageError : "Une erreur est survenue :\n\nLa langue de votre profil n'a pas été modifiée",
+        setLanguageError : "Une erreur est survenue :\n\nLe mode nuit de votre profil n'a pas été modifié"
     }
 }
 
@@ -197,6 +200,9 @@ function English() {
         by : 'By',
         commentPlaceholder : "Display options :\n\n[quote=<Name>]<Text>[/quote] for a quote\n[image=<source>] for an image\n[center]<Content>[/center] to center content\n[snippet]<Code>[/snippet] to insert a snippet\n[i]<Text>[/i] for italicized\n[b]<Text>[/b] for bold\n(Links are automatically formated)",
         visits : 'Visits',
-        users : 'Subscribed profiles'
+        users : 'Subscribed profiles',
+        commentLoggedOut : "You need to be logged in to comment",
+        setLanguageError : "An error occured :\n\nYour profile's language has not been modified",
+        setLanguageError : "An error occured :\n\nYour profile's night mode has not been modified"
     }
 }

@@ -213,7 +213,7 @@ export function Suggest({props}) {
                 <fieldset className="d-flex flex-column align-items-center gap-3 mt-5 me-2">
                     <input onKeyDown={typing} className={`form-control w-75`} type="text" name="title" id='title' maxLength='25' placeholder={props.language.suggestTitle} />
                     <textarea onKeyDown={typing} className="form-control" name="details" id="details" rows='10' placeholder={props.language.suggestDetails}></textarea>
-                    <button id='suggestBtn' type='button' className="btn btn-secondary" onClick={send} disabled={!props.myProfile || props.myProfile.onGoingSuggestion}>
+                    <button id='suggestBtn' type='button' className="btn btn-secondary" onClick={send} disabled={!props.myProfile || props.myProfile.id === 'admin' || props.myProfile.onGoingSuggestion}>
                         {props.language.suggestSend}
                     </button>
                     {!props.myProfile && <p>{props.language.suggestLoggedOut}</p>}

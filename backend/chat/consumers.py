@@ -33,6 +33,7 @@ class ChatConsumer(JsonWebsocketConsumer):
                 self.send_json({
                     "id" : self.profile.id,
                     "language" : self.profile.language,
+                    "nightMode" : self.profile.nightMode,
                     "onGoingSuggestion" : self.profile.onGoingSuggestion
                 })
         else:

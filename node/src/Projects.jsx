@@ -97,9 +97,10 @@ function NewCommentForm({props, id, project, setProject}) {
             <label className="h3" htmlFor="commentArea">{props.language.leaveAComment}</label>
             <textarea className="form-control" rows='5' name="commentArea" id="commentArea" placeholder={props.language.commentPlaceholder}></textarea>
             <div className="mt-2">
-                <button onClick={sendComment} type='button' className="btn btn-secondary">
+                <button onClick={sendComment} type='button' className="btn btn-secondary" disabled={!props.myProfile || props.myProfile.id === 'admin'}>
                     {props.language.send}
                 </button>
+                {!props.myProfile && <p>{props.language.commentLoggedOut}</p>}
             </div>
         </fieldset>
     )

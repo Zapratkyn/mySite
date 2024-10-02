@@ -23,8 +23,24 @@ function Options({props}) {
 
 function NightModeToggle({props}) {
 
+    const token = Cookies.get('csrftoken')
+    
+    const setNightMode = () => {
+        props.setNightMode(!props.nightMode)
+        if (props.myProfile && props.myProfile.id !== 'admin') {
+            fetch('/profiles/setNightMode', {
+                method : 'POST',
+                headers: {'X-CSRFToken': token},
+                mode : 'same-origin'
+            }).then(response => {
+                if (response.status !== 200)
+                    window.alert(props.language.setNightModeError)
+            })
+        }
+    }
+
     return (
-        <img className="my-1" type='button' onClick={() => props.setNightMode(!props.nightMode)} src={'/images/' + (props.nightMode ? 'moon-fill' : 'brightness-high-fill' ) + '.svg'} alt="" />
+        <img className="my-1" type='button' onClick={setNightMode} src={'/images/' + (props.nightMode ? 'moon-fill' : 'brightness-high-fill' ) + '.svg'} alt="" />
     )
 
 }
@@ -43,7 +59,6 @@ function MenuAdmin({props}) {
                 props.setMyProfile(undefined)
                 props.socket.close()
                 props.setCurrentPage('/')
-                props.navigate('/')
             }
         })
     }
@@ -77,7 +92,6 @@ function MenuIn({props}) {
                 props.setCurrentPage('/')
                 props.socket.close()
                 props.setMessages(props.messages.filter(message => message.type !== 'whisp' && message.type !== 'iWhisp'))
-                props.navigate('/')
             }
         })
     }
@@ -115,10 +129,28 @@ function MenuOut({props}) {
 }
 
 function Languages({props}) {
+
+    const token = Cookies.get('csrftoken')
+    
+    const changeLanguage = language => {
+        props.setLanguage(getLanguage(language))
+        if (props.myProfile && props.myProfile.id !== 'admin') {
+            fetch('/profiles/setLanguage', {
+                method : 'POST',
+                headers: {'X-CSRFToken': token},
+                mode : 'same-origin',
+                body : JSON.stringify({language : language})
+            }).then(response => {
+                if (response.status !== 200)
+                    window.alert(props.language.setLanguageError)
+            })
+        }
+    }
+
     return (
         <div className="text-white fw-bold d-flex gap-2" style={{listStyle : 'none'}}>
-            <span type='button' className={`${props.language.home === 'Home' && 'text-danger'}`} onClick={() => props.setLanguage(getLanguage('en'))}>EN</span>
-            <span type='button' className={`${props.language.home === 'Accueil' && 'text-danger'}`} onClick={() => props.setLanguage(getLanguage('fr'))}>FR</span>
+            <span type='button' className={`${props.language.home === 'Home' && 'text-danger'}`} onClick={() => changeLanguage('en')}>EN</span>
+            <span type='button' className={`${props.language.home === 'Accueil' && 'text-danger'}`} onClick={() => changeLanguage('fr')}>FR</span>
         </div>
     )
 }

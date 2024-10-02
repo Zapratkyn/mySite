@@ -40,6 +40,7 @@ function App() {
         let data = JSON.parse(e.data)
         if (Object.keys(data).includes('language')) {
           setLanguage(getLanguage(data.language))
+          setNightMode(data.nightMode)
           setMyProfile(data)
         }
         else if (Object.keys(data).includes('success'))
