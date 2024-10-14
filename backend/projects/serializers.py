@@ -44,7 +44,7 @@ class CommentSerializer:
             "author" : {
                 "id" : self.instance.author.id,
                 "name" : self.instance.author.name,
-                "avatar" : "/images/default-avatar.jpg"
+                "avatar" : self.instance.author.avatar.url
             },
             "id" : self.instance.id,
             "date" : datetime.strftime(localtime(self.instance.date), '%d/%m/%Y, %H:%M:%S'),

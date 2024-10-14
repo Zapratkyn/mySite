@@ -101,7 +101,12 @@ function French() {
         users : 'Profils enregistrés',
         commentLoggedOut : "Vous devez vous connecter pour commenter",
         setLanguageError : "Une erreur est survenue :\n\nLa langue de votre profil n'a pas été modifiée",
-        setLanguageError : "Une erreur est survenue :\n\nLe mode nuit de votre profil n'a pas été modifié"
+        setLanguageError : "Une erreur est survenue :\n\nLe mode nuit de votre profil n'a pas été modifié",
+        chooseFile : "Choisir un fichier",
+        modifyAvatar : "Modifier l'avatar",
+        avatarOkay : "Cela vous convient-il?",
+        yes : "Oui",
+        no : "Non"
     }
 }
 
@@ -203,6 +208,11 @@ function English() {
         users : 'Subscribed profiles',
         commentLoggedOut : "You need to be logged in to comment",
         setLanguageError : "An error occured :\n\nYour profile's language has not been modified",
-        setLanguageError : "An error occured :\n\nYour profile's night mode has not been modified"
+        setLanguageError : "An error occured :\n\nYour profile's night mode has not been modified",
+        chooseFile : "Choose a file",
+        modifyAvatar : "Modify the avatar",
+        avatarOkay : "Is that alright?",
+        yes : "Yes",
+        no : "No"
     }
 }

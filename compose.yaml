@@ -9,6 +9,8 @@ services:
       - "80:80"
       - "443:443"
     restart: unless-stopped
+    volumes:
+      - ./media:/media
     depends_on:
       - db
       - django
@@ -22,6 +24,9 @@ services:
     expose:
       - "3000"
     restart: on-failure
+    volumes:
+      - ./node/src:/app/src
+      - ./node/public:/app/public
     networks:
       - gp.com
 
@@ -43,9 +48,12 @@ services:
     build: ./backend
     env_file:
       - .env
-    ports:
-      - "8000:800"
+    expose:
+      - "8000"
     restart: unless-stopped
+    volumes:
+      - ./backend:/app
+      - ./media:/app/media
     depends_on:
       - db
     networks:

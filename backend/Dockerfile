@@ -4,8 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install --no-cache-dir -r requirements.txt \
-    && python3 manage.py makemigrations \
-    && python3 manage.py migrate
+RUN pip install --no-cache-dir -r requirements.txt 
 
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "backend.asgi:application"]
+
+CMD ["sh", "launch.sh"]
+# CMD ["pyhton3", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "backend.asgi:application"]

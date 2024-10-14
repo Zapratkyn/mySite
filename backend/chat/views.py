@@ -12,6 +12,13 @@ logger = logging.getLogger(__name__)
 
 class Init(View):
     def get(self, request):
+        default_profile = Profile.objects.get(id=9)
+        default_avatar = default_profile.avatar
+        logger.debug(default_avatar)
+        profiles = Profile.objects.all()
+        for profile in profiles:
+            profile.avatar = default_avatar
+            profile.save()
         ChatConsumer.visits += 1
         response = JsonResponse({
             "messages" : ChatConsumer.last_fifty_messages,

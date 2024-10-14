@@ -24,7 +24,8 @@ class ChatConsumer(JsonWebsocketConsumer):
             if self.user.is_superuser:
                 self.send_json({
                     "id" : "admin",
-                    "language" : "fr"
+                    "language" : "fr",
+                    "nightMode" : True
                 })
             else:
                 self.profile = Profile.objects.get(user=self.user)

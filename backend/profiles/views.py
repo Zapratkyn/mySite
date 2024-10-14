@@ -95,6 +95,7 @@ class GetProfile(View):
             return JsonResponse({
                 "id" : profile.id,
                 "name" : profile.name,
+                "avatar" : profile.avatar.url,
                 "online" : profile.name in ChatConsumer.connected_users
             })
         except:
@@ -129,6 +130,27 @@ class SetNightMode(View):
             profile.nightMode = not bool(profile.nightMode)
             profile.save()
             return response
+        except:
+            response.status_code = 400
+            return response
+        
+class SetAvatar(View):
+    def post(self, request):
+        response = HttpResponse()
+        try:
+            if not request.user.is_authenticated:
+                response.status_code = 403
+                return response
+            profile = Profile.objects.get(user=request.user)
+            data = request.FILES
+            avatar = data.get('avatar')
+            assert avatar
+            logger.debug(profile.avatar.name)
+            if not profile.avatar.name == 'default-avatar.jpg':
+                profile.avatar.delete()
+            profile.avatar = avatar
+            profile.save()
+            return JsonResponse({"data" : profile.avatar.url}, status=200)
         except:
             response.status_code = 400
             return response

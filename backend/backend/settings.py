@@ -28,8 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    'gillesponcelet.com',
-    'www.gillesponcelet.com'
+    '.gillesponcelet.com'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -145,6 +144,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIR = ['static']
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+STORAGES = {
+    "default" : {
+        "BACKEND": "django.core.files.storage.FileSystemStorage"
+    },
+    "staticfiles" : {
+        "BACKEND" : 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    }
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -170,15 +181,15 @@ LOGGING = {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },
-        "chat.consumers": {
+        "chat.views": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },
-        "chat.consumers" : {
-            'handlers' : ['logfile'],
-            'level' : 'INFO'
-        },
-        "chat.views": {
+        # "chat.consumers" : {
+        #     'handlers' : ['logfile'],
+        #     'level' : 'INFO'
+        # },
+        "profiles.views": {
             'handlers' : ['console'],
             'level' : 'DEBUG'
         },

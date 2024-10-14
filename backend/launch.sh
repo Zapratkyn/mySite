@@ -1,6 +1,4 @@
-python3 manage.py makemigrations profiles;
-python3 manage.py makemigrations chat;
-python3 manage.py makemigrations projects;
+systemctl start nginx
 python3 manage.py makemigrations;
 python3 manage.py migrate;
 python3 manage.py runserver 0.0.0.0:8000;

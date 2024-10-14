@@ -29,12 +29,13 @@ class Dashboard(View):
                 projectList = []
                 for item in projects:
                     projectList.append(ProjectAdminListSerializer(item).data())
+                logger.debug('HERE')
                 suggList = []
                 for item in suggestions:
                     suggList.append(SuggestionAdminListSerializer(item).data())
                 users = []
                 for item in profiles:
-                    users.append({"name" : item.user.username, "id" : item.id})
+                    users.append({"name" : item.name, "id" : item.id})
                 data = {
                     "articles" : articleList,
                     "projects" : projectList,
